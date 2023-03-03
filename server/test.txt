@@ -1,13 +1,11 @@
 const express = require('express');
 const app = express();
-const authorRouter = require('./routes/author.route');
-const blogRouter =  require('./routes/blog.route');
+const authorRouter = require('./routes/user.route');
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json({extended: false}));
 
-app.use('/author',authorRouter);
-app.use('/blog', blogRouter);
+app.use('/users',authorRouter);
 
 app.use((err, req, res, next) => {
     if(err.name == 'ValidationError'){
@@ -22,6 +20,7 @@ app.use((err, req, res, next) => {
 app.listen(PORT, ()=>{
     console.log('Server is running ... ... ...');
 })
+
 
 
 //

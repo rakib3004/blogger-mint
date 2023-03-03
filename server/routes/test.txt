@@ -1,6 +1,12 @@
-/*
+const userConttoller = require('../controllers/user.controller');
 
-blog.route.js
-author.route.js
+const express = require('express');
+const router = express.Router();
 
-*/
+router.get('/', userConttoller.getAllUser);
+router.get('/', userConttoller.getUser);
+router.post('/', userConttoller.createUser);
+router.put('/', userConttoller.updateUser);
+router.delete('/', userConttoller.deleteUser);
+
+module.exports = router;

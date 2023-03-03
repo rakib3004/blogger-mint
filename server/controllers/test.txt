@@ -1,6 +1,6 @@
 /*
 
-blog.controller.js
+user.controller.js
 author.controller.js
 
 */
