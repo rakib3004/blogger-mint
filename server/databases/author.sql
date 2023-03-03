@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS  (
-    `uid` VARCHAR(40) NOT NULL,
-    `name` VARCHAR(63) NOT NULL,
-    `email` VARCHAR(63) NOT NULL,
-    PRIMARY KEY(`uid`)
-) ENGINE = InnoDB;
