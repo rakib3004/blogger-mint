@@ -22,3 +22,23 @@ app.use((err, req, res, next) => {
 app.listen(PORT, ()=>{
     console.log('Server is running ... ... ...');
 })
+
+
+//
+
+git add .
+git add *
+git commit -m "test commit"
+git commit -am "test commit with stage"
+git push
+git pull
+git branch
+git branch development-phrase
+git checkout development-phrase
+git checkout main
+git merge main -m "merge on development with main"
+git merge development -m "merge on main with development"
+git fetch + git merge = git pull
+git push
+git push origin main
+git push origin development
