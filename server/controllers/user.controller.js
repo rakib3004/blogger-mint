@@ -25,3 +25,16 @@ async function getAllUser(req, res) {
         res.send({ status: 500, message: err });
     }
 }
+
+async function createUser(req, res) {
+   
+}
+
+
+async function updateUser(req, res) {
+   
+}
+
+async function deleteUser(req, res) {
+   
+}

@@ -10,5 +10,11 @@ async function getAllUser() {
     return { status: 200, data };
 }
 
-async function postStatus(uid, newstatus) {
+async function creatUser() {
+}
+
+async function updateUser() {
+}
+
+async function deleteUser() {
 }
