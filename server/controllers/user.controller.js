@@ -1,7 +1,7 @@
 const userService = require('../services/user.service');
 
 
-async function getUser(req, res) {
+ exports.getUser  = (async (req, res) => {
     try {
         uid = req.body.id;
         if (uid == null) {
@@ -13,10 +13,10 @@ async function getUser(req, res) {
         console.error(err);
         res.send({ status: 500, message: err });
     }
-}
+});
 
 
-async function getAllUser(req, res) {
+exports.getAllUser = (async (req, res) => {
     try {
        
         res.json(await userService.getAllUser());
@@ -24,9 +24,9 @@ async function getAllUser(req, res) {
         console.error(err);
         res.send({ status: 500, message: err });
     }
-}
+});
 
-async function createUser(req, res) {
+exports.createUser = (async (req, res) => {
    
     try {
         
@@ -36,10 +36,10 @@ async function createUser(req, res) {
         res.send({ status: 500, message: err });
     }
 
-}
+});
 
 
-async function updateUser(req, res) {
+exports.updateUser = (async (req, res) => {
    
     try {
         uid = req.body.id;
@@ -53,9 +53,9 @@ async function updateUser(req, res) {
         res.send({ status: 500, message: err });
     }
 
-}
+});
 
-async function deleteUser(req, res) {
+exports.deleteUser = (async (req, res) => {
    try {
         uid = req.body.id;
         if (uid == null) {
@@ -67,4 +67,4 @@ async function deleteUser(req, res) {
         console.error(err);
         res.send({ status: 500, message: err });
     }
-}
+});

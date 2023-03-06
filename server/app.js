@@ -1,11 +1,35 @@
 const express = require('express');
 const app = express();
-const authorRouter = require('./routes/user.route');
+const userRouter = require('./routes/user.route');
 const PORT = process.env.PORT || 8000;
 
-app.use(express.json({extended: false}));
+app.use(express.json());
 
-app.use('/users',authorRouter);
+app.use('/', (req,res)=>{
+
+    const homeData=  [
+        {
+            "Id" : 1, 
+            "deviceName": "Windows 11",
+            "RAM": "16 GB",
+            "CreatedAt": "01-01-19",
+            "UpdatedAt": "06-03-23"
+        
+        },
+        
+        {
+            "Id" : 2, 
+            "deviceName": "Ubuntu 20",
+            "RAM": "4GB",
+            "CreatedAt": "02-01-20",
+            "UpdatedAt": "25-02-23"
+        
+        },
+      ]      
+    res.send(homeData);
+});
+
+app.use('/users',userRouter);
 
 app.use((err, req, res, next) => {
     if(err.name == 'ValidationError'){
