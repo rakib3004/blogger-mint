@@ -2,15 +2,16 @@ const users = require('../databases/user');
 
 
 
-async function getuser(uid) {
+const getUser=( (req,res) => {
     /*const rows = await query(`SELECT * FROM user WHERE uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
     return { status: 200, data };*/
 
     return users.singleData;
-}
+}});
 
-async function getAllUser() {
+
+const getAllUser=( (req,res) => {
    /* const rows = await query(`SELECT * FROM user`);
     const data = helper.emptyOrRows(rows);
     return { status: 200, data };*/
@@ -27,25 +28,27 @@ async function getAllUser() {
 
   return users.allData;
 
-}
+});
 
-async function creatUser() {
+
+const creatUser=( (req,res) => {
   return users.newUser;
 
-}
+});
 
-async function updateUser(uid) {
+const updateUser=( (req,res) => {
     /*const rows = await query(`UPDATE user SET  uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
     return { status: 200, data };*/
     return users.updateUser;
 
-}
+});
 
-async function deleteUser(/*uid*/) {
+const deleteUser=( (req,res) => {
     /*const rows = await query(`DELETE FROM user WHERE uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
     return { status: 200, data };*/
     return users.deleteUser;
 
-}
+});
+
