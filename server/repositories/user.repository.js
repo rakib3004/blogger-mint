@@ -1,69 +1,46 @@
-const users = require('../databases/user');
-const userRepository = require('../repositories/user.repository')
+const mysql = require('mysql2');
 
-
-class UserRepository{
-
-
-constructor(){
-
-}
-
-   getUser=( (req,res) => {
-    /*const rows = await query(`SELECT * FROM user WHERE uid='${uid}' `);
-    const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
-    
-return users.singleData;
-
+// create a pool of database connections
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'blogger'
 });
 
+// create a function to query the database
+function query(sql, params) {
+  return new Promise((resolve, reject) => {
+    pool.query(sql, params, (error, results, fields) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
 
- getAllUser=( (req,res) => {
-   /* const rows = await query(`SELECT * FROM user`);
-    const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
-
-
-
-/*fs.readFile('../databases/user.json', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
+// create a CRUD API for the users table
+const UserRepository = {
+  getAllUser: async () => {
+    const results = await query('SELECT * FROM users');
+    return results;
+  },
+  getUser: async (id) => {
+    const results = await query('SELECT * FROM users WHERE Id = ?', [id]);
+    return results[0];
+  },
+  createUser: async (user) => {
+    const results = await query('INSERT INTO users SET ?', [user]);
+    return results.insertId;
+  },
+  updateUser: async (id, user) => {
+    await query('UPDATE users SET ? WHERE Id = ?', [user, id]);
+  },
+  deleteUser: async (id) => {
+    await query('DELETE FROM users WHERE Id = ?', [id]);
   }
-  // parse the JSON data
-  const userData = JSON.parse(data);*/
+};
 
-  return users.allData;
-
-});
-
-
- createUser=( (req,res) => {
-  return users.newUser;
-
-});
-
- updateUser=( (req,res) => {
-    /*const rows = await query(`UPDATE user SET  uid='${uid}' `);
-    const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
-    return users.updateUser;
-
-});
-
- deleteUser=( (req,res) => {
-    /*const rows = await query(`DELETE FROM user WHERE uid='${uid}' `);
-    const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
-    return users.deleteUser;
-
-});
-
-
-
-}
-
-
-module.exports = new UserRepository();
-
+module.exports = { UserRepository };

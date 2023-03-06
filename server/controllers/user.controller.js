@@ -24,6 +24,7 @@ exports.getAllUser = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
+  
   try {
     res.json(await userService.createUser());
   } catch (err) {
