@@ -1,54 +1,60 @@
-const users = require('../databases/user');
+const users = require("../databases/user");
+const userRepository = require("../repositories/user.repository");
 
+class UserService {
+  constructor() {}
 
-
-const getUser=( (req,res) => {
+  getUser = (req, res) => {
     /*const rows = await query(`SELECT * FROM user WHERE uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
+    //return { status: 200, data };*/
 
-    return users.singleData;
-});
+    //return users.singleData;
 
+    return userRepository.getUser(req);
+  };
 
-const getAllUser=( (req,res) => {
-   /* const rows = await query(`SELECT * FROM user`);
+  getAllUser = (req, res) => {
+    /* const rows = await query(`SELECT * FROM user`);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
+    //return { status: 200, data };*/
 
-
-
-/*fs.readFile('../databases/user.json', 'utf8', (err, data) => {
+    /*fs.readFile('../databases/user.json', 'utf8', (err, data) => {
   if (err) {
     console.error(err);
-    return;
+    //return;
   }
   // parse the JSON data
   const userData = JSON.parse(data);*/
 
-  return users.allData;
+    //return users.allData;
 
-});
+    return userRepository.getAllUser(req);
+  };
 
+  createUser = (req, res) => {
+    //return users.newUser;
+    return userRepository.createUser(req);
 
-const creatUser=( (req,res) => {
-  return users.newUser;
+  };
 
-});
-
-const updateUser=( (req,res) => {
+  updateUser = (req, res) => {
     /*const rows = await query(`UPDATE user SET  uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
-    return users.updateUser;
+    //return { status: 200, data };*/
+    //return users.updateUser;
+    return userRepository.updateUser(req);
 
-});
+  };
 
-const deleteUser=( (req,res) => {
+  deleteUser = (req, res) => {
     /*const rows = await query(`DELETE FROM user WHERE uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };*/
-    return users.deleteUser;
+    //return { status: 200, data };*/
+    //return users.deleteUser;
+    return userRepository.deleteUser(req);
 
-});
+  };
+}
 
+module.exports = new UserService();
