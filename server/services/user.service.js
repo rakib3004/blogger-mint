@@ -8,7 +8,7 @@ const getUser=( (req,res) => {
     return { status: 200, data };*/
 
     return users.singleData;
-}});
+});
 
 
 const getAllUser=( (req,res) => {
