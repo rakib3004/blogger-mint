@@ -1,4 +1,4 @@
-[
+const usersData = [
 {
     "Id" : 1, 
     "Username": "turja",
@@ -69,5 +69,29 @@
 
 }
 
-
 ]
+
+const userSingleData = [{
+    "Id" : 1, 
+    "Username": "turja",
+    "Email": "simanta.deb@cefalo.com",
+    "Password": "123456",
+    "CreatedAt": "12-12-12",
+    "UpdatedAt": "12-12-12"
+
+}]
+
+const newUser = [{
+    "Message":"Create a new user",
+    "UpdateAt": Date.now()
+}];
+
+const updateUser = [{
+    "Message":"Update a new user",
+    "UpdateAt": Date.now()
+}];
+
+const deleteUser = [{
+    "Message":"Delete a new user",
+    "UpdateAt": Date.now()
+}]
