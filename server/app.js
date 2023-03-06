@@ -5,8 +5,6 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 
-
-
 app.use('/users',userRouter);
 
 app.use((err, req, res, next) => {
@@ -17,7 +15,6 @@ app.use((err, req, res, next) => {
         res.status(422).send(valErrors)
     }
 });
-
 
 app.listen(PORT, ()=>{
     console.log('Server is running ... ... ...');

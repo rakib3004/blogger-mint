@@ -1,12 +1,10 @@
-const userConttoller = require('../controllers/user.controller');
+const userConttoller = require("../controllers/user.controller");
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-
-const app=express();
-app.use(express.static(__dirname + '/public'));
-
+const app = express();
+app.use(express.static(__dirname + "/public"));
 
 /*router.get('/', (req,res)=>{
     const userData=  [
@@ -32,10 +30,11 @@ app.use(express.static(__dirname + '/public'));
       ]      
     res.send(userData);
 });*/
-router.get('/', userConttoller.getAllUser);
-router.get('/:username', userConttoller.getUser);
-router.post('/', userConttoller.createUser);
-router.put('/:username', userConttoller.updateUser);
-router.delete('/:username', userConttoller.deleteUser);
+router
+  .get("/", userConttoller.getAllUser)
+  .get("/:username", userConttoller.getUser)
+  .post("/", userConttoller.createUser)
+  .put("/:username", userConttoller.updateUser)
+  .delete("/:username", userConttoller.deleteUser);
 
 module.exports = router;
