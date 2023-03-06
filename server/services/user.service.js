@@ -1,9 +1,13 @@
-const fs = require('fs');
+const users = require('../databases/user');
+
+
 
 async function getuser(uid) {
-    const rows = await query(`SELECT * FROM user WHERE uid='${uid}' `);
+    /*const rows = await query(`SELECT * FROM user WHERE uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };
+    return { status: 200, data };*/
+
+    return users.singleData;
 }
 
 async function getAllUser() {
@@ -12,27 +16,6 @@ async function getAllUser() {
     return { status: 200, data };*/
 
 
-  const userData=  [
-      {
-          "Id" : 1, 
-          "Username": "turja",
-          "Email": "simanta.deb@cefalo.com",
-          "Password": "123456",
-          "CreatedAt": "12-12-12",
-          "UpdatedAt": "12-12-12"
-      
-      },
-      
-      {
-          "Id" : 2, 
-          "Username": "rakib",
-          "Email": "rakib.trofder@cefalo.com",
-          "Password": "cefalo123",
-          "CreatedAt": "12-12-12",
-          "UpdatedAt": "12-12-12"
-      
-      },
-    ]      
 
 /*fs.readFile('../databases/user.json', 'utf8', (err, data) => {
   if (err) {
@@ -42,21 +25,27 @@ async function getAllUser() {
   // parse the JSON data
   const userData = JSON.parse(data);*/
 
-  return userData;
+  return users.allData;
 
 }
 
 async function creatUser() {
+  return users.newUser;
+
 }
 
 async function updateUser(uid) {
-    const rows = await query(`UPDATE user SET  uid='${uid}' `);
+    /*const rows = await query(`UPDATE user SET  uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };
+    return { status: 200, data };*/
+    return users.updateUser;
+
 }
 
-async function deleteUser(uid) {
-    const rows = await query(`DELETE FROM user WHERE uid='${uid}' `);
+async function deleteUser(/*uid*/) {
+    /*const rows = await query(`DELETE FROM user WHERE uid='${uid}' `);
     const data = helper.emptyOrRows(rows);
-    return { status: 200, data };
+    return { status: 200, data };*/
+    return users.deleteUser;
+
 }

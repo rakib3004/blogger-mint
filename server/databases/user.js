@@ -1,4 +1,4 @@
-const usersData = [
+const allData = [
 {
     "Id" : 1, 
     "Username": "turja",
@@ -71,7 +71,7 @@ const usersData = [
 
 ]
 
-const userSingleData = [{
+const singleData = [{
     "Id" : 1, 
     "Username": "turja",
     "Email": "simanta.deb@cefalo.com",
@@ -95,3 +95,11 @@ const deleteUser = [{
     "Message":"Delete a new user",
     "UpdateAt": Date.now()
 }]
+
+module.exports = {
+    allData,
+    singleData,
+    newUser,
+    updateUser,
+    deleteUser
+}
