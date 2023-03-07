@@ -34,7 +34,6 @@ function formatUnixTimestamp(timestamp) {
 exports.getUser = (req) => {
   
   const username = String(req.params.username).toLowerCase();
-  console.log("Username in repository stage, get request "+username);
 
   if (username == null || !isAlphaNumeric(username)) {
     return { status: 402, message: "Invalid User in get request" };
@@ -92,7 +91,6 @@ exports.updateUser = (req) => {
 
 exports.deleteUser = (req) => {
   const username = String(req.params.username).toLowerCase();
-  console.log("Username in repository stage, delete request"+username);
   if (username == "" || !isAlphaNumeric(username)) {
     return { status: 402, message: "Invalid User in delete request" };
   }
