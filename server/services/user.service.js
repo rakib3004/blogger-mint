@@ -1,67 +1,65 @@
-const users = require("../databases/user");
 const userRepository = require("../repositories/user.repository");
 
-class UserService {
-  constructor() {}
 
-  getUser = (req, res) => {
+
+exports.getUser = (req, res) => {
   
-    username = req.params;
+  const username = req.params;
     if (username == null) {
-      res.send({ status: 402, message: "null user" });
-      return;
+      return { status: 402, message: "Invalid User" };
+
     }
 
     return userRepository.getUser(username);
+
   };
 
-  getAllUser = (req, res) => {
+  exports.getAllUser = (req, res) => {
 
     return userRepository.getAllUser(req);
   };
 
-  createUser = (req, res) => {
+  exports.createUser = (req, res) => {
 
-    const Username = username;
+    const Username = req.body.Username;
     const Email = req.body.Email;
     const Password = req.body.Password;
     const CreatedAt = req.body.CreatedAt;
-    const UpdatedAt = Date.now();
+    const UpdatedAt = req.body.UpdatedAt;
 
     const updatedUserData = [Username,Email,Password,CreatedAt,UpdatedAt];
-
     return userRepository.createUser(updatedUserData);
 
   };
 
-  updateUser = (req, res) => {
-    username = req.params;
-    if (username == null) {
-      res.send({ status: 402, message: "null user" });
-      return;
+  exports.updateUser = (req, res) => {
+    const username = req.params;
+    if (username == "") {
+      return { status: 402, message: "Invalid User" };
+
     }
 
-    const Username = username;
+    const Username = req.body.Username;
     const Email = req.body.Email;
     const Password = req.body.Password;
     const CreatedAt = req.body.CreatedAt;
-    const UpdatedAt = Date.now();
+    const UpdatedAt = req.body.UpdatedAt;
 
-    const updatedUserData = [Username,Email,Password,CreatedAt,UpdatedAt]
-    return userRepository.updateUser(updatedUserData);
+
+    const updatedUserData = [Username,Email,Password,CreatedAt,UpdatedAt];
+    return userRepository.updateUser(updatedUserData,username);
 
   };
 
-  deleteUser = (req, res) => {
-    username = req.params;
-    if (username == null) {
-      res.send({ status: 402, message: "null user" });
-      return;
+  exports.deleteUser = (req, res) => {
+    const username = req.params;
+    if (username == "") {
+      
+      return { status: 402, message: "Invalid User" };
     }
 
     return userRepository.deleteUser(username);
 
   };
-}
 
-module.exports = new UserService();
+

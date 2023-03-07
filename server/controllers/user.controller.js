@@ -41,12 +41,8 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    uid = req.params;
-    if (uid == null) {
-      res.send({ status: 402, message: "null user" });
-      return;
-    }
-    res.json(await userService.deleteUser(uid));
+ 
+    res.json(await userService.deleteUser(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
