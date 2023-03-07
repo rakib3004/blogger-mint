@@ -3,7 +3,7 @@ const userService = require("../services/user.service");
 exports.getUser = async (req, res) => {
   try {
     
-    res.json(await userService.getUser(req));
+    res.status(200).json(await userService.getUser(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err});
@@ -12,7 +12,7 @@ exports.getUser = async (req, res) => {
 
 exports.getAllUser = async (req, res) => {
   try {
-    res.json(await userService.getAllUser());
+    res.status(200).json(await userService.getAllUser());
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
@@ -22,7 +22,7 @@ exports.getAllUser = async (req, res) => {
 exports.createUser = async (req, res) => {
 
   try {
-    res.json(await userService.createUser(req));
+    res.status(200).json(await userService.createUser(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
@@ -32,7 +32,7 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     
-    res.json(await userService.updateUser(req));
+    res.status(200).json(await userService.updateUser(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
@@ -42,7 +42,7 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
  
-    res.json(await userService.deleteUser(req));
+    res.status(200).json(await userService.deleteUser(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });

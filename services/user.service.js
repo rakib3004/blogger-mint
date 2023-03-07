@@ -36,7 +36,7 @@ exports.getUser = (req) => {
   const username = String(req.params.username).toLowerCase();
 
   if (username == null || !isAlphaNumeric(username)) {
-    return { status: 402, message: "Invalid User in get request" };
+    return { status: 404, message: "Invalid User in get request" };
   }
 
   return userRepository.getUser(username);
@@ -56,15 +56,15 @@ exports.createUser = (req) => {
   
 
   if (!isAlphaNumeric(Username)) {
-    return { status: 402, message: "New User's username is null or contains space or special character" };
+    return { status: 401, message: "New User's username is null or contains space or special character" };
   }
 
   if (!validateEmail(Email)) {
-    return { status: 402, message: "New User's email is not valid" };
+    return { status: 401, message: "New User's email is not valid" };
   }
   
   if (!checkPassword(validPasswordCheck)) {
-    return { status: 402, message: "Password is less than 6 digit" };
+    return { status: 401, message: "Password is less than 6 digit" };
   }
 
   const Password = hashSync(body.Password, salt);
