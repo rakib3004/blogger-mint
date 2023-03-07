@@ -25,7 +25,7 @@ exports.getAllUser= async () => {
   },
   exports.getUser= async (username) => {
 
-    const result = await query(`SELECT * FROM ${tableName} WHERE Username = ?`,username);
+    const result = await query(`SELECT * FROM ${tableName} WHERE Username = ?`,[username]);
     return result;
   },
   exports.createUser= async (user) => {
