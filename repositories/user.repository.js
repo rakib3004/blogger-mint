@@ -29,14 +29,14 @@ exports.getAllUser= async () => {
     return result;
   },
   exports.createUser= async (user) => {
-    const result = await query(`INSERT INTO ${tableName} (Username, Email, Password, CreatedAt, UpdatedAt) VALUES (?)`, [user]);
+    const result = await query(`INSERT INTO ${tableName} (Id, Username, Email, Password, CreatedAt, UpdatedAt) VALUES (?)`, [user]);
    // INSERT INTO users (Username, Email, Password, CreatedAt, UpdatedAt) VALUES ('JohnDoe', 'johndoe@example.com', 'password123', '2022-03-07', '2022-03-07');
 
 
     return result;
   },
   exports.updateUser= async (user, username) => {
-    const result =  await query(`UPDATE ${tableName} SET Username = ?, Email = ?, Password = ?, CreatedAt = ?, UpdatedAt = ? WHERE Username = ?`, [user, username]);
+    const result =  await query(`UPDATE ${tableName} SET Username = ?, Email = ?, Password = ?, UpdatedAt = ? WHERE Username = ?`, [user, username]);
     return result;
 
   },
