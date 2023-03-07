@@ -7,6 +7,19 @@ function isAlphaNumeric(str) {
   return alphanumericRegex.test(str);
 }
 
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function checkPassword(password) {
+  if (password.length >= 6) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function formatUnixTimestamp(timestamp) {
   const date = new Date(timestamp);
   /*const fullYear = String(date.getFullYear());
@@ -20,7 +33,7 @@ function formatUnixTimestamp(timestamp) {
 
 exports.getUser = (req) => {
   
-  const username = req.params.username;
+  const username = String(req.params.username).toLowerCase();
   console.log("Username in repository stage, get request "+username);
 
   if (username == null || !isAlphaNumeric(username)) {
@@ -40,6 +53,21 @@ exports.createUser = (req) => {
   const Id = uuidv4();
   const Username = body.Username;
   const Email = body.Email;
+  const validPasswordCheck=body.Password;
+  
+
+  if (!isAlphaNumeric(Username)) {
+    return { status: 402, message: "New User's username is null or contains space or special character" };
+  }
+
+  if (!validateEmail(Email)) {
+    return { status: 402, message: "New User's email is not valid" };
+  }
+  
+  if (!checkPassword(validPasswordCheck)) {
+    return { status: 402, message: "Password is less than 6 digit" };
+  }
+
   const Password = hashSync(body.Password, salt);
   const CreatedAt = formatUnixTimestamp(Date.now());
   const UpdatedAt = formatUnixTimestamp(Date.now());
@@ -49,7 +77,7 @@ exports.createUser = (req) => {
 };
 
 exports.updateUser = (req) => {
-  const username = req.params.username;
+  const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
     return { status: 402, message: "Invalid User in update request" };
   }
@@ -63,7 +91,7 @@ exports.updateUser = (req) => {
 
 
 exports.deleteUser = (req) => {
-  const username = req.params.username;
+  const username = String(req.params.username).toLowerCase();
   console.log("Username in repository stage, delete request"+username);
   if (username == "" || !isAlphaNumeric(username)) {
     return { status: 402, message: "Invalid User in delete request" };
