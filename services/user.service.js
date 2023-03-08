@@ -31,16 +31,6 @@ function formatUnixTimestamp(timestamp) {
   return `${year}-${month}-${day}`;
 }
 
-exports.getUser = (req) => {
-  
-  const username = String(req.params.username).toLowerCase();
-
-  if (username == null || !isAlphaNumeric(username)) {
-    return { status: 404, message: "Invalid User in get request" };
-  }
-
-  return userRepository.getUser(username);
-};
 
 exports.getAllUser = (req) => {
   return userRepository.getAllUser(req);
@@ -52,17 +42,20 @@ exports.createUser = (req) => {
   const Id = uuidv4();
   const Username = body.Username;
   const Email = body.Email;
-  const validPasswordCheck=body.Password;
-  
+  const validPasswordCheck = body.Password;
 
   if (!isAlphaNumeric(Username)) {
-    return { status: 401, message: "New User's username is null or contains space or special character" };
+    return {
+      status: 401,
+      message:
+        "New User's username is null or contains space or special character",
+    };
   }
 
   if (!validateEmail(Email)) {
     return { status: 401, message: "New User's email is not valid" };
   }
-  
+
   if (!checkPassword(validPasswordCheck)) {
     return { status: 401, message: "Password is less than 6 digit" };
   }
@@ -75,7 +68,19 @@ exports.createUser = (req) => {
   return userRepository.createUser(updatedUserData);
 };
 
-exports.updateUser = (req) => {
+exports.getUserByUserName = (req) => {
+  const username = String(req.params.username).toLowerCase();
+
+  if (username == null || !isAlphaNumeric(username)) {
+    return { status: 404, message: "Invalid User in get request" };
+  }
+
+  return userRepository.getUserByUserName(username);
+};
+
+
+
+exports.updateUserByUserName = (req) => {
   const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
     return { status: 402, message: "Invalid User in update request" };
@@ -85,15 +90,14 @@ exports.updateUser = (req) => {
 
   const Password = hashSync(body.Password, salt);
   const UpdatedAt = formatUnixTimestamp(Date.now());
-  return userRepository.updateUser(Password, UpdatedAt,username);
+  return userRepository.updateUserByUserName(Password, UpdatedAt, username);
 };
 
-
-exports.deleteUser = (req) => {
+exports.deleteUserByUserName = (req) => {
   const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
     return { status: 402, message: "Invalid User in delete request" };
   }
 
-  return userRepository.deleteUser(username);
+  return userRepository.deleteUserByUserName(username);
 };

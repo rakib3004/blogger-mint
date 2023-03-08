@@ -1,15 +1,5 @@
 const userService = require("../services/user.service");
 
-exports.getUser = async (req, res) => {
-  try {
-    
-    res.status(200).json(await userService.getUser(req));
-  } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: err});
-  }
-};
-
 exports.getAllUser = async (req, res) => {
   try {
     res.status(200).json(await userService.getAllUser());
@@ -20,29 +10,40 @@ exports.getAllUser = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-
   try {
     res.status(200).json(await userService.createUser(req));
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: err });
+    if (err.code === "ER_DUP_ENTRY") {
+      res.send({ status: 409, message: err.sqlMessage });
+    } else if (err.code === "ECONNREFUSED") {
+      res.send({ status: 500, message: "MYSQL/Apache Server is disconnected" });
+    } else {
+      res.send({ status: 500, message: err });
+    }
   }
 };
 
-exports.updateUser = async (req, res) => {
+exports.getUserByUserName = async (req, res) => {
   try {
-    
-    res.status(200).json(await userService.updateUser(req));
+    res.status(200).json(await userService.getUserByUserName(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
   }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.updateUserByUserName = async (req, res) => {
   try {
- 
-    res.status(200).json(await userService.deleteUser(req));
+    res.status(200).json(await userService.updateUserByUserName(req));
+  } catch (err) {
+    console.error(err);
+    res.send({ status: 500, message: err });
+  }
+};
+
+exports.deleteUserByUserName = async (req, res) => {
+  try {
+    res.status(200).json(await userService.deleteUserByUserName(req));
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
