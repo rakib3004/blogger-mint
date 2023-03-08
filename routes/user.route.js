@@ -1,12 +1,9 @@
 const userController = require("../controllers/user.controller");
-
 const express = require("express");
 const router = express.Router();
 
 const app = express();
 app.use(express.static(__dirname + "/public"));
-
-
 
 
   router.route('/')

@@ -31,9 +31,8 @@ function formatUnixTimestamp(timestamp) {
   return `${year}-${month}-${day}`;
 }
 
-
-exports.getAllUser = (req) => {
-  return userRepository.getAllUser(req);
+exports.getAllUser = () => {
+  return userRepository.getAllUser();
 };
 
 exports.createUser = (req) => {
@@ -46,18 +45,18 @@ exports.createUser = (req) => {
 
   if (!isAlphaNumeric(Username)) {
     return {
-      status: 401,
+      status: 422,
       message:
         "New User's username is null or contains space or special character",
     };
   }
 
   if (!validateEmail(Email)) {
-    return { status: 401, message: "New User's email is not valid" };
+    return { status: 422, message: "New User's email is not valid" };
   }
 
   if (!checkPassword(validPasswordCheck)) {
-    return { status: 401, message: "Password is less than 6 digit" };
+    return { status: 422, message: "Password is less than 6 digit" };
   }
 
   const Password = hashSync(body.Password, salt);
@@ -72,19 +71,30 @@ exports.getUserByUserName = (req) => {
   const username = String(req.params.username).toLowerCase();
 
   if (username == null || !isAlphaNumeric(username)) {
-    return { status: 404, message: "Invalid User in get request" };
+    return { status: 400, message: "Invalid User in get request" };
   }
 
-  return userRepository.getUserByUserName(username);
+  const result = userRepository.getUserByUserName(username);
+  console.log(typeof result);
+  if (Object.keys(result).length == 0) {
+    return { status: 404, message: `${username} is not found in the Server` };
+  } else {
+    return result;
+  }
 };
-
-
 
 exports.updateUserByUserName = (req) => {
   const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
-    return { status: 402, message: "Invalid User in update request" };
+    return { status: 400, message: "Invalid User in update request" };
   }
+
+  // check is there any user based on this username in the server
+  const result = userRepository.getUserByUserName(username);
+  if (Object.keys(result).length == 0) {
+    return { status: 404, message: `${username} is not found in the Server` };
+  }
+
   const body = req.body;
   const salt = genSaltSync(10);
 
@@ -96,7 +106,13 @@ exports.updateUserByUserName = (req) => {
 exports.deleteUserByUserName = (req) => {
   const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
-    return { status: 402, message: "Invalid User in delete request" };
+    return { status: 400, message: "Invalid User in delete request" };
+  }
+
+  // check is there any user based on this username in the server
+  const result = userRepository.getUserByUserName(username);
+  if (Object.keys(result).length == 0) {
+    return { status: 404, message: `${username} is not found in the Server` };
   }
 
   return userRepository.deleteUserByUserName(username);
