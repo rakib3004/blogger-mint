@@ -18,7 +18,7 @@ exports.createUser = async (req, res) => {
     } else if (err.code === "ECONNREFUSED") {
       res.send({ status: 500, message: "MYSQL/Apache Server is disconnected" });
     } else {
-      res.send({ status: 500, message: err });
+      res.send({ status: 500, message: "Internal Server Error" });
     }
   }
 };

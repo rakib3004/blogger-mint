@@ -1,4 +1,3 @@
-"use strict";
 const pool = require("../configs/database.config");
 const UserDTO = require("../DTO/user.dto");
 

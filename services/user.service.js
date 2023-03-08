@@ -22,8 +22,7 @@ function checkPassword(password) {
 
 function formatUnixTimestamp(timestamp) {
   const date = new Date(timestamp);
-  /*const fullYear = String(date.getFullYear());
-   const year = String(fullYear).slice(-2);*/
+
   const year = String(date.getFullYear());
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -35,7 +34,7 @@ exports.getAllUser = () => {
   return userRepository.getAllUser();
 };
 
-exports.createUser = (req) => {
+exports.createUser = async (req) => {
   const body = req.body;
   const salt = genSaltSync(10);
   const Id = uuidv4();
@@ -43,17 +42,16 @@ exports.createUser = (req) => {
   const Email = body.Email;
   const validPasswordCheck = body.Password;
 
-  if (Username == null ) {
-    return { status: 400, message: "Username field is empty" };
+
+  if(Username==""){
+    return { status: 400, message: "Username Field is Empty" };
   }
 
-  if (Email == null ) {
-    return { status: 400, message: "Email field is empty" };
+  if(Email==""){
+    return { status: 400, message: "Email Field is Empty" };
   }
 
-  if (Password == null ) {
-    return { status: 400, message: "Password field is empty" };
-  }
+
 
   if (!isAlphaNumeric(Username)) {
     return {
@@ -75,8 +73,15 @@ exports.createUser = (req) => {
   const CreatedAt = formatUnixTimestamp(Date.now());
   const UpdatedAt = formatUnixTimestamp(Date.now());
 
-  const updatedUserData = [Id, Username, Email, Password, CreatedAt, UpdatedAt];
-  return userRepository.createUser(updatedUserData);
+  const newUserData = [Id, Username, Email, Password, CreatedAt, UpdatedAt];
+
+  
+  const newUser = await userRepository.createUser(newUserData);
+
+  if(newUser){
+    return { status: 200, message: `User is successfully created`  };
+  }
+  
 };
 
 exports.getUserByUserName = async (req) => {
@@ -108,10 +113,11 @@ exports.updateUserByUserName = async (req) => {
   } 
 
 
- 
 
-  const salt = genSaltSync(10);
+  
   const body = req.body;
+  const salt = genSaltSync(10);
+
 
   const validPasswordCheck = body.Password;
   if (!checkPassword(validPasswordCheck)) {

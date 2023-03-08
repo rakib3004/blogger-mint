@@ -5,7 +5,6 @@ const router = express.Router();
 const app = express();
 app.use(express.static(__dirname + "/public"));
 
-
   router.route('/')
   .get(userController.getAllUser)
   .post(userController.createUser);
