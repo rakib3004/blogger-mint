@@ -6,7 +6,7 @@ class UserDTO {
       for (var iterator = 0; iterator < User.length; iterator++) {
         var UserDtoObject = {
           Id: User[iterator]["Id"],
-          UserName: User[iterator]["Username"],
+          Username: User[iterator]["Username"],
           Email: User[iterator]["Email"],
           CreatedAt: User[iterator]["CreatedAt"],
           UpdatedAt: User[iterator]["UpdatedAt"]

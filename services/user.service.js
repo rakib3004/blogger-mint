@@ -43,6 +43,18 @@ exports.createUser = (req) => {
   const Email = body.Email;
   const validPasswordCheck = body.Password;
 
+  if (Username == null ) {
+    return { status: 400, message: "Username field is empty" };
+  }
+
+  if (Email == null ) {
+    return { status: 400, message: "Email field is empty" };
+  }
+
+  if (Password == null ) {
+    return { status: 400, message: "Password field is empty" };
+  }
+
   if (!isAlphaNumeric(Username)) {
     return {
       status: 422,
@@ -67,53 +79,74 @@ exports.createUser = (req) => {
   return userRepository.createUser(updatedUserData);
 };
 
-exports.getUserByUserName = (req) => {
+exports.getUserByUserName = async (req) => {
   const username = String(req.params.username).toLowerCase();
 
   if (username == null || !isAlphaNumeric(username)) {
     return { status: 400, message: "Invalid User in get request" };
   }
 
-  const result = userRepository.getUserByUserName(username);
-  console.log(typeof result);
-  if (Object.keys(result).length == 0) {
+  const result = await userRepository.getUserByUserName(username);
+
+  if (result.users.length==0) {
     return { status: 404, message: `${username} is not found in the Server` };
   } else {
     return result;
   }
 };
 
-exports.updateUserByUserName = (req) => {
+exports.updateUserByUserName = async (req) => {
   const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
-    return { status: 400, message: "Invalid User in update request" };
+    return { status: 400, message: "Invalid User in put request" };
   }
 
   // check is there any user based on this username in the server
-  const result = userRepository.getUserByUserName(username);
-  if (Object.keys(result).length == 0) {
+  const result = await userRepository.getUserByUserName(username);
+  if (result.users.length==0) {
     return { status: 404, message: `${username} is not found in the Server` };
-  }
+  } 
 
-  const body = req.body;
+
+ 
+
   const salt = genSaltSync(10);
+  const body = req.body;
+
+  const validPasswordCheck = body.Password;
+  if (!checkPassword(validPasswordCheck)) {
+    return { status: 422, message: "Password is less than 6 digit" };
+  }
 
   const Password = hashSync(body.Password, salt);
   const UpdatedAt = formatUnixTimestamp(Date.now());
-  return userRepository.updateUserByUserName(Password, UpdatedAt, username);
+  const isPasswordUpdated =   userRepository.updateUserByUserName(Password, UpdatedAt, username);
+  if(isPasswordUpdated){
+    return { status: 200, message: `Password is successfully updated` };
+  }
+
 };
 
-exports.deleteUserByUserName = (req) => {
+exports.deleteUserByUserName = async (req) => {
   const username = String(req.params.username).toLowerCase();
   if (username == "" || !isAlphaNumeric(username)) {
     return { status: 400, message: "Invalid User in delete request" };
   }
 
   // check is there any user based on this username in the server
-  const result = userRepository.getUserByUserName(username);
-  if (Object.keys(result).length == 0) {
+  const result = await userRepository.getUserByUserName(username);
+
+  if (result.users.length==0) {
     return { status: 404, message: `${username} is not found in the Server` };
+  } 
+
+
+  const isUserDeleted =  userRepository.deleteUserByUserName(username);
+  if(!isUserDeleted){
+    return { status: 404, message: `Failed to Delete ${username}` };
+  }
+  else{
+    return { status: 200, message: `${username} is successfully deleted` };
   }
 
-  return userRepository.deleteUserByUserName(username);
 };
