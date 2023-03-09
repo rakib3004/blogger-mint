@@ -1,35 +1,7 @@
 "use strict"
 const userRepository = require("../repositories/user.repository");
+const userUtils = require("../utils/user.utils");
 const { genSalt, hash } = require("bcrypt");
-const { v4: uuidv4 } = require("uuid");
-
-function isAlphaNumeric(str) {
-  const alphanumericRegex = /^[a-zA-Z0-9]+$/;
-  return alphanumericRegex.test(str);
-}
-
-function validateEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-function checkPassword(password) {
-  if (password.length >= 6) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function formatUnixTimestamp(timestamp) {
-  const date = new Date(timestamp);
-
-  const year = String(date.getFullYear());
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
 
 exports.getAllUser = () => {
   return userRepository.getAllUser();
@@ -37,8 +9,9 @@ exports.getAllUser = () => {
 
 exports.createUser = async (body) => {
   
-  const salt = await genSalt(10);
-  const id = uuidv4();
+  
+
+  const id = userUtils.generateUUID();
   const username = body.username;
   const email = body.email;
   const pass = body.password;
@@ -60,7 +33,7 @@ exports.createUser = async (body) => {
 
 
 
-  if (!isAlphaNumeric(username)) {
+  if (!userUtils.isAlphaNumeric(username)) {
     return {
       status: 401,
       message:
@@ -68,17 +41,18 @@ exports.createUser = async (body) => {
     };
   }
 
-  if (!validateEmail(email)) {
+  if (!userUtils.validateEmail(email)) {
     return { status: 401, message: "New User's email is not valid" };
   }
 
-  if (!checkPassword(validPasswordCheck)) {
+  if (!userUtils.checkPassword(validPasswordCheck)) {
     return { status: 401, message: "password is less than 6 digit" };
   }
 
-  const password = await hash(body.password, salt);
-  const createdAt = formatUnixTimestamp(Date.now());
-  const updatedAt = formatUnixTimestamp(Date.now());
+
+  const password = await userUtils.generateHashPassword(body.password);
+  const createdAt = userUtils.formatUnixTimestamp(Date.now());
+  const updatedAt = userUtils.formatUnixTimestamp(Date.now());
 
   const newUserData = [id, username, email, password, createdAt, updatedAt];
 
@@ -94,7 +68,7 @@ exports.createUser = async (body) => {
 exports.getUserByUserName = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
 
-  if (!usernameParam || !isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || ! userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
 
@@ -109,7 +83,7 @@ exports.getUserByUserName = async (usernameParamData) => {
 
 exports.updateUserByUserName = async (body,usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
-  if (!usernameParam || !isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in put request" };
   }
 
@@ -118,15 +92,14 @@ exports.updateUserByUserName = async (body,usernameParamData) => {
     return { status: 404, message: `${usernameParam} is not found in database` };
   } 
   
-  const salt = await genSalt(10)
 
   const validPasswordCheck = body.password;
-  if (!checkPassword(validPasswordCheck)) {
+  if (!userUtils.checkPassword(validPasswordCheck)) {
     return { status: 404, message: `password is less than 6 digit` };
   }
 
-  const password = await hash(body.password, salt);
-  const updatedAt = formatUnixTimestamp(Date.now());
+  const password = await userUtils.generateHashPassword(body.password);
+  const updatedAt = userUtils.formatUnixTimestamp(Date.now());
   const isPasswordUpdated =   userRepository.updateUserByUserName(password, updatedAt, usernameParam);
   if(isPasswordUpdated){
     return { status: 200, message: `password is successfully updated` };
@@ -136,7 +109,7 @@ exports.updateUserByUserName = async (body,usernameParamData) => {
 
 exports.deleteUserByUserName = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
-  if (!usernameParam  || !isAlphaNumeric(usernameParam)) {
+  if (!usernameParam  || !userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in delete request" };
   }
 

@@ -40,7 +40,6 @@ const tableName = `users`;
 
   (exports.updateUserByUserName = async (password, updatedAt, username) => {
 
-    console.log(password);
     const result = await query(
       `UPDATE ${tableName} SET password = ?, updatedAt = ? WHERE username = ?`,
       [password, updatedAt, username]
