@@ -2,7 +2,8 @@ const userService = require("../services/user.service");
 
 exports.getAllUser = async (req, res) => {
   try {
-    res.status(200).json(await userService.getAllUser());
+    const getAllUserResponse = await userService.getAllUser();
+    res.status(200).json(getAllUserResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
@@ -11,7 +12,9 @@ exports.getAllUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    res.status(200).json(await userService.createUser(req));
+
+    const createUserResponse = await userService.createUser(req);
+    res.status(201).json(createUserResponse);
   } catch (err) {
     if (err.code === "ER_DUP_ENTRY") {
       res.send({ status: 409, message: err.sqlMessage });
@@ -25,7 +28,8 @@ exports.createUser = async (req, res) => {
 
 exports.getUserByUserName = async (req, res) => {
   try {
-    res.status(200).json(await userService.getUserByUserName(req));
+    const getUserByUserNameResponse = await userService.getUserByUserName(req);
+    res.status(200).json(getUserByUserNameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
@@ -34,7 +38,9 @@ exports.getUserByUserName = async (req, res) => {
 
 exports.updateUserByUserName = async (req, res) => {
   try {
-    res.status(200).json(await userService.updateUserByUserName(req));
+
+    const updateUserByUserNameResponse = await userService.updateUserByUserName(req);
+    res.status(200).json(updateUserByUserNameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });
@@ -43,7 +49,8 @@ exports.updateUserByUserName = async (req, res) => {
 
 exports.deleteUserByUserName = async (req, res) => {
   try {
-    res.status(200).json(await userService.deleteUserByUserName(req));
+    const deleteUserByUserNameResponse = await userService.deleteUserByUserName(req);
+    res.status(200).json(deleteUserByUserNameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: err });

@@ -43,11 +43,11 @@ exports.createUser = async (req) => {
   const validPasswordCheck = body.Password;
 
 
-  if(Username==""){
+  if(!Username){
     return { status: 400, message: "Username Field is Empty" };
   }
 
-  if(Email==""){
+  if(!Email){
     return { status: 400, message: "Email Field is Empty" };
   }
 
@@ -55,18 +55,18 @@ exports.createUser = async (req) => {
 
   if (!isAlphaNumeric(Username)) {
     return {
-      status: 422,
+      status: 401,
       message:
         "New User's username is null or contains space or special character",
     };
   }
 
   if (!validateEmail(Email)) {
-    return { status: 422, message: "New User's email is not valid" };
+    return { status: 401, message: "New User's email is not valid" };
   }
 
   if (!checkPassword(validPasswordCheck)) {
-    return { status: 422, message: "Password is less than 6 digit" };
+    return { status: 401, message: "Password is less than 6 digit" };
   }
 
   const Password = hashSync(body.Password, salt);
@@ -87,13 +87,13 @@ exports.createUser = async (req) => {
 exports.getUserByUserName = async (req) => {
   const username = String(req.params.username).toLowerCase();
 
-  if (username == null || !isAlphaNumeric(username)) {
+  if (!username || !isAlphaNumeric(username)) {
     return { status: 400, message: "Invalid User in get request" };
   }
 
   const result = await userRepository.getUserByUserName(username);
 
-  if (result.users.length==0) {
+  if (!result) {
     return { status: 404, message: `${username} is not found in the Server` };
   } else {
     return result;
@@ -102,13 +102,13 @@ exports.getUserByUserName = async (req) => {
 
 exports.updateUserByUserName = async (req) => {
   const username = String(req.params.username).toLowerCase();
-  if (username == "" || !isAlphaNumeric(username)) {
+  if (!username || !isAlphaNumeric(username)) {
     return { status: 400, message: "Invalid User in put request" };
   }
 
   // check is there any user based on this username in the server
   const result = await userRepository.getUserByUserName(username);
-  if (result.users.length==0) {
+  if (!result) {
     return { status: 404, message: `${username} is not found in the Server` };
   } 
 
@@ -116,15 +116,15 @@ exports.updateUserByUserName = async (req) => {
 
   
   const body = req.body;
-  const salt = genSaltSync(10);
+  const salt = genSaltSync(25);
 
 
   const validPasswordCheck = body.Password;
   if (!checkPassword(validPasswordCheck)) {
-    return { status: 422, message: "Password is less than 6 digit" };
+    return { status: 404, message: `Password is less than 6 digit` };
   }
 
-  const Password = hashSync(body.Password, salt);
+  const Password = hash(body.Password, salt);
   const UpdatedAt = formatUnixTimestamp(Date.now());
   const isPasswordUpdated =   userRepository.updateUserByUserName(Password, UpdatedAt, username);
   if(isPasswordUpdated){
@@ -135,14 +135,14 @@ exports.updateUserByUserName = async (req) => {
 
 exports.deleteUserByUserName = async (req) => {
   const username = String(req.params.username).toLowerCase();
-  if (username == "" || !isAlphaNumeric(username)) {
+  if (!username  || !isAlphaNumeric(username)) {
     return { status: 400, message: "Invalid User in delete request" };
   }
 
   // check is there any user based on this username in the server
   const result = await userRepository.getUserByUserName(username);
 
-  if (result.users.length==0) {
+  if (!result) {
     return { status: 404, message: `${username} is not found in the Server` };
   } 
 
