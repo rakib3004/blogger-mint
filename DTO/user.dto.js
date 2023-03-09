@@ -5,11 +5,11 @@ class UserDTO {
         
       for (var iterator = 0; iterator < User.length; iterator++) {
         var UserDtoObject = {
-          Id: User[iterator]["Id"],
-          Username: User[iterator]["Username"],
-          Email: User[iterator]["Email"],
-          CreatedAt: User[iterator]["CreatedAt"],
-          UpdatedAt: User[iterator]["UpdatedAt"]
+          id: User[iterator]["Id"],
+          username: User[iterator]["Username"],
+          email: User[iterator]["Email"],
+          createdAt: User[iterator]["CreatedAt"],
+          updatedAt: User[iterator]["UpdatedAt"]
         };
         this.users.push(UserDtoObject);
       }

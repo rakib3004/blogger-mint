@@ -22,7 +22,7 @@ const tableName = `users`;
 
   (exports.createUser = async (user) => {
     const result = await query(
-      `INSERT INTO ${tableName} (Id, Username, Email, Password, CreatedAt, UpdatedAt) VALUES (?)`,
+      `INSERT INTO ${tableName} (id, username, email, password, createdAt, updatedAt) VALUES (?)`,
       [user]
     );
 
@@ -31,17 +31,19 @@ const tableName = `users`;
 
   (exports.getUserByUserName = async (username) => {
     const result = await query(
-      `SELECT * FROM ${tableName} WHERE Username = ?`,
+      `SELECT * FROM ${tableName} WHERE username = ?`,
       [username]
     );
     const dtoResult = new UserDTO(result);
     return dtoResult;
   }),
 
-  (exports.updateUserByUserName = async (Password, UpdatedAt, username) => {
+  (exports.updateUserByUserName = async (password, updatedAt, username) => {
+
+    console.log(password);
     const result = await query(
-      `UPDATE ${tableName} SET Password = ?, UpdatedAt = ? WHERE Username = ?`,
-      [Password, UpdatedAt, username]
+      `UPDATE ${tableName} SET password = ?, updatedAt = ? WHERE username = ?`,
+      [password, updatedAt, username]
     );
     return result;
   }),
