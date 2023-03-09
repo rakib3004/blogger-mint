@@ -12,8 +12,9 @@ exports.getAllUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
+    
 
-    const createUserResponse = await userService.createUser(req);
+    const createUserResponse = await userService.createUser(req.body);
     res.status(201).json(createUserResponse);
   } catch (err) {
     if (err.code === "ER_DUP_ENTRY") {
@@ -28,7 +29,7 @@ exports.createUser = async (req, res) => {
 
 exports.getUserByUserName = async (req, res) => {
   try {
-    const getUserByUserNameResponse = await userService.getUserByUserName(req);
+    const getUserByUserNameResponse = await userService.getUserByUserName(req.params.username);
     res.status(200).json(getUserByUserNameResponse);
   } catch (err) {
     console.error(err);
@@ -39,7 +40,7 @@ exports.getUserByUserName = async (req, res) => {
 exports.updateUserByUserName = async (req, res) => {
   try {
 
-    const updateUserByUserNameResponse = await userService.updateUserByUserName(req);
+    const updateUserByUserNameResponse = await userService.updateUserByUserName(req.body,req.params.username);
     res.status(200).json(updateUserByUserNameResponse);
   } catch (err) {
     console.error(err);
@@ -49,7 +50,7 @@ exports.updateUserByUserName = async (req, res) => {
 
 exports.deleteUserByUserName = async (req, res) => {
   try {
-    const deleteUserByUserNameResponse = await userService.deleteUserByUserName(req);
+    const deleteUserByUserNameResponse = await userService.deleteUserByUserName(req.params.username);
     res.status(200).json(deleteUserByUserNameResponse);
   } catch (err) {
     console.error(err);

@@ -35,12 +35,13 @@ exports.getAllUser = () => {
   return userRepository.getAllUser();
 };
 
-exports.createUser = async (req) => {
-  const body = req.body;
+exports.createUser = async (body) => {
+  
   const salt = await genSalt(10);
   const id = uuidv4();
   const username = body.username;
   const email = body.email;
+  const pass = body.password;
   const validPasswordCheck = body.password;
 
 
@@ -50,6 +51,11 @@ exports.createUser = async (req) => {
 
   if(!email){
     return { status: 400, message: "email Field is Empty" };
+  }
+
+  
+  if(!pass){
+    return { status: 400, message: "password Field is Empty" };
   }
 
 
@@ -85,8 +91,8 @@ exports.createUser = async (req) => {
   
 };
 
-exports.getUserByUserName = async (req) => {
-  const usernameParam = String(req.params.username).toLowerCase();
+exports.getUserByUserName = async (usernameParamData) => {
+  const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || !isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
@@ -101,8 +107,8 @@ exports.getUserByUserName = async (req) => {
   }
 };
 
-exports.updateUserByUserName = async (req) => {
-  const usernameParam = String(req.params.username).toLowerCase();
+exports.updateUserByUserName = async (body,usernameParamData) => {
+  const usernameParam = usernameParamData.toLowerCase();
   if (!usernameParam || !isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in put request" };
   }
@@ -111,11 +117,8 @@ exports.updateUserByUserName = async (req) => {
   if (!result.users.length) {
     return { status: 404, message: `${usernameParam} is not found in database` };
   } 
-
   
-  const body = req.body;
   const salt = await genSalt(10)
-
 
   const validPasswordCheck = body.password;
   if (!checkPassword(validPasswordCheck)) {
@@ -131,8 +134,8 @@ exports.updateUserByUserName = async (req) => {
 
 };
 
-exports.deleteUserByUserName = async (req) => {
-  const usernameParam = String(req.params.username).toLowerCase();
+exports.deleteUserByUserName = async (usernameParamData) => {
+  const usernameParam = usernameParamData.toLowerCase();
   if (!usernameParam  || !isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in delete request" };
   }

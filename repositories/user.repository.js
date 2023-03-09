@@ -1,9 +1,9 @@
-const pool = require("../configs/database.config");
+const databaseConfig = require("../configs/database.config");
 const UserDTO = require("../DTO/user.dto");
 
-function query(sql, params) {
+ function query(sql, params) {
   return new Promise((resolve, reject) => {
-    pool.query(sql, params, (error, results, fields) => {
+    databaseConfig.db.query(sql, params, (error, results) => {
       if (error) {
         reject(error);
       } else {
