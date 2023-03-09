@@ -1,6 +1,0 @@
-/*
-
-user.controller.js
-author.controller.js
-
-*/
