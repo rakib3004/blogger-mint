@@ -39,7 +39,7 @@ const getAllUser = async () => {
     return dtoResult;
   }
 
- const updateUserByUsername = async (password, updatedAt, username) => {
+ const updateUserPasswordByUsername = async (password, updatedAt, username) => {
 
     const result = await query(
       `UPDATE ${tableName} SET password = ?, updatedAt = ? WHERE username = ?`,
@@ -60,7 +60,7 @@ const getAllUser = async () => {
     getAllUser,
     createUser,
     getUserByUsername,
-    updateUserByUsername,
+    updateUserPasswordByUsername,
     deleteUserByUsername
   };
   

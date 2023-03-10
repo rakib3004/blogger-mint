@@ -37,11 +37,11 @@ const getUserByUsername = async (req, res) => {
   }
 };
 
-const updateUserByUsername = async (req, res) => {
+const updateUserPasswordByUsername = async (req, res) => {
   try {
 
-    const updateUserByUsernameResponse = await userService.updateUserByUsername(req.body,req.params.username);
-    res.status(200).json(updateUserByUsernameResponse);
+    const updateUserPasswordByUsernameResponse = await userService.updateUserPasswordByUsername(req.body,req.params.username);
+    res.status(200).json(updateUserPasswordByUsernameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message:  "Internal Server Error" });
@@ -63,6 +63,6 @@ module.exports = {
   getAllUser,
   createUser,
   getUserByUsername,
-  updateUserByUsername,
+  updateUserPasswordByUsername,
   deleteUserByUsername
 };

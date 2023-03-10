@@ -11,7 +11,7 @@ app.use(express.static(__dirname + "/public"));
 
   router.route('/:username')
   .get(userController.getUserByUsername)
-  .put(userController.updateUserByUsername)
+  .put(userController.updateUserPasswordByUsername)
   .delete(userController.deleteUserByUsername);
 
 module.exports = router;

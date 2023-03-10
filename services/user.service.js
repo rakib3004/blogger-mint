@@ -1,5 +1,6 @@
 "use strict"
-const userRepository = require("../repositories/user.repository");
+//const userRepository = require("../repositories/user.repository");
+const userRepository = require("../repositories/user.seq.repository");
 const userUtils = require("../utils/user.utils");
 
 const getAllUser = () => {
@@ -58,7 +59,7 @@ const createUser = async (body) => {
   const newUser = await userRepository.createUser(newUserData);
 
   if(newUser){
-    return { status: 201, message: `User is successfully created`  };
+    return { status: 201, message: `User: ${username} is successfully created`  };
   }
   
 };
@@ -72,14 +73,14 @@ const getUserByUsername = async (usernameParamData) => {
 
   const result = await userRepository.getUserByUsername(usernameParam);
 
-  if (!result.users.length) {
+  if (!result) {
     return { status: 404, message: `${usernameParam} is not found in database` };
   } else {
     return result;
   }
 };
 
-const updateUserByUsername = async (body,usernameParamData) => {
+const updateUserPasswordByUsername = async (body,usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
   const rawPassword = body.password;
 
@@ -93,7 +94,7 @@ const updateUserByUsername = async (body,usernameParamData) => {
   }
 
   const result = await userRepository.getUserByUsername(usernameParam);
-  if (!result.users.length) {
+  if (!result) {
     return { status: 404, message: `${usernameParam} is not found in database` };
   } 
   
@@ -106,7 +107,7 @@ const updateUserByUsername = async (body,usernameParamData) => {
 
   const password = await userUtils.generateHashPassword(body.password);
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
-  const isPasswordUpdated =   userRepository.updateUserByUsername(password, updatedAt, usernameParam);
+  const isPasswordUpdated =   userRepository.updateUserPasswordByUsername(password, updatedAt, usernameParam);
   if(isPasswordUpdated){
     return { status: 200, message: `password is successfully updated` };
   }
@@ -121,7 +122,7 @@ const deleteUserByUsername = async (usernameParamData) => {
 
   const result = await userRepository.getUserByUsername(usernameParam);
 
-  if (!result.users.length) {
+  if (!result) {
     return { status: 404, message: `${usernameParam} is not found in database` };
   } 
 
@@ -140,7 +141,7 @@ module.exports = {
   getAllUser,
   createUser,
   getUserByUsername,
-  updateUserByUsername,
+  updateUserPasswordByUsername,
   deleteUserByUsername
   
 };
