@@ -1,66 +1,98 @@
-const databaseConfig = require("../configs/database.config");
+const User = require("../models/user.model");
 const UserDTO = require("../DTO/user.dto");
+const SingleUserDTO = require("../DTO/user.single.dto");
 
- function query(sql, params) {
-  return new Promise((resolve, reject) => {
-    databaseConfig.db.query(sql, params, (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-}
 
-const tableName = `users`;
 
 const getAllUser = async () => {
-  const results = await query(`SELECT * FROM ${tableName}`);
-  const dtoResults = new UserDTO(results);
-  return dtoResults;
-}
+    try {
+      const users = await User.findAll();
+      console.log(users);
 
- const createUser = async (user) => {
-    const result = await query(
-      `INSERT INTO ${tableName} (id, username, email, password, createdAt, updatedAt) VALUES (?)`,
-      [user]
-    );
-
-    return result;
-  }
-
- const getUserByUsername = async (username) => {
-    const result = await query(
-      `SELECT * FROM ${tableName} WHERE username = ?`,
-      [username]
-    );
-    const dtoResult = new UserDTO(result);
-    return dtoResult;
-  }
-
- const updateUserPasswordByUsername = async (password, updatedAt, username) => {
-
-    const result = await query(
-      `UPDATE ${tableName} SET password = ?, updatedAt = ? WHERE username = ?`,
-      [password, updatedAt, username]
-    );
-    return result;
-  }
-
- const deleteUserByUsername = async (username) => {
-    const result = await query(`DELETE FROM ${tableName} WHERE username = ?`, [
-      username,
-    ]);
-    return result;
-  }
-
-
-  module.exports = {
-    getAllUser,
-    createUser,
-    getUserByUsername,
-    updateUserPasswordByUsername,
-    deleteUserByUsername
+      const dtoUsers = new UserDTO(users);
+      return dtoUsers;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
-  
+
+const createUser = async (userData) => {
+  try {
+    const user = await User.create(userData);
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const getUserByUsername = async (username) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+
+    if (user) {
+      const dtoUser = new SingleUserDTO(user);
+      return dtoUser;
+    } else {
+      return null;
+    }
+   
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateUserByUsername = async (username, newPassword) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+    if (user) {
+      await user.update({
+        password: newPassword,
+      });
+      return user;
+    } else {
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const deleteUserByUsername = async (username) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+    if (user) {
+      await user.destroy();
+      return true;
+    } else {
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+module.exports = {
+ 
+
+  getAllUser,
+  createUser,
+  getUserByUsername,
+  updateUserByUsername,
+  deleteUserByUsername
+};

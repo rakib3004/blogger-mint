@@ -1,16 +1,16 @@
 class UserDTO {
-    constructor(User) {  
+    constructor(Users) {  
       this.users = [];
         
-      for (var iterator = 0; iterator < User.length; iterator++) {
-        var UserDtoObject = {
-          id: User[iterator]["id"],
-          username: User[iterator]["username"],
-          email: User[iterator]["email"],
-          createdAt: User[iterator]["createdAt"],
-          updatedAt: User[iterator]["updatedAt"]
+      for (var iterator = 0; iterator < Users.length; iterator++) {
+        var userDtoObject = {
+          id: Users[iterator]["id"],
+          username: Users[iterator]["username"],
+          email: Users[iterator]["email"],
+          createdAt: Users[iterator]["createdAt"],
+          updatedAt: Users[iterator]["updatedAt"]
         };
-        this.users.push(UserDtoObject);
+        this.users.push(userDtoObject);
       }
     }
 }

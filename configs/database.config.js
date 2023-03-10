@@ -1,7 +1,7 @@
 "use strict"
 const mySQL = require("mysql");
 require("dotenv").config();
-const userModel = require("../models/user.model")
+const userModel = require("../models/user.v1.model")
 
 const db = mySQL.createConnection({
    host: process.env.DATABASE_HOST,

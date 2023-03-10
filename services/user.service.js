@@ -1,6 +1,6 @@
 "use strict"
 //const userRepository = require("../repositories/user.repository");
-const userRepository = require("../repositories/user.seq.repository");
+const userRepository = require("../repositories/user.repository");
 const userUtils = require("../utils/user.utils");
 
 const getAllUser = () => {
