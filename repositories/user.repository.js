@@ -47,7 +47,7 @@ const getUserByUsername = async (username) => {
   }
 };
 
-const updateUserByUsername = async (username, newPassword) => {
+const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
     const user = await User.findOne({
       where: {
@@ -93,6 +93,6 @@ module.exports = {
   getAllUser,
   createUser,
   getUserByUsername,
-  updateUserByUsername,
+  updateUserPasswordByUsername,
   deleteUserByUsername
 };

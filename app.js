@@ -3,9 +3,7 @@ const app = express();
 const userRouter = require("./routes/user.route");
 const PORT = process.env.SERVER_PORT;
 require("dotenv").config();
-const databaseConfig = require("./configs/database.config");
 
-databaseConfig.connectToDatabase();
 
 app.use(express.json());
 
