@@ -6,7 +6,7 @@ exports.getAllUser = async (req, res) => {
     res.status(200).json(getAllUserResponse);
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: err });
+    res.send({ status: 500, message:  "Internal Server Error" });
   }
 };
 
@@ -33,7 +33,7 @@ exports.getUserByUserName = async (req, res) => {
     res.status(200).json(getUserByUserNameResponse);
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: err });
+    res.send({ status: 500, message:  "Internal Server Error" });
   }
 };
 
@@ -44,7 +44,7 @@ exports.updateUserByUserName = async (req, res) => {
     res.status(200).json(updateUserByUserNameResponse);
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: err });
+    res.send({ status: 500, message:  "Internal Server Error" });
   }
 };
 
@@ -54,6 +54,6 @@ exports.deleteUserByUserName = async (req, res) => {
     res.status(200).json(deleteUserByUserNameResponse);
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: err });
+    res.send({ status: 500, message:  "Internal Server Error" });
   }
 };

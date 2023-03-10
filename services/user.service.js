@@ -1,7 +1,6 @@
 "use strict"
 const userRepository = require("../repositories/user.repository");
 const userUtils = require("../utils/user.utils");
-const { genSalt, hash } = require("bcrypt");
 
 exports.getAllUser = () => {
   return userRepository.getAllUser();
