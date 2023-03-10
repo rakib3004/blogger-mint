@@ -1,5 +1,16 @@
 const User = require("../models/user.seq.model");
 
+
+const getAllUser = async () => {
+    try {
+      const users = await User.findAll();
+      return users;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
 const createUser = async (userData) => {
   try {
     const user = await User.create(userData);
@@ -10,7 +21,7 @@ const createUser = async (userData) => {
   }
 };
 
-const findUserByUsername = async (username) => {
+const getUserByUsername = async (username) => {
   try {
     const user = await User.findOne({
       where: {
@@ -24,7 +35,7 @@ const findUserByUsername = async (username) => {
   }
 };
 
-const updateUserPassword = async (username, newPassword) => {
+const updateUserByUsername = async (username, newPassword) => {
   try {
     const user = await User.findOne({
       where: {
@@ -65,8 +76,11 @@ const deleteUserByUsername = async (username) => {
 };
 
 module.exports = {
+ 
+
+  getAllUser,
   createUser,
-  findUserByUsername,
-  updateUserPassword,
-  deleteUserByUsername,
+  getUserByUsername,
+  updateUserByUsername,
+  deleteUserByUsername
 };

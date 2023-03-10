@@ -10,8 +10,8 @@ app.use(express.static(__dirname + "/public"));
   .post(userController.createUser);
 
   router.route('/:username')
-  .get(userController.getUserByUserName)
-  .put(userController.updateUserByUserName)
-  .delete(userController.deleteUserByUserName);
+  .get(userController.getUserByUsername)
+  .put(userController.updateUserByUsername)
+  .delete(userController.deleteUserByUsername);
 
 module.exports = router;

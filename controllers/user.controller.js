@@ -27,31 +27,31 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUserByUserName = async (req, res) => {
+const getUserByUsername = async (req, res) => {
   try {
-    const getUserByUserNameResponse = await userService.getUserByUserName(req.params.username);
-    res.status(200).json(getUserByUserNameResponse);
+    const getUserByUsernameResponse = await userService.getUserByUsername(req.params.username);
+    res.status(200).json(getUserByUsernameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message:  "Internal Server Error" });
   }
 };
 
-const updateUserByUserName = async (req, res) => {
+const updateUserByUsername = async (req, res) => {
   try {
 
-    const updateUserByUserNameResponse = await userService.updateUserByUserName(req.body,req.params.username);
-    res.status(200).json(updateUserByUserNameResponse);
+    const updateUserByUsernameResponse = await userService.updateUserByUsername(req.body,req.params.username);
+    res.status(200).json(updateUserByUsernameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message:  "Internal Server Error" });
   }
 };
 
-const deleteUserByUserName = async (req, res) => {
+const deleteUserByUsername = async (req, res) => {
   try {
-    const deleteUserByUserNameResponse = await userService.deleteUserByUserName(req.params.username);
-    res.status(200).json(deleteUserByUserNameResponse);
+    const deleteUserByUsernameResponse = await userService.deleteUserByUsername(req.params.username);
+    res.status(200).json(deleteUserByUsernameResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message:  "Internal Server Error" });
@@ -62,7 +62,7 @@ const deleteUserByUserName = async (req, res) => {
 module.exports = {
   getAllUser,
   createUser,
-  getUserByUserName,
-  updateUserByUserName,
-  deleteUserByUserName
+  getUserByUsername,
+  updateUserByUsername,
+  deleteUserByUsername
 };
