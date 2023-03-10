@@ -1,6 +1,6 @@
 const userService = require("../services/user.service");
 
-exports.getAllUser = async (req, res) => {
+const getAllUser = async (req, res) => {
   try {
     const getAllUserResponse = await userService.getAllUser();
     res.status(200).json(getAllUserResponse);
@@ -10,7 +10,7 @@ exports.getAllUser = async (req, res) => {
   }
 };
 
-exports.createUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     
 
@@ -27,7 +27,7 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.getUserByUserName = async (req, res) => {
+const getUserByUserName = async (req, res) => {
   try {
     const getUserByUserNameResponse = await userService.getUserByUserName(req.params.username);
     res.status(200).json(getUserByUserNameResponse);
@@ -37,7 +37,7 @@ exports.getUserByUserName = async (req, res) => {
   }
 };
 
-exports.updateUserByUserName = async (req, res) => {
+const updateUserByUserName = async (req, res) => {
   try {
 
     const updateUserByUserNameResponse = await userService.updateUserByUserName(req.body,req.params.username);
@@ -48,7 +48,7 @@ exports.updateUserByUserName = async (req, res) => {
   }
 };
 
-exports.deleteUserByUserName = async (req, res) => {
+const deleteUserByUserName = async (req, res) => {
   try {
     const deleteUserByUserNameResponse = await userService.deleteUserByUserName(req.params.username);
     res.status(200).json(deleteUserByUserNameResponse);
@@ -56,4 +56,13 @@ exports.deleteUserByUserName = async (req, res) => {
     console.error(err);
     res.send({ status: 500, message:  "Internal Server Error" });
   }
+};
+
+
+module.exports = {
+  getAllUser,
+  createUser,
+  getUserByUserName,
+  updateUserByUserName,
+  deleteUserByUserName
 };

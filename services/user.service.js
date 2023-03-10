@@ -2,19 +2,18 @@
 const userRepository = require("../repositories/user.repository");
 const userUtils = require("../utils/user.utils");
 
-exports.getAllUser = () => {
+const getAllUser = () => {
   return userRepository.getAllUser();
 };
 
-exports.createUser = async (body) => {
+const createUser = async (body) => {
   
   
 
   const id = userUtils.generateUUID();
   const username = body.username;
   const email = body.email;
-  const pass = body.password;
-  const validPasswordCheck = body.password;
+  const rawPassword = body.password;
 
 
   if(!username){
@@ -26,7 +25,7 @@ exports.createUser = async (body) => {
   }
 
   
-  if(!pass){
+  if(!rawPassword){
     return { status: 400, message: "password Field is Empty" };
   }
 
@@ -44,7 +43,7 @@ exports.createUser = async (body) => {
     return { status: 401, message: "New User's email is not valid" };
   }
 
-  if (!userUtils.checkPassword(validPasswordCheck)) {
+  if (!userUtils.checkPassword(rawPassword)) {
     return { status: 401, message: "password is less than 6 digit" };
   }
 
@@ -64,7 +63,7 @@ exports.createUser = async (body) => {
   
 };
 
-exports.getUserByUserName = async (usernameParamData) => {
+const getUserByUserName = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || ! userUtils.isAlphaNumeric(usernameParam)) {
@@ -80,10 +79,17 @@ exports.getUserByUserName = async (usernameParamData) => {
   }
 };
 
-exports.updateUserByUserName = async (body,usernameParamData) => {
+const updateUserByUserName = async (body,usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
+  const rawPassword = body.password;
+
   if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in put request" };
+  }
+
+  if(!rawPassword){
+    return { status: 400, message: "password Field is Empty" };
+
   }
 
   const result = await userRepository.getUserByUserName(usernameParam);
@@ -92,10 +98,11 @@ exports.updateUserByUserName = async (body,usernameParamData) => {
   } 
   
 
-  const validPasswordCheck = body.password;
-  if (!userUtils.checkPassword(validPasswordCheck)) {
+  if (!userUtils.checkPassword(rawPassword)) {
     return { status: 404, message: `password is less than 6 digit` };
   }
+
+  
 
   const password = await userUtils.generateHashPassword(body.password);
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
@@ -106,7 +113,7 @@ exports.updateUserByUserName = async (body,usernameParamData) => {
 
 };
 
-exports.deleteUserByUserName = async (usernameParamData) => {
+const deleteUserByUserName = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
   if (!usernameParam  || !userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in delete request" };
@@ -127,4 +134,13 @@ exports.deleteUserByUserName = async (usernameParamData) => {
     return { status: 200, message: `${usernameParam} is successfully deleted` };
   }
 
+};
+
+module.exports = {
+  getAllUser,
+  createUser,
+  getUserByUserName,
+  updateUserByUserName,
+  deleteUserByUserName
+  
 };

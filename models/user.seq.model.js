@@ -1,43 +1,44 @@
 
-const sequelize = require('../db');
+const sequelize = require('../configs/sequelize.config');
 const { DataTypes } = require('sequelize');
+const uuid = require('uuid');
+const validator = require('validator');
+
 
 const User = sequelize.define('users', {
-
-    username: {
-        type: DataTypes.STRING,
-        noUpdate: true,
-        allowNull: false,
-        primaryKey: true,
-        validate: {
-            notEmpty: true
-        }
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: () => uuid.v4(),
+      primaryKey: true
     },
-    email: {
-        type: DataTypes.STRING,
+    username: {
+        type: DataTypes.STRING(60),
         allowNull: false,
         unique: true,
         validate: {
-            isEmail: true,
-            notEmpty: true
+          is: /^[a-zA-Z0-9]{2,60}$/ 
         }
+      },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true 
+      }
     },
- 
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+      type: DataTypes.STRING,
+      allowNull: false
     },
     createdAt: {
-        type: DataTypes.DATE,
-
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     },
     updatedAt: {
-        type: DataTypes.DATE,
-        
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     }
-});
-
-module.exports = User;
+  });
+  
+  module.exports = User;
