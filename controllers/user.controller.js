@@ -17,12 +17,12 @@ const createUser = async (req, res) => {
     const createUserResponse = await userService.createUser(req.body);
     res.status(201).json(createUserResponse);
   } catch (err) {
-    if (err.code === "ER_DUP_ENTRY") {
-      res.send({ status: 409, message: err.sqlMessage });
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.send({ status: 409, message: err.parent.sqlMessage });
     } else if (err.code === "ECONNREFUSED") {
       res.send({ status: 500, message: "MYSQL/Apache Server is disconnected" });
     } else {
-      res.send({ status: 500, message: "Internal Server Error" });
+      res.send({ status: 500, message: err });
     }
   }
 };

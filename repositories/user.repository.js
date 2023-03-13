@@ -7,7 +7,6 @@ const SingleUserDTO = require("../DTO/user.single.dto");
 const getAllUser = async () => {
     try {
       const users = await User.findAll();
-      console.log(users);
 
       const dtoUsers = new UserDTO(users);
       return dtoUsers;
@@ -17,12 +16,13 @@ const getAllUser = async () => {
     }
   };
 
-const createUser = async (userData) => {
+const createUser = async (id, username, email, password, createdAt, updatedAt) => {
+
+
   try {
-    const user = await User.create(userData);
+    const user = await User.create({id: id, username: username, email: email, password: password, createdAt: createdAt, updatedAt: updatedAt});
     return user;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
@@ -49,19 +49,9 @@ const getUserByUsername = async (username) => {
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
-    const user = await User.findOne({
-      where: {
-        username: username,
-      },
-    });
-    if (user) {
-      await user.update({
-        password: newPassword,
-      });
-      return user;
-    } else {
-      throw new Error("User not found");
-    }
+   
+    const user = await User.update({password:newPassword},{where:{username:username}});
+    return user;
   } catch (error) {
     console.error(error);
     throw error;

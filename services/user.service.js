@@ -1,5 +1,4 @@
 "use strict"
-//const userRepository = require("../repositories/user.repository");
 const userRepository = require("../repositories/user.repository");
 const userUtils = require("../utils/user.utils");
 
@@ -8,8 +7,6 @@ const getAllUser = () => {
 };
 
 const createUser = async (body) => {
-  
-  
 
   const id = userUtils.generateUUID();
   const username = body.username;
@@ -24,7 +21,6 @@ const createUser = async (body) => {
   if(!email){
     return { status: 400, message: "email Field is Empty" };
   }
-
   
   if(!rawPassword){
     return { status: 400, message: "password Field is Empty" };
@@ -48,20 +44,17 @@ const createUser = async (body) => {
     return { status: 401, message: "password is less than 6 digit" };
   }
 
-
   const password = await userUtils.generateHashPassword(body.password);
   const createdAt = userUtils.formatUnixTimestamp(Date.now());
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
-
-  const newUserData = [id, username, email, password, createdAt, updatedAt];
-
   
-  const newUser = await userRepository.createUser(newUserData);
+ /* const newUserData = [id, username, email, password, createdAt, updatedAt];*/
+  const newUser = await userRepository.createUser(id, username, email, password, createdAt, updatedAt);
 
   if(newUser){
     return { status: 201, message: `User: ${username} is successfully created`  };
   }
-  
+
 };
 
 const getUserByUsername = async (usernameParamData) => {

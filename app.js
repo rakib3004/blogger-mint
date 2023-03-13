@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
-const userRouter = require("./routes/user.route");
+const indexRouter = require("./routes/index.route");
 const PORT = process.env.SERVER_PORT;
 require("dotenv").config();
 
 
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/", indexRouter);
 
 app.use((err, req, res, next) => {
   if (!err) {
