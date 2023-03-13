@@ -1,26 +1,41 @@
 const User = require("../models/user.model");
 const UserDTO = require("../DTO/user.dto");
-const SingleUserDTO = require("../DTO/user.single.dto");
-
-
 
 const getAllUser = async () => {
-    try {
-      const users = await User.findAll();
-
-      const dtoUsers = new UserDTO(users);
-      return dtoUsers;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
-const createUser = async (id, username, email, password, createdAt, updatedAt) => {
-
-
   try {
-    const user = await User.create({id: id, username: username, email: email, password: password, createdAt: createdAt, updatedAt: updatedAt});
+    const users = await User.findAll();
+
+    const dtoUsers = [];
+
+    users.forEach((user) => {
+      const dtoUser = new UserDTO(user);
+      dtoUsers.push(dtoUser);
+    });
+
+    return dtoUsers;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const createUser = async (
+  id,
+  username,
+  email,
+  password,
+  createdAt,
+  updatedAt
+) => {
+  try {
+    const user = await User.create({
+      id: id,
+      username: username,
+      email: email,
+      password: password,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    });
     return user;
   } catch (error) {
     throw error;
@@ -36,12 +51,11 @@ const getUserByUsername = async (username) => {
     });
 
     if (user) {
-      const dtoUser = new SingleUserDTO(user);
+      const dtoUser = new UserDTO(user);
       return dtoUser;
     } else {
       return null;
     }
-   
   } catch (error) {
     throw error;
   }
@@ -49,8 +63,10 @@ const getUserByUsername = async (username) => {
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
-   
-    const user = await User.update({password:newPassword},{where:{username:username}});
+    const user = await User.update(
+      { password: newPassword },
+      { where: { username: username } }
+    );
     return user;
   } catch (error) {
     console.error(error);
@@ -78,11 +94,9 @@ const deleteUserByUsername = async (username) => {
 };
 
 module.exports = {
- 
-
   getAllUser,
   createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
-  deleteUserByUsername
+  deleteUserByUsername,
 };

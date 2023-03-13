@@ -29,14 +29,13 @@ exports.formatUnixTimestamp = (timestamp) => {
   return `${year}-${month}-${day}`;
 };
 
-exports.generateHashPassword = async(plainPassword)=>{
-    const salt = await genSalt(10);
-    const password = await hash(plainPassword, salt);
-    return password;
-}
+exports.generateHashPassword = async (plainPassword) => {
+  const salt = await genSalt(10);
+  const password = await hash(plainPassword, salt);
+  return password;
+};
 
-exports.generateUUID = ()=>{
-    const id = uuidv4();
-    return id;
-}
-  
+exports.generateUUID = () => {
+  const id = uuidv4();
+  return id;
+};

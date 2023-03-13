@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 const userRepository = require("../repositories/user.repository");
 const userUtils = require("../utils/user.utils");
 
@@ -7,26 +7,22 @@ const getAllUser = () => {
 };
 
 const createUser = async (body) => {
-
   const id = userUtils.generateUUID();
   const username = body.username;
   const email = body.email;
   const rawPassword = body.password;
 
-
-  if(!username){
+  if (!username) {
     return { status: 400, message: "username Field is Empty" };
   }
 
-  if(!email){
+  if (!email) {
     return { status: 400, message: "email Field is Empty" };
   }
-  
-  if(!rawPassword){
+
+  if (!rawPassword) {
     return { status: 400, message: "password Field is Empty" };
   }
-
-
 
   if (!userUtils.isAlphaNumeric(username)) {
     return {
@@ -47,33 +43,45 @@ const createUser = async (body) => {
   const password = await userUtils.generateHashPassword(body.password);
   const createdAt = userUtils.formatUnixTimestamp(Date.now());
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
-  
- /* const newUserData = [id, username, email, password, createdAt, updatedAt];*/
-  const newUser = await userRepository.createUser(id, username, email, password, createdAt, updatedAt);
 
-  if(newUser){
-    return { status: 201, message: `User: ${username} is successfully created`  };
+  /* const newUserData = [id, username, email, password, createdAt, updatedAt];*/
+  const newUser = await userRepository.createUser(
+    id,
+    username,
+    email,
+    password,
+    createdAt,
+    updatedAt
+  );
+
+  if (newUser) {
+    return {
+      status: 201,
+      message: `User: ${username} is successfully created`,
+    };
   }
-
 };
 
 const getUserByUsername = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
 
-  if (!usernameParam || ! userUtils.isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
 
   const result = await userRepository.getUserByUsername(usernameParam);
 
   if (!result) {
-    return { status: 404, message: `${usernameParam} is not found in database` };
+    return {
+      status: 404,
+      message: `${usernameParam} is not found in database`,
+    };
   } else {
     return result;
   }
 };
 
-const updateUserPasswordByUsername = async (body,usernameParamData) => {
+const updateUserPasswordByUsername = async (body, usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
   const rawPassword = body.password;
 
@@ -81,53 +89,55 @@ const updateUserPasswordByUsername = async (body,usernameParamData) => {
     return { status: 400, message: "Invalid User in put request" };
   }
 
-  if(!rawPassword){
+  if (!rawPassword) {
     return { status: 400, message: "password Field is Empty" };
-
   }
 
   const result = await userRepository.getUserByUsername(usernameParam);
   if (!result) {
-    return { status: 404, message: `${usernameParam} is not found in database` };
-  } 
-  
+    return {
+      status: 404,
+      message: `${usernameParam} is not found in database`,
+    };
+  }
 
   if (!userUtils.checkPassword(rawPassword)) {
     return { status: 404, message: `password is less than 6 digit` };
   }
 
-  
-
   const password = await userUtils.generateHashPassword(body.password);
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
-  const isPasswordUpdated =   userRepository.updateUserPasswordByUsername(password, updatedAt, usernameParam);
-  if(isPasswordUpdated){
+  const isPasswordUpdated = userRepository.updateUserPasswordByUsername(
+    password,
+    updatedAt,
+    usernameParam
+  );
+  if (isPasswordUpdated) {
     return { status: 200, message: `password is successfully updated` };
   }
-
 };
 
 const deleteUserByUsername = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
-  if (!usernameParam  || !userUtils.isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in delete request" };
   }
 
   const result = await userRepository.getUserByUsername(usernameParam);
 
   if (!result) {
-    return { status: 404, message: `${usernameParam} is not found in database` };
-  } 
-
-
-  const isUserDeleted =  userRepository.deleteUserByUsername(usernameParam);
-  if(!isUserDeleted){
-    return { status: 404, message: `Failed to Delete ${usernameParam}` };
+    return {
+      status: 404,
+      message: `${usernameParam} is not found in database`,
+    };
   }
-  else{
+
+  const isUserDeleted = userRepository.deleteUserByUsername(usernameParam);
+  if (!isUserDeleted) {
+    return { status: 404, message: `Failed to Delete ${usernameParam}` };
+  } else {
     return { status: 200, message: `${usernameParam} is successfully deleted` };
   }
-
 };
 
 module.exports = {
@@ -135,6 +145,5 @@ module.exports = {
   createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
-  deleteUserByUsername
-  
+  deleteUserByUsername,
 };
