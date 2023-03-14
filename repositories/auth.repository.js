@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const { use } = require("../routes/user.route");
 
 
 const userRegistration = async (
@@ -18,6 +19,7 @@ const userRegistration = async (
       createdAt: createdAt,
       updatedAt: updatedAt,
     });
+    console.log(user+"at auth repository");
     return user;
   } catch (error) {
     throw error;

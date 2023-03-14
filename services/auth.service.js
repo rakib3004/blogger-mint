@@ -1,10 +1,8 @@
-"use strict";
 const authRepository = require("../repositories/auth.repository");
 const userUtils = require("../utils/user.utils");
 const authUtils = require("../utils/auth.utils");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const jwtUtil = require("../utils/jwt.util");
+const generateJwtToken = require("../utils/jwt.util");
 
 const userRegistration = async (body) => {
   const id = userUtils.generateUUID();
@@ -54,7 +52,9 @@ const userRegistration = async (body) => {
   );
 
   if (newUser) {
-    const token = jwtUtil.generateJwtToken(newUser.username);
+    const token = await generateJwtToken(newUser.username);
+    console.log(token+"at auth service");
+
     return token;
   } else {
     return null;
@@ -95,7 +95,7 @@ const userLogIn = async (body) => {
       userDetails.password
     );
     if (isValidPassword) {
-      const token = jwtUtil.generateJwtToken(userDetails.username);
+      const token = await generateJwtToken(userDetails.username);
 
       return token;
     } else {

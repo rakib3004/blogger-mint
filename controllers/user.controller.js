@@ -10,20 +10,6 @@ const getAllUser = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
-  try {
-    const createUserResponse = await userService.createUser(req.body);
-    res.status(201).json(createUserResponse);
-  } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      res.send({ status: 409, message: err.parent.sqlMessage });
-    } else if (err.code === "ECONNREFUSED") {
-      res.send({ status: 500, message: "MYSQL/Apache Server is disconnected" });
-    } else {
-      res.send({ status: 500, message: err });
-    }
-  }
-};
 
 const getUserByUsername = async (req, res) => {
   try {
@@ -67,7 +53,6 @@ const deleteUserByUsername = async (req, res) => {
 
 module.exports = {
   getAllUser,
-  createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
   deleteUserByUsername

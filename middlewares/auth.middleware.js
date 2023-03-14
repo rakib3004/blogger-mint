@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const checkLogin = function(req, res, next){
+const checkLogIn = function(req, res, next){
 
     try{
 
@@ -21,4 +21,4 @@ const checkLogin = function(req, res, next){
     }
 }
 
-module.exports = checkLogin;
+module.exports = checkLogIn;

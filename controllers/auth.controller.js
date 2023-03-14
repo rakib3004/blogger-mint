@@ -10,6 +10,7 @@ const userRegistration = async(req,res)=>{
       req.body
     );
     res.cookie("jwt", userRegistration.access_token, {secure: true, httpOnly: true});
+    console.log(userRegistration+"at auth controller");
 
     res.status(201).json(userRegistration);
   } catch (err) {
@@ -29,6 +30,8 @@ const userLogIn = async(req,res)=>{
     if(token){
       
       res.cookie("jwt", token, {secure: true, httpOnly: true});
+      console.log(userRegistration+"at auth-controller/userLogin");
+
       res.status(200).json(token);
 
     }

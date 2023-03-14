@@ -1,4 +1,4 @@
-const generateJwtToken = (Username)=>{
+const generateJwtToken = async (Username)=>{
     const token = jwt.sign({
         username: Username,
       }, process.env.JWT_SECRET_TOKEN, {
