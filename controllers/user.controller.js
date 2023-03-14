@@ -61,7 +61,36 @@ const deleteUserByUsername = async (req, res) => {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
   }
+
 };
+
+const userSignUp = async(req,res)=>{
+
+  try {
+    const userSignUp = await userService.userSignUp(
+      req.body
+    );
+    res.status(200).json(userSignUp);
+  } catch (err) {
+    console.error(err);
+    res.send({ status: 500, message: "Internal Server Error" });
+  }
+  
+}
+
+const userLogIn = async(req,res)=>{
+
+  try {
+    const userLogIn = await userService.userLogIn(
+      req.body
+    );
+    res.status(200).json(userLogIn);
+  } catch (err) {
+    console.error(err);
+    res.send({ status: 500, message: "Internal Server Error" });
+  }
+  
+}
 
 module.exports = {
   getAllUser,

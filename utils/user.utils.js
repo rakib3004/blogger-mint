@@ -1,4 +1,6 @@
 const { genSalt, hash } = require("bcrypt");
+const bcrypt = require("bcrypt");
+
 const { v4: uuidv4 } = require("uuid");
 
 exports.isAlphaNumeric = (str) => {
@@ -39,3 +41,14 @@ exports.generateUUID = () => {
   const id = uuidv4();
   return id;
 };
+
+exports.comparePassword = async (inputPassword,userPassword) => {
+  const comparePasswordResult = await bcrypt.compare(inputPassword,userPassword);
+  return comparePasswordResult;
+};
+
+exports.generateUUID = () => {
+  const id = uuidv4();
+  return id;
+};
+
