@@ -1,9 +1,9 @@
 "use strict";
-const userRepository = require("../repositories/user.repository");
+const authRepository = require("../repositories/auth.repository");
 const userUtils = require("../utils/user.utils");
 const authUtils = require("../utils/auth.utils");
-
 const jwt = require("jsonwebtoken")
+require("dotenv").config();
 
 
 const userRegistration = async (body) => {
@@ -45,7 +45,7 @@ const userRegistration = async (body) => {
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
 
   /* const newUserData = [id, username, email, password, createdAt, updatedAt];*/
-  const newUser = await userRepository.userRegistration(
+  const newUser = await authRepository.userRegistration(
     id,
     username,
     email,
@@ -65,7 +65,6 @@ const userRegistration = async (body) => {
 const userLogIn = async (body) => {
   const username = body.username;
   const rawPassword = body.password;
-  console.log(username+""+rawPassword)
 
   if (!username) {
     return { status: 400, message: "username Field is Empty" };
@@ -90,27 +89,21 @@ const userLogIn = async (body) => {
   const password = await userUtils.generateHashPassword(body.password);
 
 
-  const userDetails = await userRepository.userLogIn(
+  const userDetails = await authRepository.userLogIn(
     username );
 
   if (userDetails) {
-    const isValidPassword = authUtils.comparePassword(password,userDetails.password);
-
+    const isValidPassword = await authUtils.comparePassword(password,userDetails.password);
     if(isValidPassword){
-      const token = jwt.sign({
-        username: userDetails.username,
-      }, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: process.env.JWT_SECRET_TOKEN_EXPIRE_TIME
-      });
-
+      
     const message = {
       access_token: token,
       message: "Login Successful"
     };
-    return message;
+    return userDetails;
     }
     else{
-      return "Authentication Failed!!"
+      return null;
     }
 
   }

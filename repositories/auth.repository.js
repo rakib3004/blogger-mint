@@ -1,5 +1,4 @@
 const User = require("../models/user.model");
-const UserDTO = require("../DTO/user.dto");
 
 
 const userRegistration = async (
@@ -36,8 +35,7 @@ const userLogIn = async (
     });
 
     if (user) {
-      const dtoUser = new UserDTO(user);
-      return dtoUser;
+      return user;
     } else {
       return null;
     }
