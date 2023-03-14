@@ -144,7 +144,5 @@ module.exports = {
   createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
-  deleteUserByUsername,
-  userRegistration,
-  userLogIn
+  deleteUserByUsername
 };

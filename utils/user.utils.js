@@ -42,13 +42,14 @@ exports.generateUUID = () => {
   return id;
 };
 
-exports.comparePassword = async (inputPassword,userPassword) => {
-  const comparePasswordResult = await bcrypt.compare(inputPassword,userPassword);
-  return comparePasswordResult;
-};
 
 exports.generateUUID = () => {
   const id = uuidv4();
   return id;
+};
+
+exports.comparePassword = async (inputPassword,userPassword) => {
+  const comparePasswordResult = await bcrypt.compare(inputPassword,userPassword);
+  return comparePasswordResult;
 };
 
