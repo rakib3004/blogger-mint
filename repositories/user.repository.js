@@ -93,7 +93,7 @@ const deleteUserByUsername = async (username) => {
   }
 };
 
-const userSignUp = async (
+const userRegistration = async (
   id,
   username,
   email,
@@ -145,4 +145,6 @@ module.exports = {
   getUserByUsername,
   updateUserPasswordByUsername,
   deleteUserByUsername,
+  userRegistration,
+  userLogIn
 };

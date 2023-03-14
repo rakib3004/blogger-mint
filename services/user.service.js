@@ -142,7 +142,7 @@ const deleteUserByUsername = async (usernameParamData) => {
 };
 
 
-const userSignUp = async (body) => {
+const userRegistration = async (body) => {
   const id = userUtils.generateUUID();
   const username = body.username;
   const email = body.email;
@@ -181,7 +181,7 @@ const userSignUp = async (body) => {
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
 
   /* const newUserData = [id, username, email, password, createdAt, updatedAt];*/
-  const newUser = await userRepository.userSignUp(
+  const newUser = await userRepository.userRegistration(
     id,
     username,
     email,
@@ -201,6 +201,7 @@ const userSignUp = async (body) => {
 const userLogIn = async (body) => {
   const username = body.username;
   const rawPassword = body.password;
+  console.log(username+""+rawPassword)
 
   if (!username) {
     return { status: 400, message: "username Field is Empty" };
@@ -236,17 +237,33 @@ const userLogIn = async (body) => {
         username: userDetails.username,
       }, process.env.JWT_SECRET_TOKEN, {
         expiresIn: process.env.JWT_SECRET_TOKEN_EXPIRE_TIME
-      })
+      });
+
+    const message = {
+      access_token: token,
+      message: "Login Successful"
+    };
+    return message;
+    }
+    else{
+      return "Authentication Failed!!"
     }
 
   }
+  else{
+    return "Authentication Failed!!"
+
+  }
+
 };
 
 
 module.exports = {
-  getAllUser,
+ getAllUser,
   createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
   deleteUserByUsername,
+  userRegistration,
+  userLogIn
 };
