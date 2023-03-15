@@ -1,10 +1,11 @@
 const userRepository = require("../repositories/user.repository");
-const userUtils = require("../utils/user.util");
-const authUtils = require("../utils/auth.util");
+const utility = require("../utils/utility");
+const authUtil = require("../utils/auth.util");
+const validationUtil = require("../utils/validation.util");
 require("dotenv").config();
 
-const userRegistration = async (body) => {
-  const id = userUtils.generateUUID();
+const registerUser = async (body) => {
+  const id = utility.generateUUID();
   const username = body.username;
   const email = body.email;
   const rawPassword = body.password;
@@ -21,7 +22,7 @@ const userRegistration = async (body) => {
     return { status: 400, message: "password Field is Empty" };
   }
 
-  if (!userUtils.isAlphaNumeric(username)) {
+  if (!validationUtil.isAlphaNumeric(username)) {
     return {
       status: 401,
       message:
@@ -29,17 +30,17 @@ const userRegistration = async (body) => {
     };
   }
 
-  if (!userUtils.validateEmail(email)) {
+  if (!validationUtil.validateEmail(email)) {
     return { status: 400, message: "New User's email is not valid" };
   }
 
-  if (!userUtils.checkPasswordLength(rawPassword)) {
+  if (!validationUtil.checkPasswordLength(rawPassword)) {
     return { status: 400, message: "password is less than 6 digit" };
   }
 
-  const password = await userUtils.generateHashPassword(body.password);
-  const createdAt = userUtils.formatUnixTimestamp(Date.now());
-  const updatedAt = userUtils.formatUnixTimestamp(Date.now());
+  const password = await validationUtil.generateHashPassword(body.password);
+  const createdAt = utility.formatUnixTimestamp(Date.now());
+  const updatedAt = utility.formatUnixTimestamp(Date.now());
 
   const newUser = await userRepository.createUser(
     id,
@@ -51,7 +52,7 @@ const userRegistration = async (body) => {
   );
 
   if (newUser) {
-    const token = await authUtils.generateJwtToken(newUser.username);
+    const token = await authUtil.generateJwtToken(newUser.username);
     
     return {status: 201, message: token};
   } else {
@@ -59,7 +60,7 @@ const userRegistration = async (body) => {
   }
 };
 
-const userLogIn = async (body) => {
+const loginUser = async (body) => {
   const username = body.username;
   const rawPassword = body.password;
 
@@ -71,7 +72,7 @@ const userLogIn = async (body) => {
     return { status: 400, message: "password Field is Empty" };
   }
 
-  if (!userUtils.isAlphaNumeric(username)) {
+  if (!validationUtil.isAlphaNumeric(username)) {
     return {
       status: 400,
       message:
@@ -79,7 +80,7 @@ const userLogIn = async (body) => {
     };
   }
 
-  if (!userUtils.checkPassword(rawPassword)) {
+  if (!validationUtil.checkPassword(rawPassword)) {
     return { status: 400, message: "password is less than 6 digit" };
   }
 
@@ -88,13 +89,13 @@ const userLogIn = async (body) => {
   const userData = await userRepository.getUserForLogIn(username);
 
   if (userData) {
-    const isValidPassword = await authUtils.comparePassword(
+    const isValidPassword = await authUtil.comparePassword(
       password,
       userData.password
     );
 
     if (isValidPassword) {
-      const token = await authUtils.generateJwtToken(userData.username);
+      const token = await authUtil.generateJwtToken(userData.username);
       return {status: 201, message: token};
 
     } else {
@@ -106,6 +107,6 @@ const userLogIn = async (body) => {
 };
 
 module.exports = {
-  userRegistration,
-  userLogIn,
+  registerUser,
+  loginUser,
 };

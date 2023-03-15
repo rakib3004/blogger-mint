@@ -1,14 +1,14 @@
 const authService = require("../services/auth.service");
 require("dotenv").config();
 
-const userRegistration = async (req, res) => {
+const registerUser = async (req, res) => {
 
   if (JSON.stringify(req.body)==="{}") {
     return res.send({ status: 400, message: "Request body is empty" });
   }
   try {
     
-    const response = await authService.userRegistration(req.body);
+    const response = await authService.registerUser(req.body);
 
     if (response.status==201) {
       res.cookie("jsontoken", response.message, { httpOnly: true });
@@ -25,13 +25,13 @@ const userRegistration = async (req, res) => {
   }
 };
 
-const userLogIn = async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     if (JSON.stringify(req.body)==="{}") {
       res.send({ status: 400, message: "Request body is empty" });
     }
 
-    const response = await authService.userLogIn(req.body);
+    const response = await authService.loginUser(req.body);
 
    if (response.status==201) {
       res.cookie("jsontoken", response.message, { httpOnly: true });
@@ -46,6 +46,6 @@ const userLogIn = async (req, res) => {
 };
 
 module.exports = {
-  userRegistration,
-  userLogIn,
+  registerUser,
+  loginUser,
 };

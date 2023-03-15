@@ -1,5 +1,7 @@
 const userRepository = require("../repositories/user.repository");
-const userUtils = require("../utils/user.util");
+const utility = require("../utils/utility");
+const validationUtil = require("../utils/validation.util");
+
 
 const getAllUser = () => {
   return userRepository.getAllUser();
@@ -8,7 +10,7 @@ const getAllUser = () => {
 const getUserByUsername = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
 
-  if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
 
@@ -28,7 +30,7 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
   const rawPassword = body.password;
 
-  if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in put request" };
   }
 
@@ -44,12 +46,12 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
     };
   }
 
-  if (!userUtils.checkPassword(rawPassword)) {
+  if (!validationUtil.checkPasswordLength(rawPassword)) {
     return { status: 404, message: `password is less than 6 digit` };
   }
 
-  const password = await userUtils.generateHashPassword(body.password);
-  const updatedAt = userUtils.formatUnixTimestamp(Date.now());
+  const password = await validationUtil.generateHashPassword(body.password);
+  const updatedAt = utility.formatUnixTimestamp(Date.now());
   const isPasswordUpdated = userRepository.updateUserPasswordByUsername(
     password,
     updatedAt,
@@ -62,7 +64,7 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
 
 const deleteUserByUsername = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
-  if (!usernameParam || !userUtils.isAlphaNumeric(usernameParam)) {
+  if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in delete request" };
   }
 
