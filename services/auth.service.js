@@ -1,4 +1,4 @@
-const authRepository = require("../repositories/auth.repository");
+const userRepository = require("../repositories/user.repository");
 const userUtils = require("../utils/user.utils");
 const authUtils = require("../utils/auth.utils");
 require("dotenv").config();
@@ -42,7 +42,7 @@ const userRegistration = async (body) => {
   const createdAt = userUtils.formatUnixTimestamp(Date.now());
   const updatedAt = userUtils.formatUnixTimestamp(Date.now());
 
-  const newUser = await authRepository.userRegistration(
+  const newUser = await userRepository.createUser(
     id,
     username,
     email,
@@ -53,9 +53,8 @@ const userRegistration = async (body) => {
 
   if (newUser) {
     const token = await generateJwtToken(newUser.username);
-    console.log(token+"at auth service");
-
-    return token;
+    const responseData = [newUser, token];
+    return responseData;
   } else {
     return null;
   }
@@ -85,19 +84,20 @@ const userLogIn = async (body) => {
     return { status: 401, message: "password is less than 6 digit" };
   }
 
-  const password = await userUtils.generateHashPassword(body.password);
+  const password = body.password;
 
-  const userDetails = await authRepository.userLogIn(username);
+  const userData = await userRepository.getUserForLogIn(username);
 
-  if (userDetails) {
+  if (userData) {
     const isValidPassword = await authUtils.comparePassword(
       password,
-      userDetails.password
+      userData.password
     );
-    if (isValidPassword) {
-      const token = await generateJwtToken(userDetails.username);
 
-      return token;
+    if (isValidPassword) {
+      const token = await generateJwtToken(userData.username);
+      const responseData = [userData, token];
+      return responseData;
     } else {
       return null;
     }

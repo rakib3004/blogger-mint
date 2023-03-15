@@ -83,8 +83,6 @@ const deleteUserByUsername = async (usernameParamData) => {
   }
 };
 
-
-
 module.exports = {
   getAllUser,
   getUserByUsername,

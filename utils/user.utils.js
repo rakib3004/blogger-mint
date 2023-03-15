@@ -1,4 +1,3 @@
-const { genSalt, hash } = require("bcrypt");
 const bcrypt = require("bcrypt");
 
 const { v4: uuidv4 } = require("uuid");
@@ -32,8 +31,8 @@ exports.formatUnixTimestamp = (timestamp) => {
 };
 
 exports.generateHashPassword = async (plainPassword) => {
-  const salt = await genSalt(10);
-  const password = await hash(plainPassword, salt);
+  const salt = await bcrypt.genSalt(10);
+  const password = await bcrypt.hash(plainPassword, salt);
   return password;
 };
 
