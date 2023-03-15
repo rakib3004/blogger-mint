@@ -12,7 +12,7 @@ exports.validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
-exports.checkPassword = (password) => {
+exports.checkPasswordLength = (password) => {
   if (password.length >= 6) {
     return true;
   } else {
@@ -42,10 +42,7 @@ exports.generateUUID = () => {
 };
 
 
-exports.generateUUID = () => {
-  const id = uuidv4();
-  return id;
-};
+
 
 exports.comparePassword = async (inputPassword,userPassword) => {
   const comparePasswordResult = await bcrypt.compare(inputPassword,userPassword);

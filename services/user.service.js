@@ -1,5 +1,5 @@
 const userRepository = require("../repositories/user.repository");
-const userUtils = require("../utils/user.utils");
+const userUtils = require("../utils/user.util");
 
 const getAllUser = () => {
   return userRepository.getAllUser();

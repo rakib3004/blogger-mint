@@ -2,33 +2,43 @@ const authService = require("../services/auth.service");
 require("dotenv").config();
 
 const userRegistration = async (req, res) => {
-  try {
-    const userRegistrationData = await authService.userRegistration(req.body);
 
-    if (userRegistrationData[1]) {
-      res.cookie("jsontoken", userRegistrationData[1], { httpOnly: true });
-      const registrationMessage = "Registration is successful";
-      res.status(200).json(registrationMessage);
-    } else {
-      res.send({ status: 401, message: "Authentication Failed" });
-    }
+  if (JSON.stringify(req.body)==="{}") {
+    return res.send({ status: 400, message: "Request body is empty" });
+  }
+  try {
+    
+    const response = await authService.userRegistration(req.body);
+
+    if (response.status==201) {
+      res.cookie("jsontoken", response.message, { httpOnly: true });
+      response.message = "Registration is successful";
+    } 
+    res.send(response);
+    
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    if (err.name === "SequelizeUniqueConstraintError") {
+      res.send({ status: 409, message: err.parent.sqlMessage });
+    } else {
+      res.send({ status: 500, message: err });
+    }
   }
 };
 
 const userLogIn = async (req, res) => {
   try {
-    const userLogInData = await authService.userLogIn(req.body);
-
-    if (userLogInData[1]) {
-      res.cookie("jsontoken", userLogInData[1], { httpOnly: true });
-      const logInMessage = "Log In is successful";
-      res.status(200).json(logInMessage);
-    } else {
-      res.send({ status: 401, message: "Authentication Failed" });
+    if (JSON.stringify(req.body)==="{}") {
+      res.send({ status: 400, message: "Request body is empty" });
     }
+
+    const response = await authService.userLogIn(req.body);
+
+   if (response.status==201) {
+      res.cookie("jsontoken", response.message, { httpOnly: true });
+      response.message = "Login is successful";
+    } 
+    res.send(response);
+    
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
