@@ -8,28 +8,40 @@ const Blog = sequelize.define("blogs", {
     defaultValue: () => uuid.v4(),
     primaryKey: true,
   },
-  username: {
-    type: DataTypes.STRING(60),
+  userId: {
+    type: DataTypes.UUID,
     allowNull: false,
-    unique: true,
-    validate: {
-      is: /^[a-zA-Z0-9]{2,60}$/,
-    },
+    references: {
+      model: User,
+      key: 'id'
+    }
   },
   title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    type: DataTypes.STRING(60),
+    allowNull: false
   },
   body: {
     type: DataTypes.TEXT,
+    allowNull: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
     allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    defaultValue: DataTypes.NOW
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW
   },
 });
+
+Blog.sync({ force: false })
+  .then(() => {
+    console.log('New Blog Table is created');
+  })
+  .catch((error) => {
+    console.error('Error syncing Blog table:', error);
+  });
 
 module.exports = Blog;
