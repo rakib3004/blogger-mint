@@ -8,6 +8,15 @@ const Blog = sequelize.define("blogs", {
     defaultValue: () => uuid.v4(),
     primaryKey: true,
   },
+
+  title: {
+    type: DataTypes.STRING(60),
+    allowNull: false
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
   userId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -15,14 +24,6 @@ const Blog = sequelize.define("blogs", {
       model: User,
       key: 'id'
     }
-  },
-  title: {
-    type: DataTypes.STRING(60),
-    allowNull: false
-  },
-  body: {
-    type: DataTypes.TEXT,
-    allowNull: false
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -36,7 +37,7 @@ const Blog = sequelize.define("blogs", {
   },
 });
 
-Blog.sync({ force: false })
+Blog.sync({ force: false })    
   .then(() => {
     console.log('New Blog Table is created');
   })

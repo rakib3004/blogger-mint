@@ -1,5 +1,7 @@
 const blogRepository = require("../repositories/blog.repository");
 const userUtils = require("../utils/user.utils");
+const utility = require("../utils/utility");
+
 
 const getAllBlogs = () => {
   return blogRepository.getAllBlogs();
@@ -7,40 +9,41 @@ const getAllBlogs = () => {
 
 const createBlog = async (body) => {
   const id = userUtils.generateUUID();
-  const username = body.username; // automatically get from current user
   const title = body.title;
-  const blogBody = body.body;
-
-  if (!username) {
-    return { status: 400, message: "username Field is Empty" };
-  }
+  const description = body.description;
+  const userId = body.userId; // automatically get from current user
+  
 
   if (!title) {
-    return { status: 400, message: "email Field is Empty" };
+    return { status: 400, message: "title Field is Empty" };
   }
 
-  if (!blogBody) {
-    return { status: 400, message: "password Field is Empty" };
+  if (!description) {
+    return { status: 400, message: "description Field is Empty" };
   }
+// validation: title must be more than 5 word, description must be 10 word
+
+const createdAt = utility.formatUnixTimestamp(Date.now());
+const updatedAt = utility.formatUnixTimestamp(Date.now());
 
   const newBlog = await blogRepository.createBlog(
     id,
-    username,
     title,
-    blogBody
+    description,
+    userId,
+    createdAt,
+    updatedAt
   );
 
   if (newBlog) {
-    return newBlog;
+    return { status: 201, message: newUser };
   } else {
-    return null;
+    return { status: 500, message: "Failed to create new blog" };
   }
 };
 
 const getBlogByBlogId = async (blogIdParam) => {
-  if (!blogIdParam) {
-    return { status: 400, message: "Invalid blog id in get request" };
-  }
+  
 
   const result = await blogRepository.getBlogByBlogId(blogIdParam);
 
@@ -56,15 +59,9 @@ const getBlogByBlogId = async (blogIdParam) => {
 
 
 const updateBlogByBlogId = async (body, blogIdParam) => {
-  const blogBody = body.body;
+  const title = body.title;
+  const description = body.description;
 
-  if (!blogIdParam) {
-    return { status: 400, message: "Invalid blog id in get request" };
-  }
-
-  if (!blogBody) {
-    return { status: 400, message: "Blog Body Field is Empty" };
-  }
 
   const result = await blogRepository.getBlogByBlogId(blogIdParam);
   if (!result) {
@@ -74,22 +71,38 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
     };
   }
 
+
+  if(!description&&!title){
+    return { status: 400, message: `Both description and title fields are empty` };
+
+  }
+  else if(!description){
+    description = result.description;
+  }
+  else if(!title){
+    title = result.title;
+  }
+  
+ 
+
   const isBlogBodyUpdated = blogRepository.updateBlogByBlogId(
-    blogBody,
+    title,
+    description,
     blogIdParam
   );
   if (isBlogBodyUpdated) {
     return { status: 200, message: `Blog body is updated successfully` };
   }
+  else{
+    return { status: 500, message: "Failed to update blog" };
+
+  }
 };
 
 
 const deleteBlogByBlogId = async (usernameParamData) => {
-  const blogIdParam = usernameParamData.toLowerCase();
-  if (!blogIdParam || !userUtils.isAlphaNumeric(blogIdParam)) {
-    return { status: 400, message: "Invalid User in delete request" };
-  }
-
+  const blogIdParam = usernameParamData;
+  
   const result = await blogRepository.getBlogByBlogId(blogIdParam);
 
   if (!result) {

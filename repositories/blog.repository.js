@@ -10,13 +10,21 @@ const getAllBlogs = async () => {
   }
 };
 
-const createBlog = async (id, username, title, body) => {
+const createBlog = async ( 
+  id,
+  title,
+  description,
+  userId,
+  createdAt,
+  updatedAt) => {
   try {
     const blog = await Blog.create({
       id: id,
-      username: username,
       title: title,
-      body: body,
+      description: description,
+      userId: userId,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     });
     return blog;
   } catch (error) {
@@ -42,10 +50,12 @@ const getBlogByBlogId = async (blogId) => {
   }
 };
 
-const updateBlogByBlogId = async (blogBody, blogId) => {
+const updateBlogByBlogId = async (title, description, blogId) => {
   try {
     const blog = await Blog.update(
-      { body: blogBody },
+      {   title: title,
+          description: description 
+      },
       { where: { id: blogId } }
     );
     return blog;
