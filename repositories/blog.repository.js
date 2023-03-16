@@ -14,7 +14,7 @@ const createBlog = async (
   id,
   title,
   description,
-  userId,
+  authorId,
   createdAt,
   updatedAt) => {
   try {
@@ -22,7 +22,7 @@ const createBlog = async (
       id: id,
       title: title,
       description: description,
-      userId: userId,
+      authorId: authorId,
       createdAt: createdAt,
       updatedAt: updatedAt,
     });

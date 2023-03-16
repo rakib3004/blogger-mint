@@ -1,5 +1,4 @@
 const blogRepository = require("../repositories/blog.repository");
-const userUtils = require("../utils/user.utils");
 const utility = require("../utils/utility");
 
 
@@ -8,11 +7,11 @@ const getAllBlogs = () => {
 };
 
 const createBlog = async (body) => {
-  const id = userUtils.generateUUID();
+  const id = utility.generateUUID();
   const title = body.title;
   const description = body.description;
-  const userId = body.userId; // automatically get from current user
-  
+  const authorId = body.authorId; // automatically get from current user
+
 
   if (!title) {
     return { status: 400, message: "title Field is Empty" };
@@ -30,7 +29,7 @@ const updatedAt = utility.formatUnixTimestamp(Date.now());
     id,
     title,
     description,
-    userId,
+    authorId,
     createdAt,
     updatedAt
   );

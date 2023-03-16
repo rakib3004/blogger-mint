@@ -1,6 +1,8 @@
 const sequelize = require("../configs/sequelize.config");
 const { DataTypes } = require("sequelize");
 const uuid = require("uuid");
+const User = require("../models/user.model");
+
 
 const Blog = sequelize.define("blogs", {
   id: {
@@ -17,7 +19,7 @@ const Blog = sequelize.define("blogs", {
     type: DataTypes.TEXT,
     allowNull: false
   },
-  userId: {
+  authorId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
