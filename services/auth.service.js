@@ -6,14 +6,12 @@ require("dotenv").config();
 const registerUser = async (body) => {
   const response = await userService.createUser(body);
   if (response.status==201) {
- 
 
-    const token = await authUtil.generateJwtToken(newUser.username);
+console.log(response.message.username);
+    const token = await authUtil.generateJwtToken(response.message.username);
     
     return {status: 201, message: token};
-  } else {
-    return {status: response.status, message: response.message};
-  }
+  } 
 };
 
 const loginUser = async (body) => {
@@ -58,7 +56,7 @@ const loginUser = async (body) => {
       return { status: 401, message: "Authentication Failed" };
     }
   } else {
-    return "Authentication Failed!!";
+    return  { status: 401, message: "Authentication Failed" };
   }
 };
 

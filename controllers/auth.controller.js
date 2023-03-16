@@ -3,16 +3,16 @@ require("dotenv").config();
 
 const registerUser = async (req, res) => {
 
-  if (JSON.stringify(req.body)==="{}") {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
   try {
-    
+    if (JSON.stringify(req.body)==="{}") {
+      return res.send({ status: 400, message: "Request body is empty" });
+    }
+
     const response = await authService.registerUser(req.body);
 
 
     if (response.status==201) {
-      res.cookie("jsontoken", response.message, { httpOnly: true });
+      res.cookie("jwt", response.message, { httpOnly: true });
       response.message = "Registration is successful";
     
     } 
@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
     const response = await authService.loginUser(req.body);
 
    if (response.status==201) {
-      res.cookie("jsontoken", response.message, { httpOnly: true });
+      res.cookie("jwt", response.message, { httpOnly: true });
       response.message = "Login is successful";
     } 
     res.send(response);

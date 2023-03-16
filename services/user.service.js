@@ -67,7 +67,7 @@ const createUser = async (body) => {
 };
 
 
-const getUserByUsername = async (usernameParamData,fetchPassword) => {
+const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
   const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
