@@ -1,18 +1,9 @@
 const User = require("../models/user.model");
-const UserDTO = require("../DTO/user.dto");
 
 const getAllUser = async () => {
   try {
     const users = await User.findAll();
-
-    const dtoUsers = [];
-
-    users.forEach((user) => {
-      const dtoUser = new UserDTO(user);
-      dtoUsers.push(dtoUser);
-    });
-
-    return dtoUsers;
+    return users;
   } catch (error) {
     console.error(error);
     throw error;
@@ -52,25 +43,6 @@ const getUserByUsername = async (username) => {
     });
 
     if (user) {
-      const dtoUser = new UserDTO(user);
-      return dtoUser;
-    } else {
-      return null;
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
-const getUserForLogIn = async (username) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        username: username,
-      },
-    });
-
-    if (user) {
       return user;
     } else {
       return null;
@@ -79,6 +51,8 @@ const getUserForLogIn = async (username) => {
     throw error;
   }
 };
+
+
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
@@ -116,7 +90,6 @@ module.exports = {
   getAllUser,
   createUser,
   getUserByUsername,
-  getUserForLogIn,
   updateUserPasswordByUsername,
   deleteUserByUsername,
 };

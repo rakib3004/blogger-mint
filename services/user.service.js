@@ -1,28 +1,97 @@
 const userRepository = require("../repositories/user.repository");
 const utility = require("../utils/utility");
 const validationUtil = require("../utils/validation.util");
+const UserDTO = require("../DTO/user.dto");
 
+const getAllUser = async () => {
 
-const getAllUser = () => {
-  return userRepository.getAllUser();
+  const users = await userRepository.getAllUser();
+  const dtoUsers = [];
+    users.forEach((user) => {
+      const dtoUser = new UserDTO(user);
+      dtoUsers.push(dtoUser);
+    });
+  return dtoUsers;
+
 };
 
-const getUserByUsername = async (usernameParamData) => {
+
+const createUser = async (body) => {
+  const id = utility.generateUUID();
+  const username = body.username;
+  const email = body.email;
+  const rawPassword = body.password;
+
+  if (!username) {
+    return { status: 400, message: "username Field is Empty" };
+  }
+
+  if (!email) {
+    return { status: 400, message: "email Field is Empty" };
+  }
+
+  if (!rawPassword) {
+    return { status: 400, message: "password Field is Empty" };
+  }
+
+  if (!validationUtil.isAlphaNumeric(username)) {
+    return {
+      status: 401,
+      message:
+        "New User's username is  contains space or special character",
+    };
+  }
+
+  if (!validationUtil.validateEmail(email)) {
+    return { status: 400, message: "New User's email is not valid" };
+  }
+
+  if (!validationUtil.checkPasswordLength(rawPassword)) {
+    return { status: 400, message: "password is less than 6 digit" };
+  }
+
+  const password = await validationUtil.generateHashPassword(body.password);
+  const createdAt = utility.formatUnixTimestamp(Date.now());
+  const updatedAt = utility.formatUnixTimestamp(Date.now());
+
+  const newUser = await userRepository.createUser(
+    id,
+    username,
+    email,
+    password,
+    createdAt,
+    updatedAt
+  );
+
+ return newUser;
+ 
+};
+
+
+const getUserByUsername = async (usernameParamData,fetchPassword) => {
   const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
 
-  const result = await userRepository.getUserByUsername(usernameParam);
+  const user = await userRepository.getUserByUsername(usernameParam);
 
-  if (!result) {
+  if (!user) {
     return {
       status: 404,
       message: `${usernameParam} is not found in database`,
     };
   } else {
-    return result;
+
+    if(fetchPassword){
+      return user;
+    }
+    else{
+      const dtoUser = new UserDTO(user);
+      return dtoUser;
+    }
+    
   }
 };
 
@@ -87,6 +156,7 @@ const deleteUserByUsername = async (usernameParamData) => {
 
 module.exports = {
   getAllUser,
+  createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
   deleteUserByUsername

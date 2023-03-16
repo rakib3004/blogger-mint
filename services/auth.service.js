@@ -1,62 +1,16 @@
-const userRepository = require("../repositories/user.repository");
-const utility = require("../utils/utility");
 const authUtil = require("../utils/auth.util");
 const validationUtil = require("../utils/validation.util");
+const userService = require("../services/user.service");
 require("dotenv").config();
 
 const registerUser = async (body) => {
-  const id = utility.generateUUID();
-  const username = body.username;
-  const email = body.email;
-  const rawPassword = body.password;
-
-  if (!username) {
-    return { status: 400, message: "username Field is Empty" };
-  }
-
-  if (!email) {
-    return { status: 400, message: "email Field is Empty" };
-  }
-
-  if (!rawPassword) {
-    return { status: 400, message: "password Field is Empty" };
-  }
-
-  if (!validationUtil.isAlphaNumeric(username)) {
-    return {
-      status: 401,
-      message:
-        "New User's username is  contains space or special character",
-    };
-  }
-
-  if (!validationUtil.validateEmail(email)) {
-    return { status: 400, message: "New User's email is not valid" };
-  }
-
-  if (!validationUtil.checkPasswordLength(rawPassword)) {
-    return { status: 400, message: "password is less than 6 digit" };
-  }
-
-  const password = await validationUtil.generateHashPassword(body.password);
-  const createdAt = utility.formatUnixTimestamp(Date.now());
-  const updatedAt = utility.formatUnixTimestamp(Date.now());
-
-  const newUser = await userRepository.createUser(
-    id,
-    username,
-    email,
-    password,
-    createdAt,
-    updatedAt
-  );
-
+  const newUser = await userService.createUser(body);
   if (newUser) {
     const token = await authUtil.generateJwtToken(newUser.username);
     
     return {status: 201, message: token};
   } else {
-    return null;
+    return {status: 500, message: "Unable to create jwt token"};
   }
 };
 
@@ -80,13 +34,13 @@ const loginUser = async (body) => {
     };
   }
 
-  if (!validationUtil.checkPassword(rawPassword)) {
+  if (!validationUtil.checkPasswordLength(rawPassword)) {
     return { status: 400, message: "password is less than 6 digit" };
   }
 
   const password = body.password;
-
-  const userData = await userRepository.getUserForLogIn(username);
+  const fetchPassword=true;
+  const userData = await userService.getUserByUsername(username,fetchPassword);
 
   if (userData) {
     const isValidPassword = await authUtil.comparePassword(

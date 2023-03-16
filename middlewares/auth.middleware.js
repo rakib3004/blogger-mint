@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
 
-const checkLogIn = function (req, res, next) {
+const checkLogin = function (req, res, next) {
   try {
     const accessToken = req.cookies.jsontoken;
 
     if (!accessToken) {
       return res.status(403).json({
-        message: "jwt authorization failed",
+        message: "JWT authorization failed",
       });
     }
 
@@ -21,4 +21,4 @@ const checkLogIn = function (req, res, next) {
   }
 };
 
-module.exports = checkLogIn;
+module.exports = checkLogin;

@@ -16,8 +16,9 @@ const getUserByUsername = async (req, res) => {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
 
+    const fetchPassword=false;
     const getUserByUsernameResponse = await userService.getUserByUsername(
-      req.params.username
+      req.params.username,fetchPassword
     );
     res.status(200).json(getUserByUsernameResponse);
   } catch (err) {

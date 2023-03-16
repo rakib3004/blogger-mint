@@ -2,8 +2,7 @@
 const { v4: uuidv4 } = require("uuid");
 
 const generateUUID = () => {
-  const id = uuidv4();
-  return id;
+  return uuidv4();
 };
 
 const formatUnixTimestamp = (timestamp) => {
