@@ -10,9 +10,11 @@ const registerUser = async (req, res) => {
     
     const response = await authService.registerUser(req.body);
 
+
     if (response.status==201) {
       res.cookie("jsontoken", response.message, { httpOnly: true });
       response.message = "Registration is successful";
+    
     } 
     res.send(response);
     

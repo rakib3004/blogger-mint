@@ -38,7 +38,7 @@ const createUser = async (body) => {
     return {
       status: 401,
       message:
-        "New User's username is  contains space or special character",
+        "New User's username contains space or special character",
     };
   }
 
@@ -62,8 +62,7 @@ const createUser = async (body) => {
     createdAt,
     updatedAt
   );
-
- return newUser;
+ return { status: 201, message: newUser }; 
  
 };
 

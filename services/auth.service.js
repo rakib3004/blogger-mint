@@ -4,13 +4,15 @@ const userService = require("../services/user.service");
 require("dotenv").config();
 
 const registerUser = async (body) => {
-  const newUser = await userService.createUser(body);
-  if (newUser) {
+  const response = await userService.createUser(body);
+  if (response.status==201) {
+ 
+
     const token = await authUtil.generateJwtToken(newUser.username);
     
     return {status: 201, message: token};
   } else {
-    return {status: 500, message: "Unable to create jwt token"};
+    return {status: response.status, message: response.message};
   }
 };
 
