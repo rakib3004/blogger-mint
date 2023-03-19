@@ -6,7 +6,7 @@ const router = express.Router();
 router
   .route("/")
   .get(blogController.getAllBlogs) // only this can not check log in [middleware]
-  .post(checkLogin,blogController.createBlog);
+  .post(blogController.createBlog);
 
 router
   .route("/:id")

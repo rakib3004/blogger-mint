@@ -1,5 +1,5 @@
 const blogRepository = require("../repositories/blog.repository");
-const utility = require("../utils/utility");
+const commonUtil = require("../utils/common.util");
 
 
 const getAllBlogs = () => {
@@ -7,7 +7,7 @@ const getAllBlogs = () => {
 };
 
 const createBlog = async (body) => {
-  const id = utility.generateUUID();
+  const id = commonUtil.generateUUID();
   const title = body.title;
   const description = body.description;
   const authorId = body.authorId; // automatically get from current user
@@ -22,8 +22,8 @@ const createBlog = async (body) => {
   }
 // validation: title must be more than 5 word, description must be 10 word
 
-const createdAt = utility.formatUnixTimestamp(Date.now());
-const updatedAt = utility.formatUnixTimestamp(Date.now());
+const createdAt = commonUtil.formatUnixTimestamp(Date.now());
+const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
   const newBlog = await blogRepository.createBlog(
     id,
@@ -35,7 +35,7 @@ const updatedAt = utility.formatUnixTimestamp(Date.now());
   );
 
   if (newBlog) {
-    return { status: 201, message: newUser };
+    return { status: 201, message: newBlog };
   } else {
     return { status: 500, message: "Failed to create new blog" };
   }

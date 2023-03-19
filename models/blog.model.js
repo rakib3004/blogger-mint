@@ -1,7 +1,7 @@
 const sequelize = require("../configs/sequelize.config");
 const { DataTypes } = require("sequelize");
 const uuid = require("uuid");
-const User = require("../models/user.model");
+const User = require("./user.model");
 
 
 const Blog = sequelize.define("blogs", {
@@ -19,14 +19,7 @@ const Blog = sequelize.define("blogs", {
     type: DataTypes.TEXT,
     allowNull: false
   },
-  authorId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'id'
-    }
-  },
+
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -39,12 +32,14 @@ const Blog = sequelize.define("blogs", {
   },
 });
 
-Blog.sync({ force: false })    
-  .then(() => {
-    console.log('New Blog Table is created');
-  })
-  .catch((error) => {
-    console.error('Error syncing Blog table:', error);
-  });
+User.hasMany(Blog, {foreignKey: 'authorId'})
+Blog.belongsTo(User, {as: 'author'});
+
+
+
+  (async () => {
+    await Blog.sync({ force: false }); 
+  })();
+  
 
 module.exports = Blog;

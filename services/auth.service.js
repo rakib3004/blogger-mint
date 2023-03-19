@@ -8,7 +8,7 @@ const registerUser = async (body) => {
   if (response.status==201) {
  
 
-    const token = await authUtil.generateJwtToken(newUser.username);
+    const token = await authUtil.generateJwtToken(response.message.username);
     
     return {status: 201, message: token};
   } else {

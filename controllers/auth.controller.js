@@ -22,6 +22,7 @@ const registerUser = async (req, res) => {
     if (err.name === "SequelizeUniqueConstraintError") {
       res.send({ status: 409, message: err.parent.sqlMessage });
     } else {
+      console.error(err);
       res.send({ status: 500, message: err });
     }
   }
