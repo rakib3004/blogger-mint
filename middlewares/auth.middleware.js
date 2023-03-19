@@ -16,8 +16,9 @@ const checkLogin = function (req, res, next) {
     req.username = username;
 
     next();
-  } catch (e) {
-    return res.status(401).send(e);
+  } catch (err) {
+    console.error(err)
+    return res.status(401).send("JWT authorization failed");
   }
 };
 

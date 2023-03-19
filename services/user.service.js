@@ -67,7 +67,8 @@ const createUser = async (body) => {
 };
 
 
-const getUserByUsername = async (usernameParamData,fetchPassword) => {
+const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
+  console.log("user.service username "+usernameParamData);
   const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
@@ -75,6 +76,7 @@ const getUserByUsername = async (usernameParamData,fetchPassword) => {
   }
 
   const user = await userRepository.getUserByUsername(usernameParam);
+  console.log("user.service user "+user);
 
   if (!user) {
     return {

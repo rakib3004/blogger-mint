@@ -1,5 +1,7 @@
 const blogRepository = require("../repositories/blog.repository");
 const commonUtil = require("../utils/common.util");
+const blogUtil = require("../utils/blog.util");
+const userService = require("../services/user.service");
 
 
 const getAllBlogs = () => {
@@ -10,7 +12,13 @@ const createBlog = async (body) => {
   const id = commonUtil.generateUUID();
   const title = body.title;
   const description = body.description;
-  const authorId = body.authorId; // automatically get from current user
+  const userName = String(body.username);
+  console.log("blog.service name "+userName);
+  const authorResponse = await userService.getUserByUsername(userName);
+  console.log("blog.service response  "+ authorResponse.user.id);
+
+  const authorId = authorResponse.user.id;
+  console.log("blog.service id "+authorId);
 
 
   if (!title) {
@@ -82,7 +90,6 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
     title = result.title;
   }
   
- 
 
   const isBlogBodyUpdated = blogRepository.updateBlogByBlogId(
     title,

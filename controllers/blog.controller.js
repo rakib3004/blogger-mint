@@ -11,13 +11,12 @@ const getAllBlogs = async (req, res) => {
 };
 
 const createBlog = async (req, res) => {
-
-
   try {
 
     if (JSON.stringify(req.body)==="{}") {
       return res.send({ status: 400, message: "Request body is empty" });
     }
+    req.body.username = req.username;
 
     const response = await blogService.createBlog(req.body);
 

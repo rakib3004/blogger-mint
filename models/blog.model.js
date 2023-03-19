@@ -19,7 +19,10 @@ const Blog = sequelize.define("blogs", {
     type: DataTypes.TEXT,
     allowNull: false
   },
-
+  authorId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -32,10 +35,11 @@ const Blog = sequelize.define("blogs", {
   },
 });
 
-User.hasMany(Blog, {foreignKey: 'authorId'})
-Blog.belongsTo(User, {as: 'author'});
 
 
+
+Blog.belongsTo(User, { foreignKey: "authorId" }); 
+User.hasMany(Blog, { foreignKey: "authorId" }); 
 
   (async () => {
     await Blog.sync({ force: false }); 
