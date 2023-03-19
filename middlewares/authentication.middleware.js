@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const checkLogin = function (req, res, next) {
+const authenticationMiddleware = function (req, res, next) {
   try {
     const accessToken = req.cookies.jsontoken;
 
@@ -22,4 +22,4 @@ const checkLogin = function (req, res, next) {
   }
 };
 
-module.exports = checkLogin;
+module.exports = authenticationMiddleware;
