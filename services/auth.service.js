@@ -56,7 +56,10 @@ const loginUser = async (body) => {
       return { status: 401, message: "Authentication Failed" };
     }
   } else {
-    return  { status: 401, message: "Authentication Failed" };
+    return {
+      status: 404,
+      message: `${username} is not found in database`,
+    };
   }
 };
 

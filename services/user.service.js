@@ -1,5 +1,5 @@
 const userRepository = require("../repositories/user.repository");
-const utility = require("../utils/utility");
+const commonUtil = require("../utils/common.util");
 const validationUtil = require("../utils/validation.util");
 const UserDTO = require("../DTO/user.dto");
 
@@ -17,7 +17,7 @@ const getAllUser = async () => {
 
 
 const createUser = async (body) => {
-  const id = utility.generateUUID();
+  const id = commonUtil.generateUUID();
   const username = body.username;
   const email = body.email;
   const rawPassword = body.password;
@@ -51,8 +51,8 @@ const createUser = async (body) => {
   }
 
   const password = await validationUtil.generateHashPassword(body.password);
-  const createdAt = utility.formatUnixTimestamp(Date.now());
-  const updatedAt = utility.formatUnixTimestamp(Date.now());
+  const createdAt = commonUtil.formatUnixTimestamp(Date.now());
+  const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
   const newUser = await userRepository.createUser(
     id,
@@ -76,11 +76,10 @@ const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
 
   const user = await userRepository.getUserByUsername(usernameParam);
 
+
   if (!user) {
-    return {
-      status: 404,
-      message: `${usernameParam} is not found in database`,
-    };
+   
+    return user;
   } else {
 
     if(fetchPassword){
@@ -119,7 +118,7 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
   }
 
   const password = await validationUtil.generateHashPassword(body.password);
-  const updatedAt = utility.formatUnixTimestamp(Date.now());
+  const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
   const isPasswordUpdated = userRepository.updateUserPasswordByUsername(
     password,
     updatedAt,
