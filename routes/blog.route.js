@@ -7,7 +7,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(blogController.getAllBlogs) // only this can not check log in [middleware]
+  .get(blogController.getAllBlogs)
   .post(authenticationMiddleware,blogController.createBlog);
 
 router
@@ -16,6 +16,9 @@ router
   .put(authenticationMiddleware,authorizationMiddleware,blogController.updateBlogByBlogId)
   .delete(authenticationMiddleware,authorizationMiddleware,blogController.deleteBlogByBlogId);
 
+router
+  .route("/author/:id")
+  .get(blogController.getBlogByAuthorId);
 
 
 

@@ -36,8 +36,6 @@ const Blog = sequelize.define("blogs", {
 });
 
 
-
-
 Blog.belongsTo(User, { foreignKey: "authorId" }); 
 User.hasMany(Blog, { foreignKey: "authorId" }); 
 

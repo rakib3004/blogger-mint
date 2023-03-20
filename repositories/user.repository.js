@@ -29,7 +29,6 @@ const createUser = async (
     });
     return user;
   } catch (error) {
-    
     throw error;
   }
 };
@@ -44,15 +43,12 @@ const getUserByUsername = async (username) => {
 
     if (user) {
       return user;
-    } else {
-      return null;
     }
+    return null;
   } catch (error) {
     throw error;
   }
 };
-
-
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
@@ -77,9 +73,9 @@ const deleteUserByUsername = async (username) => {
     if (user) {
       await user.destroy();
       return true;
-    } else {
-      throw new Error("User not found");
-    }
+    } 
+      return null;
+    
   } catch (error) {
     console.error(error);
     throw error;

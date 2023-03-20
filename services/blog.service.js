@@ -13,12 +13,9 @@ const createBlog = async (body) => {
   const title = body.title;
   const description = body.description;
   const userName = String(body.username);
-  console.log("blog.service name "+userName);
   const authorResponse = await userService.getUserByUsername(userName);
-  console.log("blog.service response  "+ authorResponse.user.id);
 
   const authorId = authorResponse.user.id;
-  console.log("blog.service id "+authorId);
 
 
   if (!title) {
@@ -44,14 +41,11 @@ const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
   if (newBlog) {
     return { status: 201, message: newBlog };
-  } else {
+  } 
     return { status: 500, message: "Failed to create new blog" };
-  }
 };
 
 const getBlogByBlogId = async (blogIdParam) => {
-  
-
   const result = await blogRepository.getBlogByBlogId(blogIdParam);
 
   if (!result) {
@@ -59,11 +53,23 @@ const getBlogByBlogId = async (blogIdParam) => {
       status: 404,
       message: `This blog is not found in database`,
     };
-  } else {
+  } 
     return result;
-  }
+
 };
 
+const getBlogByAuthorId = async (authorId) => {
+  const result = await blogRepository.getBlogByAuthorId(authorId);
+
+  if (!result) {
+    return {
+      status: 404,
+      message: `This blog is not found in database`,
+    };
+  }
+    return result;
+
+};
 
 const updateBlogByBlogId = async (body, blogIdParam) => {
   const title = body.title;
@@ -83,7 +89,7 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
     return { status: 400, message: `Both description and title fields are empty` };
 
   }
-  else if(!description){
+    if(!description){
     description = result.description;
   }
   else if(!title){
@@ -99,10 +105,9 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
   if (isBlogBodyUpdated) {
     return { status: 200, message: `Blog body is updated successfully` };
   }
-  else{
+  
     return { status: 500, message: "Failed to update blog" };
 
-  }
 };
 
 
@@ -120,10 +125,10 @@ const deleteBlogByBlogId = async (usernameParamData) => {
 
   const isUserDeleted = blogRepository.deleteBlogByBlogId(blogIdParam);
   if (!isUserDeleted) {
-    return { status: 404, message: `Failed to Delete ${blogIdParam}` };
-  } else {
-    return { status: 200, message: `${blogIdParam} is successfully deleted` };
-  }
+  return { status: 404, message: `Failed to Delete ${blogIdParam}` };
+  } 
+  return { status: 200, message: `${blogIdParam} is successfully deleted` };
+  
 };
 
 
@@ -131,6 +136,7 @@ module.exports = {
   getAllBlogs,
   createBlog,
   getBlogByBlogId,
+  getBlogByAuthorId,
   updateBlogByBlogId,
   deleteBlogByBlogId,
 

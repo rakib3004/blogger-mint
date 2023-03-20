@@ -3,10 +3,10 @@ require("dotenv").config();
 
 const registerUser = async (req, res) => {
 
-  if (JSON.stringify(req.body)==="{}") {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
   try {
+    if (JSON.stringify(req.body)==="{}") {
+      return res.send({ status: 400, message: "Request body is empty" });
+    }
     
     const response = await authService.registerUser(req.body);
 
@@ -21,10 +21,9 @@ const registerUser = async (req, res) => {
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
       res.send({ status: 409, message: err.parent.sqlMessage });
-    } else {
-      console.error(err);
-      res.send({ status: 500, message: err });
     }
+      res.send({ status: 500,  message: "Internal Server Error" });
+    
   }
 };
 

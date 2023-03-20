@@ -11,9 +11,9 @@ const registerUser = async (body) => {
     const token = await authUtil.generateJwtToken(response.message.username);
     
     return {status: 201, message: token};
-  } else {
+  } 
     return {status: response.status, message: response.message};
-  }
+
 };
 
 const loginUser = async (body) => {
@@ -54,12 +54,11 @@ const loginUser = async (body) => {
       const token = await authUtil.generateJwtToken(userData.username);
       return {status: 201, message: token};
 
-    } else {
+    } 
       return { status: 401, message: "Authentication Failed" };
-    }
-  } else {
+  
+  } 
     return "Authentication Failed!!";
-  }
 };
 
 module.exports = {

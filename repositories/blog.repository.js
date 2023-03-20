@@ -10,13 +10,14 @@ const getAllBlogs = async () => {
   }
 };
 
-const createBlog = async ( 
+const createBlog = async (
   id,
   title,
   description,
   authorId,
   createdAt,
-  updatedAt) => {
+  updatedAt
+) => {
   try {
     const blog = await Blog.create({
       id: id,
@@ -34,7 +35,7 @@ const createBlog = async (
 
 const getBlogByBlogId = async (blogId) => {
   try {
-    const blog = await Blog.findOne({
+    const blog = await Blog.findAll({
       where: {
         id: blogId,
       },
@@ -42,9 +43,26 @@ const getBlogByBlogId = async (blogId) => {
 
     if (blog) {
       return blog;
-    } else {
-      return null;
     }
+    return null;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getBlogByAuthorId = async (authorId) => {
+  try {
+    const blogs = await Blog.findAll({
+      where: {
+        authorId: authorId,
+      },
+    });
+
+    if (blogs) {
+      return blogs;
+    } 
+      return null;
+
   } catch (error) {
     throw error;
   }
@@ -53,9 +71,7 @@ const getBlogByBlogId = async (blogId) => {
 const updateBlogByBlogId = async (title, description, blogId) => {
   try {
     const blog = await Blog.update(
-      {   title: title,
-          description: description 
-      },
+      { title: title, description: description },
       { where: { id: blogId } }
     );
     return blog;
@@ -64,7 +80,6 @@ const updateBlogByBlogId = async (title, description, blogId) => {
     throw error;
   }
 };
-
 
 const deleteBlogByBlogId = async (blogId) => {
   try {
@@ -76,22 +91,20 @@ const deleteBlogByBlogId = async (blogId) => {
     if (blog) {
       await blog.destroy();
       return true;
-    } else {
-      throw new Error("User not found");
-    }
+    } 
+      return null;
+  
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
 
-
-
-
 module.exports = {
   getAllBlogs,
   createBlog,
   getBlogByBlogId,
+  getBlogByAuthorId,
   updateBlogByBlogId,
   deleteBlogByBlogId,
 };

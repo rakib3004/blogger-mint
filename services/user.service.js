@@ -68,32 +68,26 @@ const createUser = async (body) => {
 
 
 const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
-  console.log("user.service username "+usernameParamData);
   const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
-
   const user = await userRepository.getUserByUsername(usernameParam);
-  console.log("user.service user "+user);
 
   if (!user) {
     return {
       status: 404,
       message: `${usernameParam} is not found in database`,
     };
-  } else {
+  }
 
-    if(fetchPassword){
+   if(fetchPassword){
       return user;
     }
-    else{
       const dtoUser = new UserDTO(user);
       return dtoUser;
-    }
-    
-  }
+  
 };
 
 const updateUserPasswordByUsername = async (body, usernameParamData) => {
@@ -150,9 +144,9 @@ const deleteUserByUsername = async (usernameParamData) => {
   const isUserDeleted = userRepository.deleteUserByUsername(usernameParam);
   if (!isUserDeleted) {
     return { status: 404, message: `Failed to Delete ${usernameParam}` };
-  } else {
+  } 
     return { status: 200, message: `${usernameParam} is successfully deleted` };
-  }
+
 };
 
 module.exports = {
