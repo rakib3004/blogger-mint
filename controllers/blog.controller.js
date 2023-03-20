@@ -1,12 +1,19 @@
 const blogService = require("../services/blog.service");
+const sendResponseInContentNegotiation = require("../utils/content-negotiation.util")
 
 const getAllBlogs = async (req, res) => {
   try {
     const getAllBlogsResponse = await blogService.getAllBlogs();
-    res.status(200).json(getAllBlogsResponse);
+    const responseStatus = 200;
+    const responseMessage = "Success";
+    const responseData = getAllBlogsResponse;
+    console.log(responseData);
+    sendResponseInContentNegotiation(req,res,responseStatus,responseMessage,responseData);
+    //res.status(200).json(getAllBlogsResponse);
+    
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+
+    res.send({ status: 500, message: "Internal Server Error blog.controller" });
   }
 };
 
