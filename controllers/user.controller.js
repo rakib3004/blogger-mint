@@ -10,27 +10,24 @@ const getAllUser = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
-  try {
-    const createUserResponse = await userService.createUser(req.body);
-    res.status(201).json(createUserResponse);
-  } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      res.send({ status: 409, message: err.parent.sqlMessage });
-    } else if (err.code === "ECONNREFUSED") {
-      res.send({ status: 500, message: "MYSQL/Apache Server is disconnected" });
-    } else {
-      res.send({ status: 500, message: err });
-    }
-  }
-};
-
 const getUserByUsername = async (req, res) => {
   try {
+    if (!req.params.username) {
+      res.send({ status: 400, message: "Request parameter is empty" });
+    }
+
     const getUserByUsernameResponse = await userService.getUserByUsername(
       req.params.username
     );
-    res.status(200).json(getUserByUsernameResponse);
+    if(!getUserByUsernameResponse){
+      res.send({status: 404, message: `${req.params.username} is not found in database`});
+    }
+    else{
+    res.send({status: getUserByUsernameResponse.status, message: getUserByUsernameResponse.message});
+
+    }
+    
+
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -39,6 +36,13 @@ const getUserByUsername = async (req, res) => {
 
 const updateUserPasswordByUsername = async (req, res) => {
   try {
+    if (JSON.stringify(req.body)==="{}") {
+      return res.send({ status: 400, message: "Request body is empty" });
+    }
+    
+    if (!req.params.username) {
+      res.send({ status: 400, message: "Request parameter is empty" });
+    }
     const updateUserPasswordByUsernameResponse =
       await userService.updateUserPasswordByUsername(
         req.body,
@@ -53,6 +57,10 @@ const updateUserPasswordByUsername = async (req, res) => {
 
 const deleteUserByUsername = async (req, res) => {
   try {
+    if (!req.params.username) {
+      res.send({ status: 400, message: "Request parameter is empty" });
+    }
+    
     const deleteUserByUsernameResponse = await userService.deleteUserByUsername(
       req.params.username
     );
@@ -65,7 +73,6 @@ const deleteUserByUsername = async (req, res) => {
 
 module.exports = {
   getAllUser,
-  createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
   deleteUserByUsername,

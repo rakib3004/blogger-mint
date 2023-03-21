@@ -1,20 +1,15 @@
 const userController = require("../controllers/user.controller");
-
+const checkLogin = require("../middlewares/auth.middleware");
 const express = require("express");
 const router = express.Router();
 
-const app = express();
-app.use(express.static(__dirname + "/public"));
-
-router
-  .route("/")
-  .get(userController.getAllUser)
-  .post(userController.createUser);
+router.route("/").get(checkLogin,userController.getAllUser);
 
 router
   .route("/:username")
-  .get(userController.getUserByUsername)
-  .put(userController.updateUserPasswordByUsername)
-  .delete(userController.deleteUserByUsername);
+  .get(checkLogin,userController.getUserByUsername)
+  .put(checkLogin,userController.updateUserPasswordByUsername)
+  .delete(checkLogin,userController.deleteUserByUsername);
+
 
 module.exports = router;
