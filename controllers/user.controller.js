@@ -1,9 +1,13 @@
 const userService = require("../services/user.service");
+const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
+
 
 const getAllUser = async (req, res) => {
   try {
     const getAllUserResponse = await userService.getAllUser();
-    res.status(200).json(getAllUserResponse);
+    const responseStatus = 200;
+    const responseData = getAllUserResponse;
+    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -20,7 +24,9 @@ const getUserByUsername = async (req, res) => {
     const getUserByUsernameResponse = await userService.getUserByUsername(
       req.params.username,fetchPassword
     );
-    res.status(200).json(getUserByUsernameResponse);
+    const responseStatus = 200;
+    const responseData = getUserByUsernameResponse;
+    sendResponseInContentNegotiation(req,res,responseStatus,responseData);  
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
