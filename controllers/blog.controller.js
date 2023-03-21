@@ -5,15 +5,16 @@ const getAllBlogs = async (req, res) => {
   try {
     const getAllBlogsResponse = await blogService.getAllBlogs();
     const responseStatus = 200;
-    const responseMessage = "Success";
     const responseData = getAllBlogsResponse;
-    console.log(responseData);
-    sendResponseInContentNegotiation(req,res,responseStatus,responseMessage,responseData);
+    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
     //res.status(200).json(getAllBlogsResponse);
     
   } catch (err) {
 
-    res.send({ status: 500, message: "Internal Server Error blog.controller" });
+   // console.log(err)
+   
+ throw err;
+
   }
 };
 
