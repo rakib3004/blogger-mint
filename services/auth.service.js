@@ -6,7 +6,6 @@ require("dotenv").config();
 const registerUser = async (body) => {
   const response = await userService.createUser(body);
   if (response.status==201) {
- 
 
     const token = await authUtil.generateJwtToken(response.message.username);
     
@@ -31,8 +30,7 @@ const loginUser = async (body) => {
   if (!validationUtil.isAlphaNumeric(username)) {
     return {
       status: 400,
-      message:
-        "New User's username is contains space or special character",
+      message: "New User's username is contains space or special character",
     };
   }
 
@@ -53,12 +51,11 @@ const loginUser = async (body) => {
     if (isValidPassword) {
       const token = await authUtil.generateJwtToken(userData.username);
       return {status: 201, message: token};
-
     } 
       return { status: 401, message: "Authentication Failed" };
-  
-  } 
-    return "Authentication Failed!!";
+    }
+    return { status: 404, message: `${username} is not found in database` };
+ 
 };
 
 module.exports = {
