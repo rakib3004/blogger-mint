@@ -1,11 +1,8 @@
 const Blog = require("../models/blog.model");
 
-const getAllBlogs = async (pageNumber,pageSize) => {
+const getAllBlogs = async (totalOffset,totalLimit) => {
   try {
-    const totalOffset = (parseInt(pageNumber)-1)*parseInt(pageSize);
-    const totalLimit = parseInt(pageSize);
-
-
+   
     const blogs = await Blog.findAll(
       {
         offset:totalOffset,

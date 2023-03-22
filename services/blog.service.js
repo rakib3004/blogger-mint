@@ -5,7 +5,9 @@ const userService = require("../services/user.service");
 
 
 const getAllBlogs = (pageNumber,pageSize) => {
-  return blogRepository.getAllBlogs(pageNumber,pageSize);
+  const totalOffset = (parseInt(pageNumber)-1)*parseInt(pageSize);
+  const totalLimit = parseInt(pageSize);
+  return blogRepository.getAllBlogs(totalOffset,totalLimit);
 };
 
 const createBlog = async (body) => {
