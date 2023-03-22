@@ -19,8 +19,10 @@ const createBlog = async (req, res) => {
       return res.send({ status: 400, message: "Request body is empty" });
     }
     req.body.username = req.username;
-    const response = await blogService.createBlog(req.body);
-    res.send(response);
+    const createBlogResponse = await blogService.createBlog(req.body);
+    const responseStatus = 201;
+    const responseData = createBlogResponse;
+    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
 
   } catch (err) {
     console.error(err);
@@ -36,10 +38,13 @@ const getBlogByBlogId = async (req, res) => {
     const getBlogByBlogIdResponse = await blogService.getBlogByBlogId(
       req.params.id
     );
-
-    const responseStatus = 200;
-    const responseData = getBlogByBlogIdResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+   
+        const responseStatus = getBlogByBlogIdResponse.status;
+        const responseData = getBlogByBlogIdResponse.message;
+        sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+      
+      
+   
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -93,7 +98,11 @@ const deleteBlogByBlogId = async (req, res) => {
     const deleteBlogByBlogIdResponse = await blogService.deleteBlogByBlogId(
       req.params.id
     );
-    res.status(200).json(deleteBlogByBlogIdResponse);
+
+      res.send(deleteBlogByBlogIdResponse);
+    
+
+    
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
