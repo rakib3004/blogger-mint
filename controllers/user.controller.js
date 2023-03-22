@@ -20,13 +20,13 @@ const getUserByUsername = async (req, res) => {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
 
-    const fetchPassword=false;
     const getUserByUsernameResponse = await userService.getUserByUsername(
-      req.params.username,fetchPassword
+      req.params.username
     );
     const responseStatus = 200;
     const responseData = getUserByUsernameResponse;
     sendResponseInContentNegotiation(req,res,responseStatus,responseData);  
+
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -35,9 +35,10 @@ const getUserByUsername = async (req, res) => {
 
 const updateUserPasswordByUsername = async (req, res) => {
   try {
-    if (!req.body) {
-      res.send({ status: 400, message: "Request body is empty" });
+    if (JSON.stringify(req.body)==="{}") {
+      return res.send({ status: 400, message: "Request body is empty" });
     }
+    
     if (!req.params.username) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
