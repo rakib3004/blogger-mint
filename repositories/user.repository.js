@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const getAllUser = async (totalOffset,totalLimit) => {
   try {
 
+
     const users = await User.findAll(
       {
         offset:totalOffset,
