@@ -48,13 +48,18 @@ const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 const getBlogByBlogId = async (blogIdParam) => {
   const result = await blogRepository.getBlogByBlogId(blogIdParam);
 
+  const errorMessage = {"message":"This blog is not found in database"};
+
   if (!result) {
     return {
       status: 404,
-      message: `This blog is not found in database`,
+      message: errorMessage,
     };
   } 
-    return result;
+  return {
+    status: 200,
+    message: result,
+  };
 
 };
 

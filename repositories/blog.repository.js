@@ -35,14 +35,14 @@ const createBlog = async (
 
 const getBlogByBlogId = async (blogId) => {
   try {
-    const blog = await Blog.findAll({
+    const blog = await Blog.findOne({
       where: {
         id: blogId,
       },
     });
-
     if (blog) {
       return blog;
+      
     }
     return null;
   } catch (error) {

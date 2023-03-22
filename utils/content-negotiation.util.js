@@ -37,7 +37,7 @@ const sendResponseInContentNegotiation = (req,res,status,data)=>{
         sendHtmlResponse(req,res,status,data);
     } else if(acceptType==="application/xml"){
         sendXmlResponse(req,res,status,data);
-    } else if(acceptType==="application/text"){
+    } else if(acceptType==="text/plain"){
         sendTextResponse(req,res,status,data);
     } else {
         sendJsonResponse(req,res,status,data);    

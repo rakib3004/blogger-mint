@@ -40,7 +40,6 @@ const getUserByUsername = async (username) => {
         username: username,
       },
     });
-
     if (user) {
       return user;
     }
