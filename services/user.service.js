@@ -19,7 +19,6 @@ const getAllUser = async (pageNumber,pageSize) => {
 
 };
 
-
 const createUser = async (body) => {
   const id = commonUtil.generateUUID();
   const username = body.username;
@@ -70,7 +69,6 @@ const createUser = async (body) => {
  
 };
 
-
 const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
   const usernameParam = usernameParamData.toLowerCase();
 
@@ -79,14 +77,14 @@ const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
   }
   const user = await userRepository.getUserByUsername(usernameParam);
 
+
   if (!user) {
     return {
       status: 404,
       message: `${usernameParam} is not found in database`,
     };
   }
-
-   if(fetchPassword){
+     if(fetchPassword){
       return user;
     }
       const dtoUser = new UserDTO(user);
