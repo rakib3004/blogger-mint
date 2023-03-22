@@ -1,12 +1,14 @@
 const userRepository = require("../repositories/user.repository");
+const UserDTO = require("../DTO/user.dto");
 const commonUtil = require("../utils/common.util");
 const validationUtil = require("../utils/validation.util");
-const UserDTO = require("../DTO/user.dto");
+const paginationUtil = require("../utils/pagination.util");
 
 const getAllUser = async (pageNumber,pageSize) => {
-  const totalOffset = (parseInt(pageNumber)-1)*parseInt(pageSize);
-  const totalLimit = parseInt(pageSize);
-  const users = await userRepository.getAllUser(totalOffset,totalLimit);
+  const pageOffset = paginationUtil.getPageOffset(pageNumber,pageSize)
+  const pageLimit = paginationUtil.getPageLimit(pageSize);
+
+  const users = await userRepository.getAllUser(pageOffset,pageLimit);
 
 
 

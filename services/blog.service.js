@@ -1,13 +1,14 @@
 const blogRepository = require("../repositories/blog.repository");
 const commonUtil = require("../utils/common.util");
-const blogUtil = require("../utils/blog.util");
 const userService = require("../services/user.service");
+const paginationUtil = require("../utils/pagination.util");
 
 
 const getAllBlogs = (pageNumber,pageSize) => {
-  const totalOffset = (parseInt(pageNumber)-1)*parseInt(pageSize);
-  const totalLimit = parseInt(pageSize);
-  return blogRepository.getAllBlogs(totalOffset,totalLimit);
+  const pageOffset = paginationUtil.getPageOffset(pageNumber,pageSize)
+  const pageLimit = paginationUtil.getPageLimit(pageSize);
+  
+  return blogRepository.getAllBlogs(pageOffset,pageLimit);
 };
 
 const createBlog = async (body) => {

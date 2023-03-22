@@ -9,11 +9,11 @@ const getAllUser = async (req, res) => {
     let pageSize = parseInt(req.query.size);
 
     if(!req.query.page||pageNumber<0){
-      pageNumber=2;
+      pageNumber=1;
     }
 
     if(!req.query.size||pageSize<0){
-      pageSize=1;
+      pageSize=3;
     }
 
     const getAllUserResponse = await userService.getAllUser(pageNumber,pageSize);

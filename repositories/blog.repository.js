@@ -1,12 +1,12 @@
 const Blog = require("../models/blog.model");
 
-const getAllBlogs = async (totalOffset,totalLimit) => {
+const getAllBlogs = async (pageOffset,pageLimit) => {
   try {
    
     const blogs = await Blog.findAll(
       {
-        offset:totalOffset,
-        limit: totalLimit
+        offset:pageOffset,
+        limit: pageLimit
       }
     );
     return blogs;
