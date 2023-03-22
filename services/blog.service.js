@@ -4,8 +4,8 @@ const blogUtil = require("../utils/blog.util");
 const userService = require("../services/user.service");
 
 
-const getAllBlogs = () => {
-  return blogRepository.getAllBlogs();
+const getAllBlogs = (pageNumber,pageSize) => {
+  return blogRepository.getAllBlogs(pageNumber,pageSize);
 };
 
 const createBlog = async (body) => {
