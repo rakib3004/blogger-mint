@@ -35,11 +35,11 @@ const loginUser = async (req, res) => {
 
     const response = await authService.loginUser(req.body);
 
-   if (response.status==201) {
+   if (response.status===201) {
       res.cookie("jwt", response.message, { httpOnly: true });
       response.message = "Login is successful";
     } 
-    res.send(response);
+    res.send(response.message);
     
   } catch (err) {
     console.error(err);

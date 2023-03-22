@@ -37,24 +37,25 @@ const loginUser = async (body) => {
   if (!validationUtil.checkPasswordLength(rawPassword)) {
     return { status: 400, message: "password is less than 6 digit" };
   }
-
   const password = body.password;
   const fetchPassword=true;
-  const userData = await userService.getUserByUsername(username,fetchPassword);
-
-  if (userData) {
+  const response = await userService.getUserByUsername(username,fetchPassword);
+   
+  if (response.status===404) {
+    return { status: 404, message: `${username} is not a registered user` };
+    }
     const isValidPassword = await authUtil.comparePassword(
       password,
-      userData.password
-    );
+      response.password
+    )
+    
 
     if (isValidPassword) {
-      const token = await authUtil.generateJwtToken(userData.username);
+      const token = await authUtil.generateJwtToken(response.username);
       return {status: 201, message: token};
     } 
       return { status: 401, message: "Authentication Failed" };
-    }
-    return { status: 404, message: `${username} is not found in database` };
+    
  
 };
 

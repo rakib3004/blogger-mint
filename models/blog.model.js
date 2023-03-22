@@ -1,7 +1,6 @@
 const sequelize = require("../configs/sequelize.config");
 const { DataTypes } = require("sequelize");
 const uuid = require("uuid");
-const User = require("./user.model");
 
 
 const Blog = sequelize.define("blogs", {
@@ -21,6 +20,7 @@ const Blog = sequelize.define("blogs", {
   },
   authorId: {
     type: DataTypes.UUID,
+    foreignKey: true,
     allowNull: false,
   },
   createdAt: {
@@ -36,8 +36,6 @@ const Blog = sequelize.define("blogs", {
 });
 
 
-Blog.belongsTo(User, { foreignKey: "authorId" }); 
-User.hasMany(Blog, { foreignKey: "authorId" }); 
 
   (async () => {
     await Blog.sync({ force: false }); 

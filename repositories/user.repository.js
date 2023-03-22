@@ -6,7 +6,8 @@ const getAllUser = async (pageOffset,pageLimit) => {
     const users = await User.findAll(
       {
         offset:pageOffset,
-        limit: pageLimit
+        limit: pageLimit,
+         order: [['createdAt', 'DESC']]
       }
     );
     return users;

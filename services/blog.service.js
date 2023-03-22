@@ -130,12 +130,11 @@ const deleteBlogByBlogId = async (usernameParamData) => {
       message: `${blogIdParam} is not found in database`,
     };
   }
-
   const isUserDeleted = blogRepository.deleteBlogByBlogId(blogIdParam);
   if (!isUserDeleted) {
   return { status: 404, message: `Failed to Delete ${blogIdParam}` };
   } 
-  return { status: 200, message: `${blogIdParam} is successfully deleted` };
+  return { status: 200, message: `'${result.title}' is successfully deleted` };
   
 };
 

@@ -9,7 +9,7 @@ const sendResponseToClient = (res,statusCode,resposeData)=>{
 
 
 const sendJsonResponse = (req,res,status,message,data)=>{
-    const responseData = {status: status, message:message, data:data};
+    const responseData = {message:message, data:data};
     sendResponseToClient(res,status,responseData);
 }
 
