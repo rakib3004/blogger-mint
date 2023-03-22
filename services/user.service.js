@@ -3,9 +3,9 @@ const commonUtil = require("../utils/common.util");
 const validationUtil = require("../utils/validation.util");
 const UserDTO = require("../DTO/user.dto");
 
-const getAllUser = async () => {
+const getAllUser = async (pageNumber,pageSize) => {
 
-  const users = await userRepository.getAllUser();
+  const users = await userRepository.getAllUser(pageNumber,pageSize);
   const dtoUsers = [];
     users.forEach((user) => {
       const dtoUser = new UserDTO(user);

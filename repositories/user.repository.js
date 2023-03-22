@@ -1,8 +1,16 @@
 const User = require("../models/user.model");
 
-const getAllUser = async () => {
+const getAllUser = async (pageNumber,pageSize) => {
   try {
-    const users = await User.findAll();
+    const totalOffset = (parseInt(pageNumber)-1)*parseInt(pageSize);
+    const totalLimit = parseInt(pageSize);
+
+    const users = await User.findAll(
+      {
+        offset:totalOffset,
+        limit: totalLimit
+      }
+    );
     return users;
   } catch (error) {
     console.error(error);
