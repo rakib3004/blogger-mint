@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const uuid = require('uuid');
 const sequelize = require('../configs/sequelize.config');
-
+const User = require("../models/user.model")
 
 const Blog = sequelize.define("blogs", {
   id: {

@@ -25,7 +25,7 @@ const createBlog = async (req, res) => {
         req.body.username = req.username;
         const createBlogResponse = await blogService.createBlog(req.body);
         const responseData = createBlogResponse;
-        return sendResponseInContentNegotiation(req, 201, responseStatus, responseData);
+        return sendResponseInContentNegotiation(req, res, 201, responseData);
     } catch (err) {
         console.error(err);
         return res.send({ status: 500, message: 'Internal Server Error' });

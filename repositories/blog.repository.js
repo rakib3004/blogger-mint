@@ -3,7 +3,9 @@ const Blog = require('../models/blog.model');
 
 const getAllBlogs = async (offset, limit) => {
     try {
-        const blogs = await Blog.findAll(offset, limit);
+        const blogs = await Blog.findAll({
+          
+        });
         return blogs;
     } catch (error) {
         console.error(error);
