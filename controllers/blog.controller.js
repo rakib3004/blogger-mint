@@ -3,24 +3,11 @@ const sendResponseInContentNegotiation = require("../utils/content-negotiation.u
 
 const getAllBlogs = async (req, res) => {
   try {
-<<<<<<< HEAD
 
-    let pageNumber = parseInt(req.query.page);
-    let pageSize = parseInt(req.query.size);
-
-    if(!req.query.page||pageNumber<0){
-      pageNumber=1;
-    }
-
-    if(!req.query.size||pageSize<0){
-      pageSize=3;
-    }
+    let pageNumber =(!req.query.page||req.query.page)<=0? 1: parseInt(req.query.page);
+    let pageSize = (!req.query.limit||req.query.limit)<=0? 3: parseInt(req.query.limit);
      
     const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
-    const responseStatus = 200;
-=======
-    const getAllBlogsResponse = await blogService.getAllBlogs();
->>>>>>> feature/issue-4-content-negotiation
     const responseData = getAllBlogsResponse;
     sendResponseInContentNegotiation(req,res,200,responseData);
   } catch (err) {

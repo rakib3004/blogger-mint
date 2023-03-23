@@ -1,11 +1,11 @@
 
 
 const getPageOffset = (pageNumber,pageSize) => {
-  return (parseInt(pageNumber)-1)*parseInt(pageSize);
+  return (pageNumber-1)*pageSize;
 };
 
 const getPageLimit = (pageSize) => {
- return parseInt(pageSize);
+ return pageSize;
 };
 
 
