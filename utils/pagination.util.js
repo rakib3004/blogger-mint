@@ -1,15 +1,7 @@
+const getPageOffset = (pageNumber, pageSize) => (pageNumber - 1) * pageSize;
 
-
-const getPageOffset = (pageNumber,pageSize) => {
-  return (parseInt(pageNumber)-1)*parseInt(pageSize);
-};
-
-const getPageLimit = (pageSize) => {
- return parseInt(pageSize);
-};
-
-
+const getPageLimit = (pageSize) => pageSize;
 module.exports = {
-  getPageOffset, getPageLimit
+    getPageOffset,
+    getPageLimit,
 };
-
