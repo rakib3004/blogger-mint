@@ -1,4 +1,4 @@
-const jsonToXmlConverter = require("xml-js")
+const jsonToXmlConverter = require("js2xmlparser")
 const jsonToPlainText = require("json-to-plain-text");
 const jsonToHtml = require('json-to-html')
 
@@ -8,25 +8,25 @@ const sendResponseToClient = (res,statusCode,resposeData)=>{
 };
 
 
-const sendJsonResponse = (req,res,status,message,data)=>{
-    const responseData = {message:message, data:data};
-    sendResponseToClient(res,status,responseData);
+
+const sendJsonResponse = (res,status,message,data)=>{
+    const responseData = {status: status, message:message, data:data};
+     sendResponseToClient(res,status,responseData);
 }
 
-const sendHtmlResponse = (req,res,status,data)=>{
+const sendHtmlResponse = (res,status,data)=>{
    const responseData = jsonToHtml(data);
     sendResponseToClient(res,status,responseData);
 };
 
-const sendXmlResponse = (req,res,status,data)=>{
-    const jsonData = JSON.stringify(data);
-    const responseData = jsonToXmlConverter.json2xml(jsonData, {compact: true, spaces: 4})
+const sendXmlResponse = (res,status,data)=>{
+    const responseData = jsonToXmlConverter.parse("data", data);
     sendResponseToClient(res,status,responseData);
 };
 
 
 
-const sendTextResponse = (req,res,status,data)=>{
+const sendTextResponse = (res,status,data)=>{
     const responseData = jsonToPlainText.toPlainText(JSON.parse(JSON.stringify(data)));
     sendResponseToClient(res,status,responseData);
 };
@@ -34,14 +34,16 @@ const sendTextResponse = (req,res,status,data)=>{
 const sendResponseInContentNegotiation = (req,res,status,data)=>{
     const acceptType = req.headers.accept;
     if(acceptType==="application/html"){
-        sendHtmlResponse(req,res,status,data);
-    } else if(acceptType==="application/xml"){
-        sendXmlResponse(req,res,status,data);
-    } else if(acceptType==="text/plain"){
-        sendTextResponse(req,res,status,data);
-    } else {
-        sendJsonResponse(req,res,status,data);    
-    }
+        return  sendHtmlResponse(res,status,data);
+    } 
+    if(acceptType==="application/xml"){
+        return  sendXmlResponse(res,status,data);
+    } 
+    if(acceptType==="text/plain"){
+        return  sendTextResponse(res,status,data);
+    } 
+    return sendJsonResponse(res,status,data);    
+    
        
     } 
 

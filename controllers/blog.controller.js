@@ -3,6 +3,7 @@ const sendResponseInContentNegotiation = require("../utils/content-negotiation.u
 
 const getAllBlogs = async (req, res) => {
   try {
+<<<<<<< HEAD
 
     let pageNumber = parseInt(req.query.page);
     let pageSize = parseInt(req.query.size);
@@ -17,10 +18,13 @@ const getAllBlogs = async (req, res) => {
      
     const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
     const responseStatus = 200;
+=======
+    const getAllBlogsResponse = await blogService.getAllBlogs();
+>>>>>>> feature/issue-4-content-negotiation
     const responseData = getAllBlogsResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+    sendResponseInContentNegotiation(req,res,200,responseData);
   } catch (err) {
-
+    console.error(err)
     res.send({ status: 500, message: "Internal Server Error" });
   }
 };
@@ -32,9 +36,8 @@ const createBlog = async (req, res) => {
     }
     req.body.username = req.username;
     const createBlogResponse = await blogService.createBlog(req.body);
-    const responseStatus = 201;
     const responseData = createBlogResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+    sendResponseInContentNegotiation(req,res,201,responseData);
 
   } catch (err) {
     console.error(err);
@@ -54,8 +57,6 @@ const getBlogByBlogId = async (req, res) => {
         const responseStatus = getBlogByBlogIdResponse.status;
         const responseData = getBlogByBlogIdResponse.message;
         sendResponseInContentNegotiation(req,res,responseStatus,responseData);
-      
-      
    
   } catch (err) {
     console.error(err);
@@ -73,9 +74,8 @@ const getBlogByAuthorId = async (req, res) => {
     const getBlogByAuthorIdResponse = await blogService.getBlogByAuthorId(
       req.params.id
     );
-    const responseStatus = 200;
     const responseData = getBlogByAuthorIdResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+    sendResponseInContentNegotiation(req,res,200,responseData);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
