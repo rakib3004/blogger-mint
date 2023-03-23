@@ -10,18 +10,15 @@ const Blog = sequelize.define("blogs", {
     defaultValue: () => uuid.v4(),
     primaryKey: true,
   },
-
   title: {
     type: DataTypes.STRING(60),
-    allowNull: false
+    notNull: true,
+    notEmpty: true
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false
-  },
-  authorId: {
-    type: DataTypes.UUID,
-    allowNull: false,
+    notNull: true,
+    notEmpty: true
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -32,12 +29,20 @@ const Blog = sequelize.define("blogs", {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW
-  },
+  }
 });
 
 
-Blog.belongsTo(User, { foreignKey: "authorId" }); 
-User.hasMany(Blog, { foreignKey: "authorId" }); 
+User.hasMany(Blog, {
+  foreignKey: 'authorId',
+  onDelete: 'cascade',
+  hooks: true
+});
+
+Blog.belongsTo(
+  User,
+  {foreignKey: 'authorId'}
+);
 
   (async () => {
     await Blog.sync({ force: false }); 
