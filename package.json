@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "npx nodemon app.js",
-    "test": "npx nodemon app.js"
+    "test": "npx nodemon app.js",
+    "lint": "npm install -D prettier && npm install -D babel-eslint && npx install-peerdeps --dev eslint-config-airbnb && npm install -D eslint-config-prettier eslint-plugin-prettier"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +26,17 @@
     "sqlite3": "^5.1.4",
     "uuid": "^9.0.0",
     "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.8.6"
   }
 }
