@@ -3,24 +3,18 @@ const sendResponseInContentNegotiation = require('../utils/content-negotiation.u
 
 const getAllBlogs = async (req, res) => {
     try {
-        let pageNumber = parseInt(req.query.page, 10);
-        let pageSize = parseInt(req.query.size, 10);
+    
 
-        if (!req.query.page || pageNumber < 0) {
-            pageNumber = 1;
-        }
-
-        if (!req.query.size || pageSize < 0) {
-            pageSize = 3;
-        }
-
-        const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber, pageSize);
-        const responseStatus = 200;
-        const responseData = getAllBlogsResponse;
-        return sendResponseInContentNegotiation(req, res, responseStatus, responseData);
-    } catch (err) {
-        return res.send({ status: 500, message: 'Internal Server Error' });
-    }
+    let pageNumber =(!req.query.page||req.query.page)<=0? 1: parseInt(req.query.page,10);
+    let pageSize = (!req.query.limit||req.query.limit)<=0? 3: parseInt(req.query.limit,10);
+     
+    const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
+    const responseData = getAllBlogsResponse;
+    sendResponseInContentNegotiation(req,res,200,responseData);
+  } catch (err) {
+    console.error(err)
+    res.send({ status: 500, message: "Internal Server Error" });
+  }
 };
 
 const createBlog = async (req, res) => {
@@ -30,9 +24,8 @@ const createBlog = async (req, res) => {
         }
         req.body.username = req.username;
         const createBlogResponse = await blogService.createBlog(req.body);
-        const responseStatus = 201;
         const responseData = createBlogResponse;
-        return sendResponseInContentNegotiation(req, res, responseStatus, responseData);
+        return sendResponseInContentNegotiation(req, 201, responseStatus, responseData);
     } catch (err) {
         console.error(err);
         return res.send({ status: 500, message: 'Internal Server Error' });
@@ -46,13 +39,13 @@ const getBlogByBlogId = async (req, res) => {
         }
         const getBlogByBlogIdResponse = await blogService.getBlogByBlogId(req.params.id);
 
-        const responseStatus = getBlogByBlogIdResponse.status;
         const responseData = getBlogByBlogIdResponse.message;
-        return sendResponseInContentNegotiation(req, res, responseStatus, responseData);
+        return sendResponseInContentNegotiation(req, res, 200, responseData);
     } catch (err) {
         console.error(err);
         return res.send({ status: 500, message: 'Internal Server Error' });
     }
+
 };
 
 const getBlogByAuthorId = async (req, res) => {
@@ -62,9 +55,8 @@ const getBlogByAuthorId = async (req, res) => {
         }
 
         const getBlogByAuthorIdResponse = await blogService.getBlogByAuthorId(req.params.id);
-        const responseStatus = 200;
         const responseData = getBlogByAuthorIdResponse;
-        return sendResponseInContentNegotiation(req, res, responseStatus, responseData);
+        return sendResponseInContentNegotiation(req, res, 200, responseData);
     } catch (err) {
         console.error(err);
         return res.send({ status: 500, message: 'Internal Server Error' });
@@ -81,7 +73,6 @@ const updateBlogByBlogId = async (req, res) => {
         }
         const updateBlogByBlogIdResponse = await blogService.updateBlogByBlogId(
             req.body,
-            // eslint-disable-next-line comma-dangle
             req.params.id
         );
         return res.send({
