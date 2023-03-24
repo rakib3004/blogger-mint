@@ -5,8 +5,8 @@ const authenticationMiddleware = (req, res, next) => {
         const accessToken = req.cookies.jwt;
 
         if (!accessToken) {
-            return res.status(403).json({
-                message: 'JWT authorization failed',
+            return res.status(401).json({
+                message: 'Unauthorized Access',
             });
         }
 
@@ -18,7 +18,7 @@ const authenticationMiddleware = (req, res, next) => {
         return next();
     } catch (err) {
         console.error(err);
-        return res.status(401).send('JWT authorization failed');
+        return res.status(400).send('Authentication is failed');
     }
 };
 
