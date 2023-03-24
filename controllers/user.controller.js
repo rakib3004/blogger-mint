@@ -3,17 +3,13 @@ const sendResponseInContentNegotiation = require('../utils/content-negotiation.u
 
 const getAllUser = async (req, res) => {
     try {
-        let pageNumber = parseInt(req.query.page, 10);
-        let pageSize = parseInt(req.query.size, 10);
-
-        if (!req.query.page || pageNumber < 0) {
-            pageNumber = 1;
-        }
-
-        if (!req.query.size || pageSize < 0) {
-            pageSize = 3;
-        }
-
+        const radixValue = 10;
+        const defaultPageNumber = 1;
+        const defaultPageSize = 3;
+        const pageNumber =
+            !req.query.page || req.query.page <= 0 ? defaultPageNumber : parseInt(req.query.page, radixValue);
+        const pageSize =
+            !req.query.limit || req.query.limit <= 0 ? defaultPageSize : parseInt(req.query.limit, radixValue);
         const getAllUserResponse = await userService.getAllUser(pageNumber, pageSize);
         const responseStatus = 200;
         const responseData = getAllUserResponse;
