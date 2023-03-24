@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 const User = require('../models/user.model');
 
 const getAllUser = async (pageOffset, pageLimit) => {

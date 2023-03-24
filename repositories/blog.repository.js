@@ -1,10 +1,10 @@
-/* eslint-disable no-useless-catch */
 const Blog = require('../models/blog.model');
 
 const getAllBlogs = async (offset, limit) => {
     try {
         const blogs = await Blog.findAll({
-          
+            offset,
+            limit,
         });
         return blogs;
     } catch (error) {

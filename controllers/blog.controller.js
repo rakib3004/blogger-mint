@@ -3,18 +3,21 @@ const sendResponseInContentNegotiation = require('../utils/content-negotiation.u
 
 const getAllBlogs = async (req, res) => {
     try {
-    
+        const radixValue = 10;
+        const defaultPageNumber = 1;
+        const defaultPageSize = 3;
+        const pageNumber =
+            !req.query.page || req.query.page <= 0 ? defaultPageNumber : parseInt(req.query.page, radixValue);
+        const pageSize =
+            !req.query.limit || req.query.limit <= 0 ? defaultPageSize : parseInt(req.query.limit, radixValue);
 
-    let pageNumber =(!req.query.page||req.query.page)<=0? 1: parseInt(req.query.page,10);
-    let pageSize = (!req.query.limit||req.query.limit)<=0? 3: parseInt(req.query.limit,10);
-     
-    const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
-    const responseData = getAllBlogsResponse;
-    sendResponseInContentNegotiation(req,res,200,responseData);
-  } catch (err) {
-    console.error(err)
-    res.send({ status: 500, message: "Internal Server Error" });
-  }
+        const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber, pageSize);
+        const responseData = getAllBlogsResponse;
+        sendResponseInContentNegotiation(req, res, 200, responseData);
+    } catch (err) {
+        console.error(err);
+        res.send({ status: 500, message: 'Internal Server Error' });
+    }
 };
 
 const createBlog = async (req, res) => {
@@ -45,7 +48,6 @@ const getBlogByBlogId = async (req, res) => {
         console.error(err);
         return res.send({ status: 500, message: 'Internal Server Error' });
     }
-
 };
 
 const getBlogByAuthorId = async (req, res) => {
@@ -71,10 +73,7 @@ const updateBlogByBlogId = async (req, res) => {
         if (!req.params.id) {
             res.send({ status: 400, message: 'Request parameter is empty' });
         }
-        const updateBlogByBlogIdResponse = await blogService.updateBlogByBlogId(
-            req.body,
-            req.params.id
-        );
+        const updateBlogByBlogIdResponse = await blogService.updateBlogByBlogId(req.body, req.params.id);
         return res.send({
             status: updateBlogByBlogIdResponse.status,
             message: updateBlogByBlogId.message,

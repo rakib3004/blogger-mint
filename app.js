@@ -10,7 +10,7 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cookieParser());
 app.use('/', indexRouter);
-app.use((err, req, res, next) => {
+app.use((err, res, next) => {
     if (!err) {
         return next();
     }

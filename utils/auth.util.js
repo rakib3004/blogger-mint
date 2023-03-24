@@ -1,6 +1,3 @@
-/* eslint-disable comma-dangle */
-/* eslint-disable max-len */
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 

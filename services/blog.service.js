@@ -26,7 +26,6 @@ const createBlog = async (body) => {
     if (!description) {
         return { status: 400, message: 'description Field is Empty' };
     }
-    // validation: title must be more than 5 word, description must be 10 word
 
     const createdAt = commonUtil.formatUnixTimestamp(Date.now());
     const updatedAt = commonUtil.formatUnixTimestamp(Date.now());

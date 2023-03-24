@@ -1,4 +1,3 @@
-/* eslint-disable comma-dangle */
 const userService = require('../services/user.service');
 const sendResponseInContentNegotiation = require('../utils/content-negotiation.util');
 
@@ -67,9 +66,7 @@ const deleteUserByUsername = async (req, res) => {
             return res.send({ status: 400, message: 'Request parameter is empty' });
         }
 
-        const deleteUserByUsernameResponse = await userService.deleteUserByUsername(
-            req.params.username
-        );
+        const deleteUserByUsernameResponse = await userService.deleteUserByUsername(req.params.username);
         return res.status(200).json(deleteUserByUsernameResponse);
     } catch (err) {
         console.error(err);
