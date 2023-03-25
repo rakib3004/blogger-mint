@@ -1,45 +1,45 @@
 const { DataTypes } = require('sequelize');
 const uuid = require('uuid');
 const sequelize = require('../configs/sequelize.config');
+const User = require('./user.model');
 
-const User = sequelize.define('users', {
+const Blog = sequelize.define('blogs', {
     id: {
         type: DataTypes.UUID,
         defaultValue: () => uuid.v4(),
         primaryKey: true,
     },
-    username: {
+    title: {
         type: DataTypes.STRING(60),
-        allowNull: false,
-        unique: true,
-        validate: {
-            is: /^[a-zA-Z0-9]{2,60}$/,
-        },
+        notNull: true,
+        notEmpty: true,
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true,
-        },
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+    description: {
+        type: DataTypes.TEXT,
+        notNull: true,
+        notEmpty: true,
     },
     createdAt: {
         type: DataTypes.DATE,
+        allowNull: false,
         defaultValue: DataTypes.NOW,
     },
     updatedAt: {
         type: DataTypes.DATE,
+        allowNull: false,
         defaultValue: DataTypes.NOW,
     },
 });
+User.hasMany(Blog, {
+    foreignKey: 'authorId',
+    onDelete: 'cascade',
+    hooks: true,
+});
+
+Blog.belongsTo(User, { foreignKey: 'authorId' });
 
 (async () => {
-    await User.sync({ force: false });
+    await Blog.sync({ force: false });
 })();
 
-module.exports = User;
+module.exports = Blog;

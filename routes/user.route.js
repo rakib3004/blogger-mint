@@ -1,15 +1,15 @@
-const userController = require("../controllers/user.controller");
-const checkLogin = require("../middlewares/auth.middleware");
-const express = require("express");
+const express = require('express');
+const userController = require('../controllers/user.controller');
+const authenticationMiddleware = require('../middlewares/authentication.middleware');
+const userAuthorizationMiddleware = require('../middlewares/user.authorization.middleware');
+
 const router = express.Router();
 
-router.route("/").get(checkLogin,userController.getAllUser);
+router.route('/').get(authenticationMiddleware, userController.getAllUser);
 
 router
-  .route("/:username")
-  .get(checkLogin,userController.getUserByUsername)
-  .put(checkLogin,userController.updateUserPasswordByUsername)
-  .delete(checkLogin,userController.deleteUserByUsername);
-
-
+    .route('/:username')
+    .get(authenticationMiddleware, userController.getUserByUsername)
+    .put(authenticationMiddleware, userAuthorizationMiddleware, userController.updateUserPasswordByUsername)
+    .delete(authenticationMiddleware, userAuthorizationMiddleware, userController.deleteUserByUsername);
 module.exports = router;
