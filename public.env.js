@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const info = `
 SERVER_PORT=8000
 DATABASE_PORT=3306
@@ -11,5 +12,4 @@ JWT_SECRET_TOKEN=khondokhondocetonagulochetonahinhoyeroysarthohasilermohautsobes
 JWT_SECRET_TOKEN_EXPIRE_TIME=10h
 JWT_SECRET_TOKEN_ALGORITHM=HS256
 
-
-`
+`;
