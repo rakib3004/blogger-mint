@@ -35,11 +35,12 @@ const getUserByUsername = async (req, res) => {
 };
 
 const updateUserPasswordByUsername = async (req, res) => {
+  if (!Object.keys(req.body).length) {
+    return res.send({ status: 400, message: "Request body is empty" });
+  }
+  
   try {
-    if (JSON.stringify(req.body)==="{}") {
-      return res.send({ status: 400, message: "Request body is empty" });
-    }
-    
+
     if (!req.params.username) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }

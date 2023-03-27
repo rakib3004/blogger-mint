@@ -11,11 +11,12 @@ const getAllBlogs = async (req, res) => {
 };
 
 const createBlog = async (req, res) => {
+  if (!Object.keys(req.body).length) {
+    return res.send({ status: 400, message: "Request body is empty" });
+  }
+
   try {
 
-    if (JSON.stringify(req.body)==="{}") {
-      return res.send({ status: 400, message: "Request body is empty" });
-    }
     req.body.username = req.username;
 
     const response = await blogService.createBlog(req.body);
@@ -28,18 +29,17 @@ const createBlog = async (req, res) => {
   }
 };
 
-const getBlogByBlogId = async (req, res) => {
+const getBlogById = async (req, res) => {
   try {
 
     if (!req.params.id) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
 
-
-    const getBlogByBlogIdResponse = await blogService.getBlogByBlogId(
+    const getBlogByIdResponse = await blogService.getBlogById(
       req.params.id
     );
-    res.status(200).json(getBlogByBlogIdResponse);
+    res.status(200).json(getBlogByIdResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -63,35 +63,34 @@ const getBlogByAuthorId = async (req, res) => {
   }
 };
 
-const updateBlogByBlogId = async (req, res) => {
-  try {
+const updateBlogById = async (req, res) => {
 
-    
-    if (JSON.stringify(req.body)==="{}") {
-      return res.send({ status: 400, message: "Request body is empty" });
-    }
+  if (!Object.keys(req.body).length) {
+    return res.send({ status: 400, message: "Request body is empty" });
+  }
+  try {
     if (!req.params.id) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
-    const updateBlogByBlogIdResponse =
-      await blogService.updateBlogByBlogId(req.body, req.params.id);
-    res.send({status: updateBlogByBlogIdResponse.status, message:updateBlogByBlogId.message});
+    const updateBlogByIdResponse =
+      await blogService.updateBlogById(req.body, req.params.id);
+    res.send({status: updateBlogByIdResponse.status, message:updateBlogById.message});
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
   }
 };
 
-const deleteBlogByBlogId = async (req, res) => {
+const deleteBlogById = async (req, res) => {
   try {
     if (!req.params.id) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
 
-    const deleteBlogByBlogIdResponse = await blogService.deleteBlogByBlogId(
+    const deleteBlogByIdResponse = await blogService.deleteBlogById(
       req.params.id
     );
-    res.status(200).json(deleteBlogByBlogIdResponse);
+    res.status(200).json(deleteBlogByIdResponse);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -105,9 +104,9 @@ const deleteBlogByBlogId = async (req, res) => {
 module.exports = {
   getAllBlogs,
   createBlog,
-  getBlogByBlogId,
+  getBlogById,
   getBlogByAuthorId,
-  updateBlogByBlogId,
-  deleteBlogByBlogId,
+  updateBlogById,
+  deleteBlogById,
   
 };

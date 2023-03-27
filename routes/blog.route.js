@@ -12,9 +12,9 @@ router
 
 router
   .route("/:id")
-  .get(blogController.getBlogByBlogId)
-  .put(authenticationMiddleware,authorizationMiddleware,blogController.updateBlogByBlogId)
-  .delete(authenticationMiddleware,authorizationMiddleware,blogController.deleteBlogByBlogId);
+  .get(blogController.getBlogById)
+  .put(authenticationMiddleware,authorizationMiddleware,blogController.updateBlogById)
+  .delete(authenticationMiddleware,authorizationMiddleware,blogController.deleteBlogById);
 
 router
   .route("/author/:id")
