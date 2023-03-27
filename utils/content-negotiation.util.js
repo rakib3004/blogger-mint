@@ -2,49 +2,43 @@ const jsonToXmlConverter = require("js2xmlparser")
 const jsonToPlainText = require("json-to-plain-text");
 const jsonToHtml = require('json-to-html')
 
-
-const sendResponseToClient = (res,statusCode,resposeData)=>{
-    res.status(statusCode).send(resposeData);
+const sendResponseToClient = (res,statusCode,responseData)=>{
+    res.status(statusCode).send(responseData);
 };
 
-
-const sendJsonResponse = (res,status,message,data)=>{
-    const responseData = {status: status, message:message, data:data};
-     sendResponseToClient(res,status,responseData);
+const convertToJsonResponse = (data)=>{
+    return data;
 }
 
-const sendHtmlResponse = (res,status,data)=>{
-   const responseData = jsonToHtml(data);
-    sendResponseToClient(res,status,responseData);
+const convertToHtmlResponse = (data)=>{
+   return jsonToHtml(data);
 };
 
-const sendXmlResponse = (res,status,data)=>{
-    const responseData = jsonToXmlConverter.parse("data", data);
-    sendResponseToClient(res,status,responseData);
+const convertToXmlResponse = (data)=>{
+    return jsonToXmlConverter.parse("data", data);
 };
 
-
-
-const sendTextResponse = (res,status,data)=>{
-    const responseData = jsonToPlainText.toPlainText(JSON.parse(JSON.stringify(data)));
-    sendResponseToClient(res,status,responseData);
+const convertToTextResponse = (data)=>{
+    return jsonToPlainText.toPlainText(JSON.parse(JSON.stringify(data)));
 };
 
-const sendResponseInContentNegotiation = (req,res,status,data)=>{
+const sendResponseInContentNegotiation = (req, res, status, data) => {
+    let responseData = convertToJsonResponse(data);
     const acceptType = req.headers.accept;
-    if(acceptType==="application/html"){
-        return  sendHtmlResponse(res,status,data);
-    } 
-    if(acceptType==="application/xml"){
-        return  sendXmlResponse(res,status,data);
-    } 
-    if(acceptType==="text/plain"){
-        return  sendTextResponse(res,status,data);
-    } 
-    return sendJsonResponse(res,status,data);    
+    switch (acceptType) {
+        case "application/html":
+            responseData= convertToHtmlResponse(data);
+            break;
+        case "application/xml":
+            responseData= convertToXmlResponse(data);
+            break;
+        case "text/plain":
+            responseData= convertToTextResponse(data);
+            break;
     
-       
-    } 
+    }
+    sendResponseToClient(res,status,responseData);
+}
 
 
 module.exports = sendResponseInContentNegotiation;
