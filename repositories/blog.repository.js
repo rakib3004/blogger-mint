@@ -27,20 +27,8 @@ const createBlog = async (
       createdAt: createdAt,
       updatedAt: updatedAt,
     });
-    return blog;
-  } catch (error) {
-    throw error;
-  }
-};
 
-const getBlogByBlogId = async (blogId) => {
-  try {
-    const blog = await Blog.findOne({
-      where: {
-        id: blogId,
-      },
-    });
-    if (blog) {
+    if(blog){
       return blog;
       
     }
@@ -50,16 +38,34 @@ const getBlogByBlogId = async (blogId) => {
   }
 };
 
+const getBlogById = async (blogId) => {
+  try {
+    const blog = await Blog.findOne({
+      where: {
+        id: blogId,
+      },
+    });
+
+    if (blog) {
+      return blog;
+    } 
+      return null;
+  
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getBlogByAuthorId = async (authorId) => {
   try {
-    const blogs = await Blog.findAll({
+    const blog = await Blog.findAll({
       where: {
         authorId: authorId,
       },
     });
 
-    if (blogs) {
-      return blogs;
+    if (blog) {
+      return blog;
     } 
       return null;
 
@@ -68,20 +74,25 @@ const getBlogByAuthorId = async (authorId) => {
   }
 };
 
-const updateBlogByBlogId = async (title, description, blogId) => {
+const updateBlogById = async (title, description, blogId) => {
   try {
     const blog = await Blog.update(
       { title: title, description: description },
       { where: { id: blogId } }
     );
-    return blog;
+
+    if (blog) {
+      return blog;
+    } 
+      return null;
+      
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
 
-const deleteBlogByBlogId = async (blogId) => {
+const deleteBlogById = async (blogId) => {
   try {
     const blog = await Blog.findOne({
       where: {
@@ -103,8 +114,8 @@ const deleteBlogByBlogId = async (blogId) => {
 module.exports = {
   getAllBlogs,
   createBlog,
-  getBlogByBlogId,
+  getBlogById,
   getBlogByAuthorId,
-  updateBlogByBlogId,
-  deleteBlogByBlogId,
+  updateBlogById,
+  deleteBlogById,
 };
