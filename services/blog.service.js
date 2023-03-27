@@ -13,8 +13,8 @@ const getAllBlogs = (pageNumber, pageSize) => {
 
 const createBlog = async (body) => {
   const id = commonUtil.generateUUID();
-  const title = body.title;
-  const description = body.description;
+  const { title } = body;
+  const { description } = body;
   const username = String(body.username);
   const authorResponse = await userService.getUserByUsername(username);
 

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const userRepository = require('../repositories/user.repository');
 const UserDTO = require('../DTO/user.dto');
 const commonUtil = require('../utils/common.util');
@@ -55,14 +54,7 @@ const createUser = async (body) => {
     const createdAt = commonUtil.formatUnixTimestamp(Date.now());
     const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
-    const newUser = await userRepository.createUser(
-        id,
-        username,
-        email,
-        password,
-        createdAt,
-        updatedAt,
-    );
+    const newUser = await userRepository.createUser(id, username, email, password, createdAt, updatedAt);
     return { status: 201, message: newUser };
 };
 
@@ -112,11 +104,7 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
 
     const password = await validationUtil.generateHashPassword(body.password);
     const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
-    const isPasswordUpdated = userRepository.updateUserPasswordByUsername(
-        password,
-        updatedAt,
-        usernameParam,
-    );
+    const isPasswordUpdated = userRepository.updateUserPasswordByUsername(password, updatedAt, usernameParam);
     if (isPasswordUpdated) {
         return { status: 200, message: 'password is successfully updated' };
     }
