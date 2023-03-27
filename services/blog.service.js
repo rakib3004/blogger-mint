@@ -15,8 +15,8 @@ const createBlog = async (body) => {
   const id = commonUtil.generateUUID();
   const title = body.title;
   const description = body.description;
-  const userName = String(body.username);
-  const authorResponse = await userService.getUserByUsername(userName);
+  const username = String(body.username);
+  const authorResponse = await userService.getUserByUsername(username);
 
   const authorId = authorResponse.user.id;
 
@@ -28,7 +28,6 @@ const createBlog = async (body) => {
   if (!description) {
     return { status: 400, message: "description Field is Empty" };
   }
-// validation: title must be more than 5 word, description must be 10 word
 
 const createdAt = commonUtil.formatUnixTimestamp(Date.now());
 const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
@@ -48,8 +47,8 @@ const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
     return { status: 500, message: "Failed to create new blog" };
 };
 
-const getBlogByBlogId = async (blogIdParam) => {
-  const result = await blogRepository.getBlogByBlogId(blogIdParam);
+const getBlogById = async (blogId) => {
+  const result = await blogRepository.getBlogById(blogId);
 
   const errorMessage = {"message":"This blog is not found in database"};
 
@@ -79,12 +78,12 @@ const getBlogByAuthorId = async (authorId) => {
 
 };
 
-const updateBlogByBlogId = async (body, blogIdParam) => {
-  const title = body.title;
-  const description = body.description;
+const updateBlogById = async (body, blogId) => {
+  let title = body.title;
+  let description = body.description;
 
 
-  const result = await blogRepository.getBlogByBlogId(blogIdParam);
+  const result = await blogRepository.getBlogById(blogId);
   if (!result) {
     return {
       status: 404,
@@ -105,12 +104,12 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
   }
   
 
-  const isBlogBodyUpdated = blogRepository.updateBlogByBlogId(
+  const updatedBlog = blogRepository.updateBlogById(
     title,
     description,
-    blogIdParam
+    blogId
   );
-  if (isBlogBodyUpdated) {
+  if (updatedBlog) {
     return { status: 200, message: `Blog body is updated successfully` };
   }
   
@@ -119,22 +118,23 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
 };
 
 
-const deleteBlogByBlogId = async (usernameParamData) => {
-  const blogIdParam = usernameParamData;
+const deleteBlogById = async (blogId) => {
   
-  const result = await blogRepository.getBlogByBlogId(blogIdParam);
+  const result = await blogRepository.getBlogById(blogId);
 
   if (!result) {
     return {
       status: 404,
-      message: `${blogIdParam} is not found in database`,
+      message: `${blogId} is not found in database`,
     };
   }
-  const isUserDeleted = blogRepository.deleteBlogByBlogId(blogIdParam);
+
+  const isUserDeleted = blogRepository.deleteBlogById(blogId);
   if (!isUserDeleted) {
-  return { status: 404, message: `Failed to Delete ${blogIdParam}` };
+  return { status: 404, message: `Failed to Delete ${blogId}` };
   } 
   return { status: 200, message: `'${result.title}' is successfully deleted` };
+
   
 };
 
@@ -142,9 +142,9 @@ const deleteBlogByBlogId = async (usernameParamData) => {
 module.exports = {
   getAllBlogs,
   createBlog,
-  getBlogByBlogId,
+  getBlogById,
   getBlogByAuthorId,
-  updateBlogByBlogId,
-  deleteBlogByBlogId,
+  updateBlogById,
+  deleteBlogById,
 
 };
