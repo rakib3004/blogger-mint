@@ -37,23 +37,25 @@ const getUserByUsername = async (req, res) => {
 };
 
 const updateUserPasswordByUsername = async (req, res) => {
-    try {
-        if (JSON.stringify(req.body) === '{}') {
-            return res.send({ status: 400, message: 'Request body is empty' });
-        }
+  if (!Object.keys(req.body).length) {
+    return res.send({ status: 400, message: "Request body is empty" });
+  }
+  
+  try {
 
-        if (!req.params.username) {
-            return res.send({ status: 400, message: 'Request parameter is empty' });
-        }
-        const updateUserPasswordByUsernameResponse = await userService.updateUserPasswordByUsername(
-            req.body,
-            req.params.username
-        );
-        return res.status(200).json(updateUserPasswordByUsernameResponse);
-    } catch (err) {
-        console.error(err);
-        return res.send({ status: 500, message: 'Internal Server Error' });
+    if (!req.params.username) {
+      res.send({ status: 400, message: "Request parameter is empty" });
     }
+    const updateUserPasswordByUsernameResponse =
+      await userService.updateUserPasswordByUsername(
+        req.body,
+        req.params.username
+      );
+    res.status(200).json(updateUserPasswordByUsernameResponse);
+  } catch (err) {
+    console.error(err);
+    res.send({ status: 500, message: "Internal Server Error" });
+  }
 };
 
 const deleteUserByUsername = async (req, res) => {

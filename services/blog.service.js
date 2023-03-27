@@ -12,11 +12,11 @@ const getAllBlogs = (pageNumber, pageSize) => {
 };
 
 const createBlog = async (body) => {
-    const id = commonUtil.generateUUID();
-    const { title } = body;
-    const { description } = body;
-    const userName = String(body.username);
-    const authorResponse = await userService.getUserByUsername(userName);
+  const id = commonUtil.generateUUID();
+  const title = body.title;
+  const description = body.description;
+  const username = String(body.username);
+  const authorResponse = await userService.getUserByUsername(username);
 
     const authorId = authorResponse.user.id;
     if (!title) {
@@ -45,8 +45,8 @@ const createBlog = async (body) => {
     return { status: 500, message: 'Failed to create new blog' };
 };
 
-const getBlogByBlogId = async (blogIdParam) => {
-    const result = await blogRepository.getBlogByBlogId(blogIdParam);
+const getBlogById = async (blogId) => {
+  const result = await blogRepository.getBlogById(blogId);
 
     const errorMessage = { message: 'This blog is not found in database' };
 
@@ -74,10 +74,10 @@ const getBlogByAuthorId = async (authorId) => {
     return result;
 };
 
-const updateBlogByBlogId = async (body, blogIdParam) => {
+const updateBlogById = async (body, blogId) => {
     let { title } = body;
     let { description } = body;
-    const result = await blogRepository.getBlogByBlogId(blogIdParam);
+    const result = await blogRepository.getBlogById(blogId);
     if (!result) {
         return {
             status: 404,
@@ -93,37 +93,38 @@ const updateBlogByBlogId = async (body, blogIdParam) => {
         title = result.title;
     }
 
-    const isBlogBodyUpdated = blogRepository.updateBlogByBlogId(title, description, blogIdParam);
-    if (isBlogBodyUpdated) {
-        return { status: 200, message: 'Blog body is updated successfully' };
+    const updatedBlog = blogRepository.updateBlogById(title, description, blogId);
+    if (updatedBlog) {
+        return { status: 200, message: `${updatedBlog.title} is updated successfully` };
     }
 
     return { status: 500, message: 'Failed to update blog' };
 };
 
-const deleteBlogByBlogId = async (usernameParamData) => {
-    const blogIdParam = usernameParamData;
+const deleteBlogById = async (usernameParamData) => {
+    const blogId = usernameParamData;
 
-    const result = await blogRepository.getBlogByBlogId(blogIdParam);
+    const result = await blogRepository.getBlogById(blogId);
 
     if (!result) {
         return {
             status: 404,
-            message: `${blogIdParam} is not found in database`,
+            message: `${blogId} is not found in database`,
         };
     }
-    const isUserDeleted = blogRepository.deleteBlogByBlogId(blogIdParam);
-    if (!isUserDeleted) {
-        return { status: 404, message: `Failed to Delete ${blogIdParam}` };
+    const isBlogDeleted = blogRepository.deleteBlogById(blogId);
+    if (!isBlogDeleted) {
+        return { status: 404, message: `Failed to Delete ${blogId}` };
     }
     return { status: 200, message: `'${result.title}' is successfully deleted` };
 };
 
 module.exports = {
-    getAllBlogs,
-    createBlog,
-    getBlogByBlogId,
-    getBlogByAuthorId,
-    updateBlogByBlogId,
-    deleteBlogByBlogId,
+  getAllBlogs,
+  createBlog,
+  getBlogById,
+  getBlogByAuthorId,
+  updateBlogById,
+  deleteBlogById,
+
 };
