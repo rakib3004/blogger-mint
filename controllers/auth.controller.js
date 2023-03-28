@@ -9,7 +9,7 @@ const registerUser = async (req, res) => {
   try {
      const response = await authService.registerUser(req.body);
 
-    if (response.status==201) {
+    if (response.status===201) {
       res.cookie("jwt", response.message, { httpOnly: true });
       response.message = "Registration is successful";
     
@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
    
     const response = await authService.loginUser(req.body);
 
-   if (response.status===201) {
+   if (response.status===200) {
       res.cookie("jwt", response.message, { httpOnly: true });
       response.message = "Login is successful";
     } 

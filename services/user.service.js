@@ -83,7 +83,7 @@ const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
   if (!user) {
     return {
       status: 404,
-      message: `${usernameParam} is not found in database`,
+      message: `${usernameParam} is not found`,
     };
   }
      if(fetchPassword){
@@ -110,7 +110,7 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
   if (!result) {
     return {
       status: 404,
-      message: `${usernameParam} is not found in database`,
+      message: `${usernameParam} is not found`,
     };
   }
 
@@ -141,7 +141,7 @@ const deleteUserByUsername = async (usernameParamData) => {
   if (!result) {
     return {
       status: 404,
-      message: `${usernameParam} is not found in database`,
+      message: `${usernameParam} is not found`,
     };
   }
 

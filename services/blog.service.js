@@ -50,7 +50,7 @@ const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 const getBlogById = async (blogId) => {
   const result = await blogRepository.getBlogById(blogId);
 
-  const errorMessage = {"message":"This blog is not found in database"};
+  const errorMessage = {"message":"No blog found with this id"};
 
   if (!result) {
     return {
@@ -71,7 +71,7 @@ const getBlogByAuthorId = async (authorId) => {
   if (!result) {
     return {
       status: 404,
-      message: `This blog is not found in database`,
+      message: `No blog found with this author id`,
     };
   }
     return result;
@@ -87,7 +87,7 @@ const updateBlogById = async (body, blogId) => {
   if (!result) {
     return {
       status: 404,
-      message: `This blog is not found in database`,
+      message: `No blog found with this id`,
     };
   }
 
@@ -125,7 +125,7 @@ const deleteBlogById = async (blogId) => {
   if (!result) {
     return {
       status: 404,
-      message: `${blogId} is not found in database`,
+      message: `No blog found with this id`,
     };
   }
 

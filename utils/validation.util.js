@@ -11,16 +11,20 @@ const validateEmail = (email) => {
   };
   
 const checkPasswordLength = (password) => {
-    if (password.length >= 6) {
-      return true;
-    } else {
-      return false;
-    }
+  return (password.length >= 6);
+
+
   };
   const generateHashPassword = async (plainPassword) => {
-    const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash(plainPassword, salt);
-    return password;
+    try{
+      const salt = await bcrypt.genSalt(10);
+      const Hashpassword = await bcrypt.hash(plainPassword, salt);
+      return Hashpassword;
+    }
+    catch(err){
+      throw err;
+    }
+   
   };
 
 
