@@ -8,8 +8,16 @@ const getPageLimit = (pageSize) => {
  return pageSize;
 };
 
+const getPageNumber = (page) => {
+  return (!page||page<=0)? 1: parseInt(page);
+ };
+
+ const getPageSize = (limit) => {
+  return (!limit||limit<=0)? 10: parseInt(limit);
+ };
+ 
 
 module.exports = {
-  getPageOffset, getPageLimit
+  getPageOffset, getPageLimit, getPageNumber, getPageSize
 };
 
