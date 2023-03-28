@@ -16,10 +16,9 @@
       "no-useless-catch": 0,
       "max-len": 0,
       "default-case": 0,
-      "prettier/prettier": [
-        "error",
+      "prettier/prettier":0,/* [
+       0,
         {
-          "trailingComma": "es5",
           "singleQuote": true,
           "parser": "flow",
           "printWidth": 120,
@@ -27,6 +26,7 @@
           "semi": true
         }
       ]
-    },
+    },*/
     "plugins": ["prettier"]
   }
+}

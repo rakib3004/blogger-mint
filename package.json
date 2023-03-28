@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npx nodemon app.js",
-    "test": "jest",
+    "test": "jest --watchAll",
     "lint": "npm install -D prettier && npm install -D babel-eslint && npx install-peerdeps --dev eslint-config-airbnb && npm install -D eslint-config-prettier eslint-plugin-prettier"
   },
   "keywords": [],
@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.2.0",
+    "node-fetch": "^3.3.1",
     "node-mocks-http": "^1.12.2",
     "sequelize": "^6.29.3",
     "sqlite3": "^5.1.4",
@@ -29,6 +30,7 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
