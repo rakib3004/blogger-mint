@@ -4,14 +4,14 @@ const userService = require("../services/user.service");
 require("dotenv").config();
 
 const registerUser = async (body) => {
-  const response = await userService.createUser(body);
-  if (response.status==201) {
+  const newUserResponse = await userService.createUser(body);
+  if (newUserResponse.status==201) {
 
-    const token = await authUtil.generateJwtToken(response.message.username);
+    const token = await authUtil.generateJwtToken(newUserResponse.message.username);
     
     return {status: 201, message: token};
   } 
-    return {status: response.status, message: response.message};
+    return {status: newUserResponse.status, message: newUserResponse.message};
 
 };
 
@@ -39,20 +39,20 @@ const loginUser = async (body) => {
   }
   const password = body.password;
   const fetchPassword=true;
-  const response = await userService.getUserByUsername(username,fetchPassword);
+  const getUserResponse = await userService.getUserByUsername(username,fetchPassword);
    
-  if (response.status===404) {
+  if (getUserResponse.status===404) {
     return { status: 404, message: `${username} is not a registered user` };
     }
     const isValidPassword = await authUtil.comparePassword(
       password,
-      response.password
+      getUserResponse.password
     )
     
 
     if (isValidPassword) {
-      const token = await authUtil.generateJwtToken(response.username);
-      return {status: 201, message: token};
+      const token = await authUtil.generateJwtToken(getUserResponse.username);
+      return {status: 200, message: token};
     } 
       return { status: 401, message: "Authentication Failed" };
     

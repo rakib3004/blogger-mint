@@ -5,7 +5,7 @@ const userAuthorizationMiddleware = require('../middlewares/user.authorization.m
 
 const router = express.Router();
 
-router.route('/').get(authenticationMiddleware, userController.getAllUser);
+router.route('/').get(authenticationMiddleware, userController.getAllUsers);
 
 router
     .route('/:username')

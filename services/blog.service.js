@@ -48,33 +48,30 @@ const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 };
 
 const getBlogById = async (blogId) => {
-  const result = await blogRepository.getBlogById(blogId);
+  const getBlogResponse = await blogRepository.getBlogById(blogId);
 
   const errorMessage = {"message":"No blog found with this id"};
 
-  if (!result) {
+  if (!getBlogResponse) {
     return {
       status: 404,
       message: errorMessage,
     };
   } 
-  return {
-    status: 200,
-    message: result,
-  };
+  return getBlogResponse;
 
 };
 
 const getBlogByAuthorId = async (authorId) => {
-  const result = await blogRepository.getBlogByAuthorId(authorId);
+  const getBlogByAuthorIdResponse = await blogRepository.getBlogByAuthorId(authorId);
 
-  if (!result) {
+  if (!getBlogByAuthorIdResponse) {
     return {
       status: 404,
       message: `No blog found with this author id`,
     };
   }
-    return result;
+    return getBlogByAuthorIdResponse;
 
 };
 
@@ -83,8 +80,9 @@ const updateBlogById = async (body, blogId) => {
   let description = body.description;
 
 
-  const result = await blogRepository.getBlogById(blogId);
-  if (!result) {
+  const getBlogResponse = await blogRepository.getBlogById(blogId);
+
+  if (!getBlogResponse) {
     return {
       status: 404,
       message: `No blog found with this id`,
@@ -120,20 +118,20 @@ const updateBlogById = async (body, blogId) => {
 
 const deleteBlogById = async (blogId) => {
   
-  const result = await blogRepository.getBlogById(blogId);
+  const getBlogResponse = await blogRepository.getBlogById(blogId);
 
-  if (!result) {
+  if (!getBlogResponse) {
     return {
       status: 404,
       message: `No blog found with this id`,
     };
   }
 
-  const isUserDeleted = blogRepository.deleteBlogById(blogId);
-  if (!isUserDeleted) {
+  const deleteBlogResponse = blogRepository.deleteBlogById(blogId);
+  if (!deleteBlogResponse) {
   return { status: 404, message: `Failed to Delete ${blogId}` };
   } 
-  return { status: 200, message: `'${result.title}' is successfully deleted` };
+  return { status: 200, message: `'${getBlogResponse.title}' is successfully deleted` };
 
   
 };

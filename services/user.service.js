@@ -4,13 +4,11 @@ const commonUtil = require("../utils/common.util");
 const validationUtil = require("../utils/validation.util");
 const paginationUtil = require("../utils/pagination.util");
 
-const getAllUser = async (pageNumber,pageSize) => {
+const getAllUsers = async (pageNumber,pageSize) => {
   const pageOffset = paginationUtil.getPageOffset(pageNumber,pageSize)
   const pageLimit = paginationUtil.getPageLimit(pageSize);
 
-  const users = await userRepository.getAllUser(pageOffset,pageLimit);
-
-
+  const users = await userRepository.getAllUsers(pageOffset,pageLimit);
 
   const dtoUsers = [];
     users.forEach((user) => {
@@ -77,19 +75,19 @@ const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
   if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
-  const user = await userRepository.getUserByUsername(usernameParam);
+  const getUserResponse = await userRepository.getUserByUsername(usernameParam);
 
 
-  if (!user) {
+  if (!getUserResponse) {
     return {
       status: 404,
       message: `${usernameParam} is not found`,
     };
   }
      if(fetchPassword){
-      return user;
+      return getUserResponse;
     }
-      const dtoUser = new UserDTO(user);
+      const dtoUser = new UserDTO(getUserResponse);
       return dtoUser;
   
 };
@@ -106,8 +104,8 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
     return { status: 400, message: "password Field is Empty" };
   }
 
-  const result = await userRepository.getUserByUsername(usernameParam);
-  if (!result) {
+  const getUserResponse = await userRepository.getUserByUsername(usernameParam);
+  if (!getUserResponse) {
     return {
       status: 404,
       message: `${usernameParam} is not found`,
@@ -120,12 +118,12 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
 
   const password = await validationUtil.generateHashPassword(body.password);
   const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
-  const isPasswordUpdated = userRepository.updateUserPasswordByUsername(
+  const updatedUserResponse = userRepository.updateUserPasswordByUsername(
     password,
     updatedAt,
     usernameParam
   );
-  if (isPasswordUpdated) {
+  if (updatedUserResponse) {
     return { status: 200, message: `password is successfully updated` };
   }
 };
@@ -136,17 +134,17 @@ const deleteUserByUsername = async (usernameParamData) => {
     return { status: 400, message: "Invalid User in delete request" };
   }
 
-  const result = await userRepository.getUserByUsername(usernameParam);
+  const getUserResponse = await userRepository.getUserByUsername(usernameParam);
 
-  if (!result) {
+  if (!getUserResponse) {
     return {
       status: 404,
       message: `${usernameParam} is not found`,
     };
   }
 
-  const isUserDeleted = userRepository.deleteUserByUsername(usernameParam);
-  if (!isUserDeleted) {
+  const deletedUserResponse = userRepository.deleteUserByUsername(usernameParam);
+  if (!deletedUserResponse) {
     return { status: 404, message: `Failed to Delete ${usernameParam}` };
   } 
     return { status: 200, message: `${usernameParam} is successfully deleted` };
@@ -154,7 +152,7 @@ const deleteUserByUsername = async (usernameParamData) => {
 };
 
 module.exports = {
-  getAllUser,
+  getAllUsers,
   createUser,
   getUserByUsername,
   updateUserPasswordByUsername,

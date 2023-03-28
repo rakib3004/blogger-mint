@@ -7,8 +7,7 @@ const getAllBlogs = async (req, res) => {
     let pageNumber =(!req.query.page||req.query.page<=0)? 1: parseInt(req.query.page);
     let pageSize = (!req.query.limit||req.query.limit<=0)? 10: parseInt(req.query.limit);
     const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
-    const responseData = getAllBlogsResponse;
-    sendResponseInContentNegotiation(req,res,200,responseData);
+    sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
   } catch (err) {
     console.error(err)
     res.send({ status: 500, message: "Internal Server Error" });
@@ -23,8 +22,7 @@ const createBlog = async (req, res) => {
   try {
     req.body.username = req.username;
     const createBlogResponse = await blogService.createBlog(req.body);
-    const responseData = createBlogResponse;
-    sendResponseInContentNegotiation(req,res,201,responseData);
+    sendResponseInContentNegotiation(req,res,201,createBlogResponse);
 
   } catch (err) {
     console.error(err);
@@ -37,13 +35,11 @@ const getBlogById = async (req, res) => {
     if (!req.params.id) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }
-    const getBlogByBlogIdResponse = await blogService.getBlogByBlogId(
+    const getBlogByIdResponse = await blogService.getBlogById(
       req.params.id
     );
    
-        const responseStatus = getBlogByBlogIdResponse.status;
-        const responseData = getBlogByBlogIdResponse.message;
-        sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+        sendResponseInContentNegotiation(req,res,200,getBlogByIdResponse.message);
    
   } catch (err) {
     console.error(err);

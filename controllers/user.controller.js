@@ -2,13 +2,13 @@ const userService = require("../services/user.service");
 const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
 
 
-const getAllUser = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
 
     let pageNumber =(!req.query.page||req.query.page<=0)? 1: parseInt(req.query.page);
     let pageSize = (!req.query.limit||req.query.limit<=0)? 10: parseInt(req.query.limit);
 
-    const getAllUserResponse = await userService.getAllUser(pageNumber,pageSize);
+    const getAllUserResponse = await userService.getAllUsers(pageNumber,pageSize);
     const responseStatus = 200;
     const responseData = getAllUserResponse;
     sendResponseInContentNegotiation(req,res,responseStatus,responseData);
@@ -76,7 +76,7 @@ const deleteUserByUsername = async (req, res) => {
 };
 
 module.exports = {
-  getAllUser,
+  getAllUsers,
   getUserByUsername,
   updateUserPasswordByUsername,
   deleteUserByUsername,

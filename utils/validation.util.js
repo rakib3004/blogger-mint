@@ -17,9 +17,10 @@ const checkPasswordLength = (password) => {
   };
   const generateHashPassword = async (plainPassword) => {
     try{
-      const salt = await bcrypt.genSalt(10);
-      const Hashpassword = await bcrypt.hash(plainPassword, salt);
-      return Hashpassword;
+      
+      const saltValue = await bcrypt.genSalt(10);
+      const hashpassword = await bcrypt.hash(plainPassword, saltValue);
+      return hashpassword;
     }
     catch(err){
       throw err;

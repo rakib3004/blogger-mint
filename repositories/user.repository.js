@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 
-const getAllUser = async (pageOffset,pageLimit) => {
+const getAllUsers = async (pageOffset,pageLimit) => {
   try {
 
     const users = await User.findAll(
@@ -47,10 +47,8 @@ const getUserByUsername = async (username) => {
         username: username,
       },
     });
-    if (user) {
-      return user;
-    }
-    return null;
+  return user;
+   
   } catch (error) {
     throw error;
   }
@@ -89,7 +87,7 @@ const deleteUserByUsername = async (username) => {
 };
 
 module.exports = {
-  getAllUser,
+  getAllUsers,
   createUser,
   getUserByUsername,
   updateUserPasswordByUsername,
