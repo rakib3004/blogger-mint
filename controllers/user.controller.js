@@ -5,16 +5,8 @@ const sendResponseInContentNegotiation = require("../utils/content-negotiation.u
 const getAllUser = async (req, res) => {
   try {
 
-    let pageNumber = parseInt(req.query.page);
-    let pageSize = parseInt(req.query.size);
-
-    if(!req.query.page||pageNumber<0){
-      pageNumber=1;
-    }
-
-    if(!req.query.size||pageSize<0){
-      pageSize=3;
-    }
+    let pageNumber =(!req.query.page||req.query.page<=0)? 1: parseInt(req.query.page);
+    let pageSize = (!req.query.limit||req.query.limit<=0)? 10: parseInt(req.query.limit);
 
     const getAllUserResponse = await userService.getAllUser(pageNumber,pageSize);
     const responseStatus = 200;

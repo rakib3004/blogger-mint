@@ -14,13 +14,13 @@ const registerUser = async (req, res) => {
       response.message = "Registration is successful";
     
     } 
-    res.send(response);
+    return res.send(response);
     
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
-      res.send({ status: 409, message: err.parent.sqlMessage });
+      return res.send({ status: 409, message: err.parent.sqlMessage });
     }
-      res.send({ status: 500,  message: "Internal Server Error" });
+    return res.send({ status: 500,  message: "Internal Server Error" });
     
   }
 };
@@ -38,11 +38,11 @@ const loginUser = async (req, res) => {
       res.cookie("jwt", response.message, { httpOnly: true });
       response.message = "Login is successful";
     } 
-    res.send(response.message);
+    return res.send(response.message);
     
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    return res.send({ status: 500, message: "Internal Server Error" });
   }
 };
 

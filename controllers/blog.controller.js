@@ -4,9 +4,8 @@ const sendResponseInContentNegotiation = require("../utils/content-negotiation.u
 const getAllBlogs = async (req, res) => {
   try {
 
-    let pageNumber =(!req.query.page||req.query.page)<=0? 1: parseInt(req.query.page);
-    let pageSize = (!req.query.limit||req.query.limit)<=0? 3: parseInt(req.query.limit);
-     
+    let pageNumber =(!req.query.page||req.query.page<=0)? 1: parseInt(req.query.page);
+    let pageSize = (!req.query.limit||req.query.limit<=0)? 10: parseInt(req.query.limit);
     const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
     const responseData = getAllBlogsResponse;
     sendResponseInContentNegotiation(req,res,200,responseData);
@@ -56,17 +55,17 @@ const getBlogByAuthorId = async (req, res) => {
   try {
 
     if (!req.params.id) {
-      res.send({ status: 400, message: "Request parameter is empty" });
+      return res.send({ status: 400, message: "Request parameter is empty" });
     }
 
     const getBlogByAuthorIdResponse = await blogService.getBlogByAuthorId(
       req.params.id
     );
     const responseData = getBlogByAuthorIdResponse;
-    sendResponseInContentNegotiation(req,res,200,responseData);
+    return sendResponseInContentNegotiation(req,res,200,responseData);
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    return res.send({ status: 500, message: "Internal Server Error" });
   }
 };
 
@@ -77,31 +76,31 @@ const updateBlogById = async (req, res) => {
   }
   try {
     if (!req.params.id) {
-      res.send({ status: 400, message: "Request parameter is empty" });
+      return res.send({ status: 400, message: "Request parameter is empty" });
     }
     const updateBlogByIdResponse =
       await blogService.updateBlogById(req.body, req.params.id);
-    res.send({status: updateBlogByIdResponse.status, message:updateBlogById.message});
+      return res.send({status: updateBlogByIdResponse.status, message:updateBlogById.message});
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    return res.send({ status: 500, message: "Internal Server Error" });
   }
 };
 
 const deleteBlogById = async (req, res) => {
   try {
     if (!req.params.id) {
-      res.send({ status: 400, message: "Request parameter is empty" });
+      return res.send({ status: 400, message: "Request parameter is empty" });
     }
 
     const deleteBlogByIdResponse = await blogService.deleteBlogById(
       req.params.id
     );
-    res.status(200).json(deleteBlogByIdResponse);
+    return res.status(200).json(deleteBlogByIdResponse);
     
   } catch (err) {
     console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    return res.send({ status: 500, message: "Internal Server Error" });
   }
 };
 
