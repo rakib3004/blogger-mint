@@ -1,8 +1,15 @@
 const User = require("../models/user.model");
 
-const getAllUser = async () => {
+const getAllUser = async (pageOffset,pageLimit) => {
   try {
-    const users = await User.findAll();
+
+    const users = await User.findAll(
+      {
+        offset:pageOffset,
+        limit: pageLimit,
+         order: [['createdAt', 'DESC']]
+      }
+    );
     return users;
   } catch (error) {
     console.error(error);
@@ -29,7 +36,6 @@ const createUser = async (
     });
     return user;
   } catch (error) {
-    
     throw error;
   }
 };
@@ -41,18 +47,14 @@ const getUserByUsername = async (username) => {
         username: username,
       },
     });
-
     if (user) {
       return user;
-    } else {
-      return null;
     }
+    return null;
   } catch (error) {
     throw error;
   }
 };
-
-
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
@@ -77,9 +79,9 @@ const deleteUserByUsername = async (username) => {
     if (user) {
       await user.destroy();
       return true;
-    } else {
-      throw new Error("User not found");
-    }
+    } 
+      return null;
+    
   } catch (error) {
     console.error(error);
     throw error;

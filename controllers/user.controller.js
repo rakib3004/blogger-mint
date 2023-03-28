@@ -1,9 +1,17 @@
 const userService = require("../services/user.service");
+const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
+
 
 const getAllUser = async (req, res) => {
   try {
-    const getAllUserResponse = await userService.getAllUser();
-    res.status(200).json(getAllUserResponse);
+
+    let pageNumber =(!req.query.page||req.query.page<=0)? 1: parseInt(req.query.page);
+    let pageSize = (!req.query.limit||req.query.limit<=0)? 10: parseInt(req.query.limit);
+
+    const getAllUserResponse = await userService.getAllUser(pageNumber,pageSize);
+    const responseStatus = 200;
+    const responseData = getAllUserResponse;
+    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
   } catch (err) {
     console.error(err);
     res.send({ status: 500, message: "Internal Server Error" });
@@ -19,14 +27,9 @@ const getUserByUsername = async (req, res) => {
     const getUserByUsernameResponse = await userService.getUserByUsername(
       req.params.username
     );
-    if(!getUserByUsernameResponse){
-      res.send({status: 404, message: `${req.params.username} is not found in database`});
-    }
-    else{
-    res.send({status: getUserByUsernameResponse.status, message: getUserByUsernameResponse.message});
-
-    }
-    
+    const responseStatus = 200;
+    const responseData = getUserByUsernameResponse;
+    sendResponseInContentNegotiation(req,res,responseStatus,responseData);  
 
   } catch (err) {
     console.error(err);
@@ -35,11 +38,12 @@ const getUserByUsername = async (req, res) => {
 };
 
 const updateUserPasswordByUsername = async (req, res) => {
+  if (!Object.keys(req.body).length) {
+    return res.send({ status: 400, message: "Request body is empty" });
+  }
+  
   try {
-    if (JSON.stringify(req.body)==="{}") {
-      return res.send({ status: 400, message: "Request body is empty" });
-    }
-    
+
     if (!req.params.username) {
       res.send({ status: 400, message: "Request parameter is empty" });
     }

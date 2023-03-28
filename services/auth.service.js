@@ -7,11 +7,12 @@ const registerUser = async (body) => {
   const response = await userService.createUser(body);
   if (response.status==201) {
 
-console.log(response.message.username);
     const token = await authUtil.generateJwtToken(response.message.username);
     
     return {status: 201, message: token};
   } 
+    return {status: response.status, message: response.message};
+
 };
 
 const loginUser = async (body) => {
@@ -29,38 +30,33 @@ const loginUser = async (body) => {
   if (!validationUtil.isAlphaNumeric(username)) {
     return {
       status: 400,
-      message:
-        "New User's username is contains space or special character",
+      message: "New User's username is contains space or special character",
     };
   }
 
   if (!validationUtil.checkPasswordLength(rawPassword)) {
     return { status: 400, message: "password is less than 6 digit" };
   }
-
   const password = body.password;
   const fetchPassword=true;
-  const userData = await userService.getUserByUsername(username,fetchPassword);
-
-  if (userData) {
+  const response = await userService.getUserByUsername(username,fetchPassword);
+   
+  if (response.status===404) {
+    return { status: 404, message: `${username} is not a registered user` };
+    }
     const isValidPassword = await authUtil.comparePassword(
       password,
-      userData.password
-    );
+      response.password
+    )
+    
 
     if (isValidPassword) {
-      const token = await authUtil.generateJwtToken(userData.username);
+      const token = await authUtil.generateJwtToken(response.username);
       return {status: 201, message: token};
-
-    } else {
+    } 
       return { status: 401, message: "Authentication Failed" };
-    }
-  } else {
-    return {
-      status: 404,
-      message: `${username} is not found in database`,
-    };
-  }
+    
+ 
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const checkLogin = function (req, res, next) {
+const authenticationMiddleware = function (req, res, next) {
   try {
     const accessToken = req.cookies.jwt;
 
@@ -16,9 +16,10 @@ const checkLogin = function (req, res, next) {
     req.username = username;
 
     next();
-  } catch (e) {
-    return res.status(401).send(e);
+  } catch (err) {
+    console.error(err)
+    return res.status(401).send("JWT authorization failed");
   }
 };
 
-module.exports = checkLogin;
+module.exports = authenticationMiddleware;
