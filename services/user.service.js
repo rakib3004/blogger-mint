@@ -39,7 +39,7 @@ const createUser = async (body) => {
 
   if (!validationUtil.isAlphaNumeric(username)) {
     return {
-      status: 401,
+      status: 0,
       message:
         "New User's username contains space or special character",
     };
@@ -69,26 +69,44 @@ const createUser = async (body) => {
  
 };
 
-const getUserByUsername = async (usernameParamData,fetchPassword=false) => {
+const getUserByUsername = async (usernameParamData) => {
   const usernameParam = usernameParamData.toLowerCase();
 
   if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
     return { status: 400, message: "Invalid User in get request" };
   }
-  const getUserResponse = await userRepository.getUserByUsername(usernameParam);
+  const userResponse = await userRepository.getUserByUsername(usernameParam);
 
 
-  if (!getUserResponse) {
+  if (!userResponse) {
     return {
       status: 404,
       message: `${usernameParam} is not found`,
     };
   }
-     if(fetchPassword){
-      return getUserResponse;
-    }
-      const dtoUser = new UserDTO(getUserResponse);
+     
+      const dtoUser = new UserDTO(userResponse);
       return dtoUser;
+  
+};
+
+const getUserLoginInfo = async (usernameParamData) => {
+  const usernameParam = usernameParamData.toLowerCase();
+
+  if (!usernameParam || !validationUtil.isAlphaNumeric(usernameParam)) {
+    return { status: 400, message: "Invalid User in get request" };
+  }
+  const userResponse = await userRepository.getUserByUsername(usernameParam);
+
+
+  if (!userResponse) {
+    return {
+      status: 404,
+      message: `${usernameParam} is not found`,
+    };
+  }
+      return userResponse;
+    
   
 };
 
@@ -104,8 +122,8 @@ const updateUserPasswordByUsername = async (body, usernameParamData) => {
     return { status: 400, message: "password Field is Empty" };
   }
 
-  const getUserResponse = await userRepository.getUserByUsername(usernameParam);
-  if (!getUserResponse) {
+  const userResponse = await userRepository.getUserByUsername(usernameParam);
+  if (!userResponse) {
     return {
       status: 404,
       message: `${usernameParam} is not found`,
@@ -134,9 +152,9 @@ const deleteUserByUsername = async (usernameParamData) => {
     return { status: 400, message: "Invalid User in delete request" };
   }
 
-  const getUserResponse = await userRepository.getUserByUsername(usernameParam);
+  const userResponse = await userRepository.getUserByUsername(usernameParam);
 
-  if (!getUserResponse) {
+  if (!userResponse) {
     return {
       status: 404,
       message: `${usernameParam} is not found`,
@@ -155,6 +173,7 @@ module.exports = {
   getAllUsers,
   createUser,
   getUserByUsername,
+  getUserLoginInfo,
   updateUserPasswordByUsername,
   deleteUserByUsername
 };

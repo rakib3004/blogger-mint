@@ -38,8 +38,7 @@ const loginUser = async (body) => {
     return { status: 400, message: "password is less than 6 digit" };
   }
   const password = body.password;
-  const fetchPassword=true;
-  const getUserResponse = await userService.getUserByUsername(username,fetchPassword);
+  const getUserResponse = await userService.getUserLoginInfo(username);
    
   if (getUserResponse.status===404) {
     return { status: 404, message: `${username} is not a registered user` };

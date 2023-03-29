@@ -1,11 +1,12 @@
 const blogService = require("../services/blog.service");
 const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
+const paginationUtil = require("../utils/pagination.util");
 
 const getAllBlogs = async (req, res) => {
   try {
 
     let pageNumber = paginationUtil.getPageNumber(req.query.page);
-    let pageSize = paginationUtil.getPageLimit(req.query.limit);
+    let pageSize = paginationUtil.getPageSize(req.query.limit);
     const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
     sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
   } catch (err) {

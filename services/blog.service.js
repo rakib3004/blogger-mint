@@ -48,17 +48,17 @@ const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 };
 
 const getBlogById = async (blogId) => {
-  const getBlogResponse = await blogRepository.getBlogById(blogId);
+  const blogResponse = await blogRepository.getBlogById(blogId);
 
   const errorMessage = {"message":"No blog found with this id"};
 
-  if (!getBlogResponse) {
+  if (!blogResponse) {
     return {
       status: 404,
       message: errorMessage,
     };
   } 
-  return getBlogResponse;
+  return blogResponse;
 
 };
 
@@ -80,9 +80,9 @@ const updateBlogById = async (body, blogId) => {
   let description = body.description;
 
 
-  const getBlogResponse = await blogRepository.getBlogById(blogId);
+  const blogResponse = await blogRepository.getBlogById(blogId);
 
-  if (!getBlogResponse) {
+  if (!blogResponse) {
     return {
       status: 404,
       message: `No blog found with this id`,
@@ -95,10 +95,10 @@ const updateBlogById = async (body, blogId) => {
 
   }
     if(!description){
-    description = result.description;
+    description = blogResponse.description;
   }
   else if(!title){
-    title = result.title;
+    title = blogResponse.title;
   }
   
 
@@ -118,9 +118,9 @@ const updateBlogById = async (body, blogId) => {
 
 const deleteBlogById = async (blogId) => {
   
-  const getBlogResponse = await blogRepository.getBlogById(blogId);
+  const blogResponse = await blogRepository.getBlogById(blogId);
 
-  if (!getBlogResponse) {
+  if (!blogResponse) {
     return {
       status: 404,
       message: `No blog found with this id`,
@@ -131,7 +131,7 @@ const deleteBlogById = async (blogId) => {
   if (!deleteBlogResponse) {
   return { status: 404, message: `Failed to Delete ${blogId}` };
   } 
-  return { status: 200, message: `'${getBlogResponse.title}' is successfully deleted` };
+  return { status: 200, message: `'${blogResponse.title}' is successfully deleted` };
 
   
 };

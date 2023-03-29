@@ -7,8 +7,8 @@ const getAllUsers = async (req, res) => {
   try {
 
     let pageNumber = paginationUtil.getPageNumber(req.query.page);
-    let pageSize = paginationUtil.getPageLimit(req.query.limit);
-
+    let pageSize = paginationUtil.getPageSize(req.query.limit);
+   
     const getAllUserResponse = await userService.getAllUsers(pageNumber,pageSize);
     const responseStatus = 200;
     const responseData = getAllUserResponse;

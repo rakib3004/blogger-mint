@@ -1,5 +1,39 @@
 const bcrypt = require("bcrypt");
 
+
+const validateUserRegistrationInfo= (body)=>{
+ 
+}
+const validateLoginInfo= (body)=>{
+  
+}
+const validateUpdatedUserInfo= (body)=>{
+  
+}
+const validateDeletedUserInfo= (body)=>{
+  
+}
+
+const validateCreatedBlogInfo= (body)=>{
+  
+}
+
+const validateDeletedBlogInfo= (body)=>{
+  
+}
+
+
+
+const isRequestBodyEmpty = (body)=>{
+  if (!Object.keys(body).length) {
+    return { valid: false, message: "Request body is empty"};
+  }
+}
+
+const isRequestParameterEmpty = (param)=>{
+  return (!param) ? false: true;
+}
+
 const isAlphaNumeric = (str) => {
     const alphanumericRegex = /^[a-zA-Z0-9]+$/;
     return alphanumericRegex.test(str);
@@ -30,6 +64,6 @@ const checkPasswordLength = (password) => {
 
 
   module.exports = {
-    isAlphaNumeric, validateEmail, checkPasswordLength, generateHashPassword
+    isAlphaNumeric, validateEmail, checkPasswordLength, generateHashPassword,isRequestBodyEmpty,isRequestParameterEmpty
   };
   
