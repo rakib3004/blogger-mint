@@ -12,7 +12,7 @@ const generateJwtToken = async (Username)=>{
 
 
 const comparePassword = async (inputPassword,userPassword) => {
-  return await bcrypt.compare(inputPassword,userPassword);
+  return bcrypt.compare(inputPassword,userPassword);
   };
 
 module.exports = {

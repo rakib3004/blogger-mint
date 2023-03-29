@@ -2,17 +2,13 @@ const authService = require("../services/auth.service");
 require("dotenv").config();
 
 const registerUser = async (req, res) => {
-  if (!Object.keys(req.body).length) {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
-
+ 
   try {
      const registerUserResponse = await authService.registerUser(req.body);
 
     if (registerUserResponse.status===201) {
       res.cookie("jwt", registerUserResponse.message, { httpOnly: true });
       registerUserResponse.message = "Registration is successful";
-    
     } 
     return res.send(registerUserResponse);
     
@@ -26,10 +22,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  if (!Object.keys(req.body).length) {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
-
+ 
   try {
    
     const loginUserResponse = await authService.loginUser(req.body);

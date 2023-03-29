@@ -56,6 +56,7 @@ const getUserByUsername = async (username) => {
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
   try {
+    
     const user = await User.update(
       { password: newPassword },
       { where: { username: username } }

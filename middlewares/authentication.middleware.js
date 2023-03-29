@@ -6,7 +6,7 @@ const authenticationMiddleware = function (req, res, next) {
 
     if (!accessToken) {
       return res.status(403).json({
-        message: "JWT authorization failed",
+        message: "Please Login / Register",
       });
     }
 
@@ -18,7 +18,7 @@ const authenticationMiddleware = function (req, res, next) {
     next();
   } catch (err) {
     console.error(err)
-    return res.status(401).send("JWT authorization failed");
+    return res.status(401).send("Authentication failed");
   }
 };
 
