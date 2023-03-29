@@ -70,16 +70,12 @@ const updateUserPasswordByUsername = async (username, newPassword) => {
 
 const deleteUserByUsername = async (username) => {
   try {
-    const user = await User.findOne({
+    const result = await User.destroy({
       where: {
         username: username,
       },
     });
-    if (user) {
-      await user.destroy();
-      return true;
-    } 
-      return null;
+    return result;
     
   } catch (error) {
     console.error(error);

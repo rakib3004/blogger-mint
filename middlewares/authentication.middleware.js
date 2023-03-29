@@ -11,8 +11,7 @@ const authenticationMiddleware = function (req, res, next) {
     }
 
     const payload = jwt.verify(accessToken, process.env.JWT_SECRET_TOKEN);
-
-    const { username } = payload;
+    const  username  = payload.username;
     req.username = username;
 
     next();

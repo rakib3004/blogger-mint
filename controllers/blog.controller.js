@@ -1,13 +1,10 @@
 const blogService = require("../services/blog.service");
 const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
-const paginationUtil = require("../utils/pagination.util");
 
 const getAllBlogs = async (req, res) => {
   try {
 
-    let pageNumber = paginationUtil.getPageNumber(req.query.page);
-    let pageSize = paginationUtil.getPageSize(req.query.limit);
-    const getAllBlogsResponse = await blogService.getAllBlogs(pageNumber,pageSize);
+    const getAllBlogsResponse = await blogService.getAllBlogs(req.query);
     sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
   } catch (err) {
     console.error(err)
@@ -16,11 +13,7 @@ const getAllBlogs = async (req, res) => {
 };
 
 const createBlog = async (req, res) => {
-  if (!Object.keys(req.body).length) {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
-
-  try {
+   try {
     req.body.username = req.username;
     const createBlogResponse = await blogService.createBlog(req.body);
     sendResponseInContentNegotiation(req,res,201,createBlogResponse);
@@ -33,14 +26,10 @@ const createBlog = async (req, res) => {
 
 const getBlogById = async (req, res) => {
   try {
-    if (!req.params.id) {
-      res.send({ status: 400, message: "Request parameter is empty" });
-    }
     const getBlogByIdResponse = await blogService.getBlogById(
       req.params.id
     );
-   
-        sendResponseInContentNegotiation(req,res,200,getBlogByIdResponse.message);
+    sendResponseInContentNegotiation(req,res,200,getBlogByIdResponse.message);
    
   } catch (err) {
     console.error(err);
@@ -51,11 +40,7 @@ const getBlogById = async (req, res) => {
 const getBlogByAuthorId = async (req, res) => {
   try {
 
-    if (!req.params.id) {
-      return res.send({ status: 400, message: "Request parameter is empty" });
-    }
-
-    const getBlogByAuthorIdResponse = await blogService.getBlogByAuthorId(
+     const getBlogByAuthorIdResponse = await blogService.getBlogByAuthorId(
       req.params.id
     );
     const responseData = getBlogByAuthorIdResponse;
@@ -68,13 +53,8 @@ const getBlogByAuthorId = async (req, res) => {
 
 const updateBlogById = async (req, res) => {
 
-  if (!Object.keys(req.body).length) {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
   try {
-    if (!req.params.id) {
-      return res.send({ status: 400, message: "Request parameter is empty" });
-    }
+   
     const updateBlogByIdResponse =
       await blogService.updateBlogById(req.body, req.params.id);
       return res.send({status: updateBlogByIdResponse.status, message:updateBlogById.message});

@@ -1,14 +1,11 @@
 const Blog = require("../models/blog.model");
 
-const getAllBlogs = async (offset,limit) => {
+const getAllBlogs = async (offset, limit) => {
   try {
-   
-    const blogs = await Blog.findAll(
-      {
-        offset:offset,
-        limit:limit
-      }
-    );
+    const blogs = await Blog.findAll({
+      offset: offset,
+      limit: limit,
+    });
     return blogs;
   } catch (error) {
     console.error(error);
@@ -34,11 +31,7 @@ const createBlog = async (
       updatedAt: updatedAt,
     });
 
-    if(blog){
-      return blog;
-      
-    }
-    return null;
+    return blog;
   } catch (error) {
     throw error;
   }
@@ -52,11 +45,7 @@ const getBlogById = async (blogId) => {
       },
     });
 
-    if (blog) {
-      return blog;
-    } 
-      return null;
-  
+    return blog;
   } catch (error) {
     throw error;
   }
@@ -70,11 +59,7 @@ const getBlogByAuthorId = async (authorId) => {
       },
     });
 
-    if (blog) {
-      return blog;
-    } 
-      return null;
-
+    return blog;
   } catch (error) {
     throw error;
   }
@@ -87,11 +72,7 @@ const updateBlogById = async (title, description, blogId) => {
       { where: { id: blogId } }
     );
 
-    if (blog) {
-      return blog;
-    } 
-      return null;
-      
+    return blog;
   } catch (error) {
     console.error(error);
     throw error;
@@ -100,17 +81,13 @@ const updateBlogById = async (title, description, blogId) => {
 
 const deleteBlogById = async (blogId) => {
   try {
-    const blog = await Blog.findOne({
+    const result = await Blog.destroy({
       where: {
         id: blogId,
       },
     });
-    if (blog) {
-      await blog.destroy();
-      return true;
-    } 
-      return null;
-  
+
+    return result;
   } catch (error) {
     console.error(error);
     throw error;

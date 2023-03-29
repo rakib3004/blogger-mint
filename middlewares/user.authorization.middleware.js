@@ -5,6 +5,7 @@ const userAuthorizationMiddleware = async (req, res, next) => {
     const requestedUsername = String(req.params.username);
     try {
         const response = await userService.getUserByUsername(username);
+        
         const currentUsername = String(response.user.username);
         if (currentUsername !== requestedUsername) {
             return res.send({
@@ -12,7 +13,7 @@ const userAuthorizationMiddleware = async (req, res, next) => {
                 message: 'Access denied! You are not able to update/delete other user',
             });
         }
-        return next();
+         next();
     } catch (err) {
         return res.send({ status: 400, message: 'Authorization Failed!' });
     }

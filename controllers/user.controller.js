@@ -21,10 +21,6 @@ const getAllUsers = async (req, res) => {
 
 const getUserByUsername = async (req, res) => {
   try {
-    if (!req.params.username) {
-      res.send({ status: 400, message: "Request parameter is empty" });
-    }
-
     const getUserByUsernameResponse = await userService.getUserByUsername(
       req.params.username
     );
@@ -39,15 +35,8 @@ const getUserByUsername = async (req, res) => {
 };
 
 const updateUserPasswordByUsername = async (req, res) => {
-  if (!Object.keys(req.body).length) {
-    return res.send({ status: 400, message: "Request body is empty" });
-  }
   
   try {
-
-    if (!req.params.username) {
-      res.send({ status: 400, message: "Request parameter is empty" });
-    }
     const updateUserPasswordByUsernameResponse =
       await userService.updateUserPasswordByUsername(
         req.body,
@@ -62,10 +51,6 @@ const updateUserPasswordByUsername = async (req, res) => {
 
 const deleteUserByUsername = async (req, res) => {
   try {
-    if (!req.params.username) {
-      res.send({ status: 400, message: "Request parameter is empty" });
-    }
-    
     const deleteUserByUsernameResponse = await userService.deleteUserByUsername(
       req.params.username
     );

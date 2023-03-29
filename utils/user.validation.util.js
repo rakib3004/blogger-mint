@@ -4,8 +4,6 @@ const checkEmptyBody = (body) => {
   return !Object.keys(body).length ? true : false;
 };
 
-
-
 const isAlphaNumeric = (str) => {
   const alphanumericRegex = /^[a-zA-Z0-9]+$/;
   return alphanumericRegex.test(str);

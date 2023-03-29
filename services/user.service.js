@@ -3,6 +3,7 @@ const UserDTO = require("../DTO/user.dto");
 const commonUtil = require("../utils/common.util");
 const userValidationUtil = require("../utils/user.validation.util");
 const paginationUtil = require("../utils/pagination.util");
+const userNotFoundMessage = 'User not found';
 
 const getAllUsers = async (pageNumber, pageSize) => {
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
@@ -45,7 +46,7 @@ const createUser = async (body) => {
 const getUserByUsername = async (usernameParamData) => {
   const username = usernameParamData.toLowerCase();
 
-  const validParameter = userValidationUtil.checkValidUsername(body,username);
+  const validParameter = userValidationUtil.checkValidUsername(username);
   
   if (!validParameter.valid) {
     return { status: 400, message: validParameter.message };
@@ -57,7 +58,7 @@ const getUserByUsername = async (usernameParamData) => {
   if (!userResponse) {
     return {
       status: 404,
-      message: `${username} is not found`,
+      message: userNotFoundMessage,
     };
   }
 
@@ -95,7 +96,7 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
 
   const userResponse = await userRepository.getUserByUsername(username);
   if (!userResponse) {
-    return { status: 404, message: `${username} is not found` };
+    return { status: 404, message: userNotFoundMessage };
   }
 
   const password = await userValidationUtil.generateHashPassword(body.password);
@@ -113,7 +114,7 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
 const deleteUserByUsername = async (usernameParamData) => {
   const username = usernameParamData.toLowerCase();
  
-  const validParameter = userValidationUtil.checkValidUsername(body,username);
+  const validParameter = userValidationUtil.checkValidUsername(username);
   
   if (!validParameter.valid) {
     return { status: 400, message: validParameter.message };
@@ -124,15 +125,13 @@ const deleteUserByUsername = async (usernameParamData) => {
   if (!userResponse) {
     return {
       status: 404,
-      message: `${username} is not found`,
+      message: userNotFoundMessage,
     };
   }
 
   const deletedUserResponse =
     userRepository.deleteUserByUsername(username);
-  if (!deletedUserResponse) {
-    return { status: 404, message: `Failed to Delete ${username}` };
-  }
+ 
   return { status: 200, message: `${username} is successfully deleted` };
 };
 

@@ -9,6 +9,7 @@ const registerUser = async (body) => {
       newUserResponse.message.username
     );
 
+
     return { status: 201, message: token };
   }
   return { status: newUserResponse.status, message: newUserResponse.message };
@@ -30,7 +31,7 @@ const loginUser = async (body) => {
   );
 
   if (isValidPassword) {
-    const token = await authUtil.generateJwtToken(userResponse.username);
+    const token = await authUtil.generateJwtToken(userResponse.message.username);
     return { status: 200, message: token };
   }
   return { status: 401, message: "Authentication Failed" };
