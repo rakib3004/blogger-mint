@@ -9,12 +9,31 @@ app.use(cookieParser())
 app.use("/", indexRouter);
 
 
+
 app.use((err, req, res, next) => {
   if (!err) {
-    return next();
-}
-res.send('Internal server error');
+      return next();
+  }
+  res.status(500);
+  res.send('Internal server error');
 });
+
+const globalErrorHandler = (err, req, res, next) => {
+res.status(err.status).send(err.message);
+}
+
+
+app.use('*', (req, res) => {
+  res.status(404).json({
+    message: 'Page not found',
+    error: {
+      message: 'You reached a route that is not defined on this server',
+    },
+  });
+});
+
+app.use(globalErrorHandler);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running ... ... ... at PORT: ${PORT} `);

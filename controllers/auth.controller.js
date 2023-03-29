@@ -1,7 +1,7 @@
 const authService = require("../services/auth.service");
 require("dotenv").config();
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
  
   try {
      const registerUserResponse = await authService.registerUser(req.body);
@@ -13,15 +13,11 @@ const registerUser = async (req, res) => {
     return res.send(registerUserResponse);
     
   } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      return res.send({ status: 409, message: err.parent.sqlMessage });
-    }
-    return res.send({ status: 500,  message: "Internal Server Error" });
-    
+    next(err);   
   }
 };
 
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
  
   try {
    
@@ -34,8 +30,7 @@ const loginUser = async (req, res) => {
     return res.send(loginUserResponse.message);
     
   } catch (err) {
-    console.error(err);
-    return res.send({ status: 500, message: "Internal Server Error" });
+    next(err);
   }
 };
 

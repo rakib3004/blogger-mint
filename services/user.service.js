@@ -4,25 +4,29 @@ const commonUtil = require("../utils/common.util");
 const userValidationUtil = require("../utils/user.validation.util");
 const paginationUtil = require("../utils/pagination.util");
 const userNotFoundMessage = 'User not found';
+const { AppError } = require("../utils/error.handler.util");
+
 
 const getAllUsers = async (pageNumber, pageSize) => {
-  const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
-  const pageLimit = paginationUtil.getPageLimit(pageSize);
 
-  const users = await userRepository.getAllUsers(pageOffset, pageLimit);
+    const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
+    const pageLimit = paginationUtil.getPageLimit(pageSize);
 
-  const dtoUsers = [];
-  users.forEach((user) => {
-    const dtoUser = new UserDTO(user);
-    dtoUsers.push(dtoUser);
-  });
-  return dtoUsers;
+    const users = await userRepository.getAllUsers(pageOffset, pageLimit);
+    const dtoUsers = [];
+    users.forEach((user) => {
+      const dtoUser = new UserDTO(user);
+      dtoUsers.push(dtoUser);
+    });
+    return dtoUsers;
+
 };
 
 const createUser = async (body) => {
+ 
   const ValidRegistration = userValidationUtil.checkValidRegistration(body);
   if (!ValidRegistration.valid) {
-    return { status: 400, message: ValidRegistration.message };
+    throw new AppError(ValidRegistration.message, 400);
   }
   const id = commonUtil.generateUUID();
   const username = body.username;
@@ -41,62 +45,60 @@ const createUser = async (body) => {
     updatedAt
   );
   return { status: 201, message: newUser };
+
+
 };
 
 const getUserByUsername = async (usernameParamData) => {
   const username = usernameParamData.toLowerCase();
-
   const validParameter = userValidationUtil.checkValidUsername(username);
   
   if (!validParameter.valid) {
-    return { status: 400, message: validParameter.message };
+    throw new AppError(validParameter.message, 400);
   }
   
- 
   const userResponse = await userRepository.getUserByUsername(username);
 
   if (!userResponse) {
-    return {
-      status: 404,
-      message: userNotFoundMessage,
-    };
+   throw new AppError(userNotFoundMessage,404);
+
   }
 
   const dtoUser = new UserDTO(userResponse);
   return dtoUser;
+
 };
 
 const getUserLoginInfo = async (body) => {
+
   const validLogin = userValidationUtil.checkValidLogin(body);
   if (!validLogin.valid) {
-    return { status: 400, message: validLogin.message };
+    throw new AppError(validLogin.message,400);
   }
 
   const username = body.username.toLowerCase();
-
   const user = await userRepository.getUserByUsername(username);
 
   if (!user) {
-    return {
-      status: 404,
-      message: `${username} is not a registered user`,
-    };
+    throw new AppError(userNotFoundMessage,404);
+
   }
   return { status: 200, message: user };
+
 };
 
 const updateUserPasswordByUsername = async (body, usernameParameter) => {
   const username = usernameParameter.toLowerCase();
 
   const validPasswordAndParameter = userValidationUtil.checkValidPasswordAndParameter(body,username);
-  
   if (!validPasswordAndParameter.valid) {
-    return { status: 400, message: validPasswordAndParameter.message };
+    throw new AppError(validPasswordAndParameter.message,400);
+
   }
 
   const userResponse = await userRepository.getUserByUsername(username);
   if (!userResponse) {
-    return { status: 404, message: userNotFoundMessage };
+    throw new AppError(userNotFoundMessage,404);
   }
 
   const password = await userValidationUtil.generateHashPassword(body.password);
@@ -106,33 +108,32 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
     updatedAt,
     username
   );
-  if (updatedUserResponse) {
-    return { status: 200, message: `password is successfully updated` };
-  }
+  
+    return { status: 200, message: 'password is successfully updated'};
 };
 
 const deleteUserByUsername = async (usernameParamData) => {
+ 
+  
   const username = usernameParamData.toLowerCase();
  
   const validParameter = userValidationUtil.checkValidUsername(username);
   
   if (!validParameter.valid) {
-    return { status: 400, message: validParameter.message };
+    throw new AppError(validParameter.message,400);
   }
 
   const userResponse = await userRepository.getUserByUsername(username);
 
   if (!userResponse) {
-    return {
-      status: 404,
-      message: userNotFoundMessage,
-    };
-  }
+    throw new AppError(userNotFoundMessage,404);
 
+  }
   const deletedUserResponse =
     userRepository.deleteUserByUsername(username);
  
-  return { status: 200, message: `${username} is successfully deleted` };
+  return { status: 200, message: 'User is successfully deleted' };
+
 };
 
 module.exports = {

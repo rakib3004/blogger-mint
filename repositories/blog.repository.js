@@ -1,16 +1,13 @@
 const Blog = require("../models/blog.model");
+const { SequelizeValidationError } = require("../utils/error.handler.util");
 
 const getAllBlogs = async (offset, limit) => {
-  try {
     const blogs = await Blog.findAll({
       offset: offset,
       limit: limit,
     });
     return blogs;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  
 };
 
 const createBlog = async (
@@ -33,12 +30,11 @@ const createBlog = async (
 
     return blog;
   } catch (error) {
-    throw error;
+    throw new SequelizeValidationError(error, 400);
   }
 };
 
 const getBlogById = async (blogId) => {
-  try {
     const blog = await Blog.findOne({
       where: {
         id: blogId,
@@ -46,13 +42,10 @@ const getBlogById = async (blogId) => {
     });
 
     return blog;
-  } catch (error) {
-    throw error;
-  }
+ 
 };
 
 const getBlogByAuthorId = async (authorId) => {
-  try {
     const blog = await Blog.findAll({
       where: {
         authorId: authorId,
@@ -60,27 +53,20 @@ const getBlogByAuthorId = async (authorId) => {
     });
 
     return blog;
-  } catch (error) {
-    throw error;
-  }
+  
 };
 
 const updateBlogById = async (title, description, blogId) => {
-  try {
     const blog = await Blog.update(
       { title: title, description: description },
       { where: { id: blogId } }
     );
 
     return blog;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+ 
 };
 
 const deleteBlogById = async (blogId) => {
-  try {
     const result = await Blog.destroy({
       where: {
         id: blogId,
@@ -88,10 +74,7 @@ const deleteBlogById = async (blogId) => {
     });
 
     return result;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+ 
 };
 
 module.exports = {

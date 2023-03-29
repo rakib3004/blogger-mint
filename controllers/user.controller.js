@@ -3,7 +3,7 @@ const sendResponseInContentNegotiation = require("../utils/content-negotiation.u
 const paginationUtil = require("../utils/pagination.util");
 
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
 
     let pageNumber = paginationUtil.getPageNumber(req.query.page);
@@ -14,12 +14,11 @@ const getAllUsers = async (req, res) => {
     const responseData = getAllUserResponse;
     sendResponseInContentNegotiation(req,res,responseStatus,responseData);
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    next(err);
   }
 };
 
-const getUserByUsername = async (req, res) => {
+const getUserByUsername = async (req, res, next) => {
   try {
     const getUserByUsernameResponse = await userService.getUserByUsername(
       req.params.username
@@ -29,12 +28,11 @@ const getUserByUsername = async (req, res) => {
     sendResponseInContentNegotiation(req,res,responseStatus,responseData);  
 
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    next(err);
   }
 };
 
-const updateUserPasswordByUsername = async (req, res) => {
+const updateUserPasswordByUsername = async (req, res, next) => {
   
   try {
     const updateUserPasswordByUsernameResponse =
@@ -44,20 +42,18 @@ const updateUserPasswordByUsername = async (req, res) => {
       );
     res.status(200).json(updateUserPasswordByUsernameResponse);
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    next(err);
   }
 };
 
-const deleteUserByUsername = async (req, res) => {
+const deleteUserByUsername = async (req, res, next) => {
   try {
     const deleteUserByUsernameResponse = await userService.deleteUserByUsername(
       req.params.username
     );
     res.status(200).json(deleteUserByUsernameResponse);
   } catch (err) {
-    console.error(err);
-    res.send({ status: 500, message: "Internal Server Error" });
+    next(err);
   }
 };
 

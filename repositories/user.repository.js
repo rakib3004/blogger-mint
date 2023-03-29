@@ -1,7 +1,9 @@
 const User = require("../models/user.model");
+const { SequelizeValidationError } = require("../utils/error.handler.util");
+
 
 const getAllUsers = async (pageOffset,pageLimit) => {
-  try {
+
 
     const users = await User.findAll(
       {
@@ -11,20 +13,10 @@ const getAllUsers = async (pageOffset,pageLimit) => {
       }
     );
     return users;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+
 };
 
-const createUser = async (
-  id,
-  username,
-  email,
-  password,
-  createdAt,
-  updatedAt
-) => {
+const createUser = async ( id, username, email, password, createdAt, updatedAt) => {
   try {
     const user = await User.create({
       id: id,
@@ -36,12 +28,11 @@ const createUser = async (
     });
     return user;
   } catch (error) {
-    throw error;
+    throw new SequelizeValidationError(error, 400);
   }
 };
 
 const getUserByUsername = async (username) => {
-  try {
     const user = await User.findOne({
       where: {
         username: username,
@@ -49,27 +40,19 @@ const getUserByUsername = async (username) => {
     });
   return user;
    
-  } catch (error) {
-    throw error;
-  }
 };
 
 const updateUserPasswordByUsername = async (username, newPassword) => {
-  try {
-    
+   
     const user = await User.update(
       { password: newPassword },
       { where: { username: username } }
     );
     return user;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+ 
 };
 
 const deleteUserByUsername = async (username) => {
-  try {
     const result = await User.destroy({
       where: {
         username: username,
@@ -77,10 +60,6 @@ const deleteUserByUsername = async (username) => {
     });
     return result;
     
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
 };
 
 module.exports = {
