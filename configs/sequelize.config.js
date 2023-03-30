@@ -1,5 +1,4 @@
 const Sequelize = require("sequelize");
-require("dotenv").config();
 const sequelize = new Sequelize("blogger", "root", "", {
   host: "localhost",
   dialect: "mysql",

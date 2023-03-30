@@ -51,8 +51,8 @@ const getBlogById = async (blogId) => {
 
     if (!blogResponse) {
       throw new AppError(blogNotFoundMessage,404);
-
     }
+    
     return { status: 200, message: blogResponse, };
 
 };

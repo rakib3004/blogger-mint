@@ -1,5 +1,6 @@
 const userService = require('../services/user.service');
 const blogService = require('../services/blog.service');
+const { AppError } = require("../utils/error.handler.util");
 
 const blogAuthorizationMiddleware = async (req, res, next) => {
     const { username } = req;
@@ -13,14 +14,13 @@ const blogAuthorizationMiddleware = async (req, res, next) => {
         const { authorId } = blog.message;
 
         if (authorId !== userId) {
-            return res.send({
-                status: 403,
-                message: 'Access denied! You are not author of this blog',
-            });
+         throw new AppError('Access denied! You are not author of this blog',403);
         }
-        return next();
+        next();
     } catch (err) {
-        return res.send({ status: 400, message: 'Authorization Failed!' });
+        next(err)
+        //return res.status(400).send('Authentication failed 1102');
+
     }
 };
 

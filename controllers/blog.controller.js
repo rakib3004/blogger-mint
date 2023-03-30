@@ -62,9 +62,6 @@ const updateBlogById = async (req, res, next) => {
 
 const deleteBlogById = async (req, res, next) => {
   try {
-    if (!req.params.id) {
-      return res.send({ status: 400, message: "Request parameter is empty" });
-    }
 
     const deleteBlogByIdResponse = await blogService.deleteBlogById(
       req.params.id

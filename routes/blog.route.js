@@ -2,8 +2,8 @@ const express = require('express');
 const blogController = require('../controllers/blog.controller');
 const authenticationMiddleware = require('../middlewares/authentication.middleware');
 const blogAuthorizationMiddleware = require('../middlewares/blog.authorization.middleware');
-
 const router = express.Router();
+
 
 router.route('/').get(blogController.getAllBlogs).post(authenticationMiddleware, blogController.createBlog);
 

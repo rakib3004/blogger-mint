@@ -1,6 +1,5 @@
 const authUtil = require("../utils/auth.util");
 const userService = require("../services/user.service");
-require("dotenv").config();
 const { AppError } = require("../utils/error.handler.util");
 
 

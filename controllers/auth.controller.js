@@ -1,6 +1,4 @@
 const authService = require("../services/auth.service");
-require("dotenv").config();
-
 const registerUser = async (req, res, next) => {
  
   try {
@@ -10,7 +8,7 @@ const registerUser = async (req, res, next) => {
       res.cookie("jwt", registerUserResponse.message, { httpOnly: true });
       registerUserResponse.message = "Registration is successful";
     } 
-    return res.send(registerUserResponse);
+    return res.status(201).send(registerUserResponse.message);
     
   } catch (err) {
     next(err);   
