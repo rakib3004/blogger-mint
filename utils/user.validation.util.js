@@ -31,7 +31,7 @@ const generateHashPassword = async (plainPassword) => {
 const checkValidUsername = (username) => {
   
   if (!username) {
-    return { valid: false, message: "username Field is Empty" };
+    return { valid: false, message: "username field is empty" };
   }
   
   if (!isAlphaNumeric(username)) {
@@ -44,7 +44,7 @@ const checkValidUsername = (username) => {
 
 const checkValidPassword = (password) => {
   if (!password) {
-    return { valid: false, message: "password Field is Empty" };
+    return { valid: false, message: "password field is empty" };
   }
 
   if (!checkPasswordLength(password)) {
@@ -71,7 +71,7 @@ const checkValidPasswordAndParameter = (body,username) =>{
 
 }
 
-
+ 
 
 const checkValidRegistration = (body) => {
   if (checkEmptyBody(body)) {

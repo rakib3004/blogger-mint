@@ -1,10 +1,17 @@
 const Blog = require("../models/blog.model");
+const User = require("../models/user.model");
+
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
 const getAllBlogs = async (offset, limit) => {
     const blogs = await Blog.findAll({
-      offset: offset,
-      limit: limit,
+      offset,
+      limit,
+      order: [['createdAt', 'DESC']],
+      include: {
+        model: User,
+        attributes : ['username']
+      }
     });
     return blogs;
   

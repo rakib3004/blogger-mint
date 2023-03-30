@@ -4,8 +4,8 @@ const authRouter = require("./auth.route");
 const blogRouter = require("./blog.route");
 
 
-router.use("/users", userRouter);
 router.use("/auth", authRouter);
+router.use("/users", userRouter);
 router.use("/blogs", blogRouter);
 
 

@@ -1,15 +1,23 @@
 
+const checkEmptyBody = (body) => {
+  return !Object.keys(body).length ? true : false;
+};
+
 const checkValidBlogBody= (body)=>{
+
+  if (checkEmptyBody(body)) {
+    return { valid: false, message: "Request body is empty" };
+  }
 
   const title = body.title;
   const description = body.description;
 
   if (!title) {
-    return { valid: false, message: "title Field is Empty" };
+    return { valid: false, message: "title field is empty" };
   }
 
   if (!description) {
-    return { valid: false, message: "description Field is Empty" };
+    return { valid: false, message: "description field is empty" };
   }
   return { valid: true ,message: 'Ok', };
 
@@ -17,6 +25,10 @@ const checkValidBlogBody= (body)=>{
 
 const checkEmptyTitleAndDescription= (body)=>{
 
+  if (checkEmptyBody(body)) {
+    return { isEmpty: true, message: "Request body is empty" };
+  }
+  
   const title = body.title;
   const description = body.description;
 

@@ -2,13 +2,13 @@ const User = require("../models/user.model");
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
 
-const getAllUsers = async (pageOffset,pageLimit) => {
+const getAllUsers = async (offset,limit) => {
 
 
     const users = await User.findAll(
       {
-        offset:pageOffset,
-        limit: pageLimit,
+        offset,
+        limit,
          order: [['createdAt', 'DESC']]
       }
     );

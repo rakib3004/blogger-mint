@@ -1,59 +1,64 @@
 const userService = require("../services/user.service");
 const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
-const paginationUtil = require("../utils/pagination.util");
+const userValidationUtil = require("../utils/user.validation.util");
+const { AppError } = require("../utils/error.handler.util");
 
 
 const getAllUsers = async (req, res, next) => {
   try {
-
-    let pageNumber = paginationUtil.getPageNumber(req.query.page);
-    let pageSize = paginationUtil.getPageSize(req.query.limit);
-   
-    const getAllUserResponse = await userService.getAllUsers(pageNumber,pageSize);
-    const responseStatus = 200;
-    const responseData = getAllUserResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,responseData);
+    const query = req.query;   
+    const getAllUserResponse = await userService.getAllUsers(query);
+    sendResponseInContentNegotiation(req,res,200,getAllUserResponse);
   } catch (err) {
-    next(err);
+    console.error(err);  next(err);
   }
 };
 
 const getUserByUsername = async (req, res, next) => {
   try {
+    const username = req.params.username;
     const getUserByUsernameResponse = await userService.getUserByUsername(
-      req.params.username
+      username
     );
     const responseStatus = 200;
     const responseData = getUserByUsernameResponse;
     sendResponseInContentNegotiation(req,res,responseStatus,responseData);  
 
   } catch (err) {
-    next(err);
+    console.error(err);  next(err);
   }
 };
 
 const updateUserPasswordByUsername = async (req, res, next) => {
-  
   try {
+    const body = req.body;
+    const username = req.params.username;
+    const validPasswordAndParameter = userValidationUtil.checkValidPasswordAndParameter(body,username);
+    if (!validPasswordAndParameter.valid) {
+      throw new AppError(validPasswordAndParameter.message,400);
+  
+    }
+
     const updateUserPasswordByUsernameResponse =
       await userService.updateUserPasswordByUsername(
-        req.body,
-        req.params.username
+        body,
+        username
       );
     res.status(200).json(updateUserPasswordByUsernameResponse);
   } catch (err) {
-    next(err);
+    console.error(err);  next(err);
   }
 };
 
 const deleteUserByUsername = async (req, res, next) => {
   try {
+    const username = req.params.username;
     const deleteUserByUsernameResponse = await userService.deleteUserByUsername(
-      req.params.username
+      username
     );
     res.status(200).json(deleteUserByUsernameResponse);
   } catch (err) {
-    next(err);
+    console.error(err);  next(err);
   }
 };
 

@@ -7,8 +7,10 @@ const userNotFoundMessage = 'User not found';
 const { AppError } = require("../utils/error.handler.util");
 
 
-const getAllUsers = async (pageNumber, pageSize) => {
+const getAllUsers = async (query) => {
 
+    const pageNumber = paginationUtil.getPageNumber(query.page);
+    const pageSize = paginationUtil.getPageSize(query.limit);
     const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
     const pageLimit = paginationUtil.getPageLimit(pageSize);
 
@@ -24,10 +26,6 @@ const getAllUsers = async (pageNumber, pageSize) => {
 
 const createUser = async (body) => {
  
-  const ValidRegistration = userValidationUtil.checkValidRegistration(body);
-  if (!ValidRegistration.valid) {
-    throw new AppError(ValidRegistration.message, 400);
-  }
   const id = commonUtil.generateUUID();
   const username = body.username;
   const email = body.email;
@@ -44,7 +42,7 @@ const createUser = async (body) => {
     createdAt,
     updatedAt
   );
-  return { status: 201, message: newUser };
+  return newUser ;
 
 
 };
@@ -71,11 +69,6 @@ const getUserByUsername = async (usernameParamData) => {
 
 const getUserLoginInfo = async (body) => {
 
-  const validLogin = userValidationUtil.checkValidLogin(body);
-  if (!validLogin.valid) {
-    throw new AppError(validLogin.message,400);
-  }
-
   const username = body.username.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
 
@@ -83,18 +76,13 @@ const getUserLoginInfo = async (body) => {
     throw new AppError(userNotFoundMessage,404);
 
   }
-  return { status: 200, message: user };
+  return user;
 
 };
 
 const updateUserPasswordByUsername = async (body, usernameParameter) => {
   const username = usernameParameter.toLowerCase();
 
-  const validPasswordAndParameter = userValidationUtil.checkValidPasswordAndParameter(body,username);
-  if (!validPasswordAndParameter.valid) {
-    throw new AppError(validPasswordAndParameter.message,400);
-
-  }
 
   const userResponse = await userRepository.getUserByUsername(username);
   if (!userResponse) {

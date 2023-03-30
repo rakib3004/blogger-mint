@@ -2,9 +2,8 @@ const blogRepository = require("../repositories/blog.repository");
 const commonUtil = require("../utils/common.util");
 const userService = require("../services/user.service");
 const paginationUtil = require("../utils/pagination.util");
-const blogValidationUtil = require("../utils/blog.validation.util");
 const { AppError } = require("../utils/error.handler.util");
-const blogNotFoundMessage = 'No blog found with this author id';
+const blogNotFoundMessage = 'No blog found with this id';
 
 
 const getAllBlogs = (query) => {
@@ -23,11 +22,6 @@ const createBlog = async (body) => {
     const username = String(body.username);
     const authorResponse = await userService.getUserByUsername(username);
 
-    const ValidBlogBody = blogValidationUtil.checkValidBlogBody(body);
-
-    if (!ValidBlogBody.valid) {
-      throw new AppError(ValidBlogBody.message, 400);
-    }
 
     const authorId = authorResponse.user.id;
     const createdAt = commonUtil.formatUnixTimestamp(Date.now());
@@ -58,38 +52,33 @@ const getBlogById = async (blogId) => {
 };
 
 const getBlogByAuthorId = async (authorId) => {
-    const getBlogByAuthorIdResponse = await blogRepository.getBlogByAuthorId(
+    const blogResponse = await blogRepository.getBlogByAuthorId(
       authorId
     );
 
-    if (!getBlogByAuthorIdResponse) {
+    if (!blogResponse) {
       throw new AppError(blogNotFoundMessage,404);
     }
-    return getBlogByAuthorIdResponse;
+    return blogResponse;
  
 };
 
 const updateBlogById = async (body, blogId) => {
 
-    const emptyTitleAndDescription = blogValidationUtil.checkEmptyTitleAndDescription(blogId);
+  
 
-    if (emptyTitleAndDescription.isEmpty) {
-      throw new AppError(checkValidUpdateBlog.message,400);
+    const blogResponse = await blogRepository.getBlogById(blogId);
+
+   
+    if (!blogResponse) {
+      throw new AppError(blogNotFoundMessage,404);
     }
-
     let title = body.title;
     let description = body.description;
     if (!description) {
       description = blogResponse.description;
     } else if (!title) {
       title = blogResponse.title;
-    }
-
-    const blogResponse = await blogRepository.getBlogById(blogId);
-
-    if (!blogResponse) {
-      throw new AppError(blogNotFoundMessage,404);
-
     }
 
     const updatedBlog = blogRepository.updateBlogById(title, description, blogId);
@@ -106,12 +95,7 @@ const updateBlogById = async (body, blogId) => {
 
 const deleteBlogById = async (blogId) => {
 
-    const validBlogId = blogValidationUtil.checkValidId(authorId);
-
-    if (!validBlogId.valid) {
-      return { status: 400, message: validBlogId.message };
-    }
-
+  
     const blogResponse = await blogRepository.getBlogById(blogId);
 
     if (!blogResponse) {

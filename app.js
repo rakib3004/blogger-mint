@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
-require("dotenv").config();
 const indexRouter = require("./routes/index.route");
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+require("dotenv").config();
 const PORT = process.env.SERVER_PORT;
+
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use("/", indexRouter);
 
 
@@ -14,13 +15,10 @@ app.use((err, req, res, next) => {
   if (!err) {
       return next();
   }
-  res.status(err.statusCode);
+ res.status(err.statusCode);
   res.send(err.message);
 });
 
-const globalErrorHandler = (err, req, res, next) => {
-res.status(err.status).send(err.message);
-}
 
 
 app.use('*', (req, res) => {
@@ -32,8 +30,6 @@ app.use('*', (req, res) => {
     },
   });
 });
-
-app.use(globalErrorHandler);
 
 
 app.listen(PORT, () => {
