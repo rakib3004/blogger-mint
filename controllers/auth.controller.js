@@ -35,10 +35,8 @@ const loginUser = async (req, res, next) => {
 
     const loginUserResponse = await authService.loginUser(req.body);
    
-      res.cookie("jwt", loginUserResponse, { httpOnly: true });
-      loginUserResponse.message = "Login is successful";
-    
-    return res.status(200).send(loginUserResponse.message);
+      res.cookie("jwt", loginUserResponse, { httpOnly: true });    
+    return res.status(200).send("Login is successful");
     
   } catch (err) {
     console.error(err);  next(err);

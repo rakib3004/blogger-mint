@@ -42,7 +42,10 @@ const createUser = async (body) => {
     createdAt,
     updatedAt
   );
-  return newUser ;
+
+  const dtoUser = new UserDTO(newUser);
+  return dtoUser;
+
 
 
 };
@@ -97,7 +100,7 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
     username
   );
   
-    return { status: 200, message: 'password is successfully updated'};
+    return { message: 'password is successfully updated'};
 };
 
 const deleteUserByUsername = async (usernameParamData) => {

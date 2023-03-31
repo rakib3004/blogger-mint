@@ -14,7 +14,6 @@ const userAuthorizationMiddleware = async (req, res, next) => {
          next();
     } catch (err) {
         next(err)
-        //return res.status(400).send('Authentication failed 1101');
 
     }
 };

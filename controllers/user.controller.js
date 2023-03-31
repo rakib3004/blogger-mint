@@ -22,7 +22,7 @@ const getUserByUsername = async (req, res, next) => {
     );
     const responseStatus = 200;
     const responseData = getUserByUsernameResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,responseData);  
+    sendResponseInContentNegotiation(req,res,responseStatus,respvalidUpdatedBodyonseData);  
 
   } catch (err) {
     console.error(err);  next(err);
@@ -33,18 +33,17 @@ const updateUserPasswordByUsername = async (req, res, next) => {
   try {
     const body = req.body;
     const username = req.params.username;
-    const validPasswordAndParameter = userValidationUtil.checkValidPasswordAndParameter(body,username);
-    if (!validPasswordAndParameter.valid) {
-      throw new AppError(validPasswordAndParameter.message,400);
-  
+    const validUpdatedBody = userValidationUtil.checkValidUpdatedBody(body);
+    if (!validUpdatedBody.valid) {
+      throw new AppError(validUpdatedBody.message,400);
     }
 
-    const updateUserPasswordByUsernameResponse =
+    const updatedUserResponse =
       await userService.updateUserPasswordByUsername(
         body,
         username
       );
-    res.status(200).json(updateUserPasswordByUsernameResponse);
+    res.status(200).json(updatedUserResponse);
   } catch (err) {
     console.error(err);  next(err);
   }
