@@ -10,7 +10,7 @@ const getAllUsers = async (req, res, next) => {
     const usersResponse = await userService.getAllUsers(query);
     sendResponseInContentNegotiation(req,res,200,usersResponse);
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
@@ -23,7 +23,7 @@ const getUserByUsername = async (req, res, next) => {
   
     sendResponseInContentNegotiation(req,res,200,userResponse);  
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
@@ -43,7 +43,7 @@ const updateUserPasswordByUsername = async (req, res, next) => {
       );
     res.status(200).json({data:updatedUserResponse, message: 'Password is successfully updated'});
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
@@ -53,9 +53,10 @@ const deleteUserByUsername = async (req, res, next) => {
     const deletedUserResponse = await userService.deleteUserByUsername(
       username
     );
+    res.clearCookie("jwt");
     res.status(200).json({data:deletedUserResponse, message: 'User is successfully deleted'});
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 

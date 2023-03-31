@@ -8,7 +8,7 @@ const registerUser = async (body) => {
     const newUserResponse = await userService.createUser(body);
 
       const token = await authUtil.generateJwtToken(
-        newUserResponse.username
+        newUserResponse.user.username
       );
       return { data: newUserResponse, message: token };
     };

@@ -20,7 +20,7 @@ const registerUser = async (req, res, next) => {
      sendResponseInContentNegotiation(req,res,201,registerUserResponse)
     
   } catch (err) {
-    console.error(err);  next(err);   
+    next(err);   
   }
 };
 
@@ -39,7 +39,7 @@ const loginUser = async (req, res, next) => {
     return res.status(200).send("Login is successful");
     
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 

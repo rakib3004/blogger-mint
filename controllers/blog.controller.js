@@ -9,7 +9,7 @@ const getAllBlogs = async (req, res, next) => {
     const getAllBlogsResponse = await blogService.getAllBlogs(query);
     sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
@@ -22,7 +22,7 @@ const getBlogById = async (req, res, next) => {
     sendResponseInContentNegotiation(req,res,200,blogResponse);
    
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
 
   }
 };
@@ -34,7 +34,7 @@ const getBlogByAuthorId = async (req, res, next) => {
      const blogResponse = await blogService.getBlogByAuthorId(blogId);
     return sendResponseInContentNegotiation(req,res,200,blogResponse);
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
@@ -53,7 +53,7 @@ const createBlog = async (req, res, next) => {
    sendResponseInContentNegotiation(req,res,201,{data:newBlogResponse,message: 'Blog is created successfully'});
 
  } catch (err) {
-   console.error(err);  next(err);
+   next(err);
  }
 };
 
@@ -74,7 +74,7 @@ const updateBlogById = async (req, res, next) => {
 
       return res.status(200).send({data:updatedBlogResponse,message: 'Blog  is updated successfully' });
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
@@ -87,7 +87,7 @@ const deleteBlogById = async (req, res, next) => {
     return res.status(200).send({data:deletedBlogResponse,message: 'Blog is deleted successfully' });
     
   } catch (err) {
-    console.error(err);  next(err);
+    next(err);
   }
 };
 
