@@ -1,20 +1,19 @@
-const Blog = require("../models/blog.model");
-const User = require("../models/user.model");
+const {User,Blog} = require("../models");
 
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
 const getAllBlogs = async (offset, limit) => {
-    const blogs = await Blog.findAll({
-      offset,
-      limit,
-      order: [['createdAt', 'DESC']],
-      include: {
-        model: User,
-        attributes : ['username']
-      }
-    });
-    return blogs;
-  
+  const blogs = await Blog.findAll({
+    offset,
+    limit,
+    order: [['createdAt', 'DESC']],
+    include: {
+      model: User,
+      attributes: ['username']
+    }
+  });
+  return blogs;
+
 };
 
 const createBlog = async (
@@ -42,46 +41,51 @@ const createBlog = async (
 };
 
 const getBlogById = async (blogId) => {
-    const blog = await Blog.findOne({
-      where: {
-        id: blogId,
-      },
-    });
+  const blog = await Blog.findOne({
+    where: {
+      id: blogId,
+    },
+  });
 
-    return blog;
- 
+  return blog;
+
 };
 
 const getBlogByAuthorId = async (authorId) => {
-    const blog = await Blog.findAll({
-      where: {
-        authorId: authorId,
-      },
-    });
+  const blog = await Blog.findAll({
+    where: {
+      authorId: authorId,
 
-    return blog;
-  
+    },
+  });
+
+  return blog;
+
 };
 
-const updateBlogById = async (title, description, blogId) => {
-    const blog = await Blog.update(
-      { title: title, description: description },
-      { where: { id: blogId } }
-    );
+const updateBlogById = async (title, description, updatedAt, blogId) => {
+  const blog = await Blog.update(
+    { title: title, description: description, updatedAt:updatedAt },
+    {
+      where: {
+        id: blogId,
+      }
+    }
+  );
 
-    return blog;
- 
+  return blog;
+
 };
 
 const deleteBlogById = async (blogId) => {
-    const result = await Blog.destroy({
-      where: {
-        id: blogId,
-      },
-    });
+  const result = await Blog.destroy({
+    where: {
+      id: blogId,
+    },
+  });
 
-    return result;
- 
+  return result;
+
 };
 
 module.exports = {

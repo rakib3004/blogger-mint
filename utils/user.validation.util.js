@@ -54,15 +54,11 @@ const checkValidPassword = (password) => {
 
 };
 
-const checkValidUpdatedBody = (body) =>{
+const checkValidPasswordBody = (body) =>{
   if (checkEmptyBody(body)) {
     return { valid: false, message: "Request body is empty" };
   }
 
- /* if (!checkValidUsername(username).valid) {
-    return { valid: false, message: checkValidUsername(username).message };
-  }
-*/
   const password = body.password;
   if (!checkValidPassword(password).valid) {
     return { valid: false, message: checkValidPassword(password).message };
@@ -127,7 +123,7 @@ module.exports = {
   checkPasswordLength,
   generateHashPassword,
   checkValidUsername,
-  checkValidUpdatedBody,
+  checkValidPasswordBody,
   checkValidRegistration,
   checkValidLogin,
 

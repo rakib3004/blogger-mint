@@ -7,8 +7,8 @@ const { AppError } = require("../utils/error.handler.util");
 const getAllUsers = async (req, res, next) => {
   try {
     const query = req.query;   
-    const getAllUserResponse = await userService.getAllUsers(query);
-    sendResponseInContentNegotiation(req,res,200,getAllUserResponse);
+    const usersResponse = await userService.getAllUsers(query);
+    sendResponseInContentNegotiation(req,res,200,usersResponse);
   } catch (err) {
     console.error(err);  next(err);
   }
@@ -17,13 +17,11 @@ const getAllUsers = async (req, res, next) => {
 const getUserByUsername = async (req, res, next) => {
   try {
     const username = req.params.username;
-    const getUserByUsernameResponse = await userService.getUserByUsername(
+    const userResponse = await userService.getUserByUsername(
       username
     );
-    const responseStatus = 200;
-    const responseData = getUserByUsernameResponse;
-    sendResponseInContentNegotiation(req,res,responseStatus,respvalidUpdatedBodyonseData);  
-
+  
+    sendResponseInContentNegotiation(req,res,200,userResponse);  
   } catch (err) {
     console.error(err);  next(err);
   }
@@ -33,7 +31,7 @@ const updateUserPasswordByUsername = async (req, res, next) => {
   try {
     const body = req.body;
     const username = req.params.username;
-    const validUpdatedBody = userValidationUtil.checkValidUpdatedBody(body);
+    const validUpdatedBody = userValidationUtil.checkValidPasswordBody(body);
     if (!validUpdatedBody.valid) {
       throw new AppError(validUpdatedBody.message,400);
     }
@@ -43,7 +41,7 @@ const updateUserPasswordByUsername = async (req, res, next) => {
         body,
         username
       );
-    res.status(200).json(updatedUserResponse);
+    res.status(200).json({data:updatedUserResponse, message: 'Password is successfully updated'});
   } catch (err) {
     console.error(err);  next(err);
   }
@@ -52,10 +50,10 @@ const updateUserPasswordByUsername = async (req, res, next) => {
 const deleteUserByUsername = async (req, res, next) => {
   try {
     const username = req.params.username;
-    const deleteUserByUsernameResponse = await userService.deleteUserByUsername(
+    const deletedUserResponse = await userService.deleteUserByUsername(
       username
     );
-    res.status(200).json(deleteUserByUsernameResponse);
+    res.status(200).json({data:deletedUserResponse, message: 'User is successfully deleted'});
   } catch (err) {
     console.error(err);  next(err);
   }

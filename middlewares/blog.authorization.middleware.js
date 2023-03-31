@@ -7,11 +7,10 @@ const blogAuthorizationMiddleware = async (req, res, next) => {
     const blogId = req.params.id;
     try {
         const response = await userService.getUserByUsername(username);
-
         const blog = await blogService.getBlogById(blogId);
         const userId = String(response.user.id);
-
-        const { authorId } = blog.message;
+        const authorId = blog.authorId;
+       
 
         if (authorId !== userId) {
          throw new AppError('Access denied! You are not author of this blog',403);
@@ -19,7 +18,6 @@ const blogAuthorizationMiddleware = async (req, res, next) => {
         next();
     } catch (err) {
         next(err)
-        //return res.status(400).send('Authentication failed 1102');
 
     }
 };

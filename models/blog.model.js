@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
 const uuid = require('uuid');
 const sequelize = require('../configs/sequelize.config');
-const User = require('./user.model');
-
 const Blog = sequelize.define('blogs', {
     id: {
         type: DataTypes.UUID,
@@ -30,13 +28,7 @@ const Blog = sequelize.define('blogs', {
         defaultValue: DataTypes.NOW,
     },
 });
-User.hasMany(Blog, {
-    foreignKey: 'authorId',
-    onDelete: 'cascade',
-    hooks: true,
-});
 
-Blog.belongsTo(User, { foreignKey: 'authorId' });
 
 (async () => {
     await Blog.sync({ force: false });

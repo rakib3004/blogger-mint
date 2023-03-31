@@ -12,13 +12,11 @@ const authenticationMiddleware = function (req, res, next) {
     req.username = username;
     if(!username){
       throw new AppError('Authentication failed',400);
-
     }
     next();
 
   } catch (err) {
     next(err)
-    //return res.status(400).send('Authentication failed 1103');
   }
 };
 

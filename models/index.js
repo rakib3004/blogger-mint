@@ -1,6 +1,9 @@
-const User = require('./user.model');
-const Blog = require('./blog.model');
 const sequelize = require('../configs/sequelize.config');
+const Blog = require('./blog.model');
+const User = require('./user.model');
+
+
+Blog.belongsTo(User, { foreignKey: 'authorId' });
 
 User.hasMany(Blog, {
     foreignKey: 'authorId',
@@ -8,13 +11,13 @@ User.hasMany(Blog, {
     hooks: true,
 });
 
-Blog.belongsTo(User, { foreignKey: 'authorId' });
 
 (async () => {
     await sequelize.sync({ force: false }); 
   })();
+
+module.exports = {
+    User, Blog
+}
   
-  module.exports = {
-    User,
-    Blog,
-  };
+ 

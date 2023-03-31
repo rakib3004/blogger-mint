@@ -47,7 +47,6 @@ const createUser = async (body) => {
   return dtoUser;
 
 
-
 };
 
 const getUserByUsername = async (usernameParamData) => {
@@ -62,7 +61,6 @@ const getUserByUsername = async (usernameParamData) => {
 
   if (!userResponse) {
    throw new AppError(userNotFoundMessage,404);
-
   }
 
   const dtoUser = new UserDTO(userResponse);
@@ -74,7 +72,6 @@ const getUserLoginInfo = async (body) => {
 
   const username = body.username.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
-
   if (!user) {
     throw new AppError(userNotFoundMessage,404);
 
@@ -86,12 +83,6 @@ const getUserLoginInfo = async (body) => {
 const updateUserPasswordByUsername = async (body, usernameParameter) => {
   const username = usernameParameter.toLowerCase();
 
-
-  const userResponse = await userRepository.getUserByUsername(username);
-  if (!userResponse) {
-    throw new AppError(userNotFoundMessage,404);
-  }
-
   const password = await userValidationUtil.generateHashPassword(body.password);
   const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
   const updatedUserResponse = userRepository.updateUserPasswordByUsername(
@@ -99,31 +90,20 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
     updatedAt,
     username
   );
+
+  const userResponse = await userRepository.getUserByUsername(username);
+  const dtoUser = new UserDTO(userResponse);
+  return dtoUser;
   
-    return { message: 'password is successfully updated'};
 };
 
 const deleteUserByUsername = async (usernameParamData) => {
- 
-  
+
   const username = usernameParamData.toLowerCase();
  
-  const validParameter = userValidationUtil.checkValidUsername(username);
-  
-  if (!validParameter.valid) {
-    throw new AppError(validParameter.message,400);
-  }
-
-  const userResponse = await userRepository.getUserByUsername(username);
-
-  if (!userResponse) {
-    throw new AppError(userNotFoundMessage,404);
-
-  }
   const deletedUserResponse =
     userRepository.deleteUserByUsername(username);
- 
-  return { status: 200, message: 'User is successfully deleted' };
+  return deletedUserResponse;
 
 };
 

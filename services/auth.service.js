@@ -13,17 +13,12 @@ const registerUser = async (body) => {
       return { data: newUserResponse, message: token };
     };
 
- 
-
 
 const loginUser = async (body) => {
     const userResponse = await userService.getUserLoginInfo(body);
 
-
-
     const password = body.password;
     const user = userResponse;
-
     const isValidPassword = await authUtil.comparePassword(
       password,
       user.password
@@ -35,7 +30,6 @@ const loginUser = async (body) => {
     }
     throw new AppError('Authentication Failed', 401);
 
- 
 };
 
 module.exports = {

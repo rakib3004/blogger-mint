@@ -13,33 +13,13 @@ const getAllBlogs = async (req, res, next) => {
   }
 };
 
-const createBlog = async (req, res, next) => {
-   try {
-    const body = req.body;
-    const ValidBlogBody = blogValidationUtil.checkValidBlogBody(body);
-
-    if (!ValidBlogBody.valid) {
-      throw new AppError(ValidBlogBody.message, 400);
-    }
-
-
-    body.username = req.username;
-    const createBlogResponse = await blogService.createBlog(body);
-    sendResponseInContentNegotiation(req,res,201,createBlogResponse);
-
-  } catch (err) {
-    
-    console.error(err);  next(err);
-  }
-};
-
 const getBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
-    const getBlogByIdResponse = await blogService.getBlogById(
+    const blogResponse = await blogService.getBlogById(
       blogId
     );
-    sendResponseInContentNegotiation(req,res,200,getBlogByIdResponse.message);
+    sendResponseInContentNegotiation(req,res,200,blogResponse);
    
   } catch (err) {
     console.error(err);  next(err);
@@ -51,23 +31,37 @@ const getBlogByAuthorId = async (req, res, next) => {
   try {
     const blogId = req.params.id;
 
-     const getBlogByAuthorIdResponse = await blogService.getBlogByAuthorId(
-      blogId
-    );
-    const responseData = getBlogByAuthorIdResponse;
-    return sendResponseInContentNegotiation(req,res,200,responseData);
+     const blogResponse = await blogService.getBlogByAuthorId(blogId);
+    return sendResponseInContentNegotiation(req,res,200,blogResponse);
   } catch (err) {
     console.error(err);  next(err);
   }
 };
 
+
+const createBlog = async (req, res, next) => {
+  try {
+   const body = req.body;
+   const ValidBlogBody = blogValidationUtil.checkValidBlogBody(body);
+
+   if (!ValidBlogBody.valid) {
+     throw new AppError(ValidBlogBody.message, 400);
+   }
+
+   body.username = req.username;
+   const newBlogResponse = await blogService.createBlog(body);
+   sendResponseInContentNegotiation(req,res,201,{data:newBlogResponse,message: 'Blog is created successfully'});
+
+ } catch (err) {
+   console.error(err);  next(err);
+ }
+};
+
 const updateBlogById = async (req, res, next) => {
 
   try {
-
     const body = req.body;
     const blogId = req.params.id;
-
 
     const emptyTitleAndDescription = blogValidationUtil.checkEmptyTitleAndDescription(body);
 
@@ -75,10 +69,10 @@ const updateBlogById = async (req, res, next) => {
       throw new AppError(emptyTitleAndDescription.message,400);
     }
 
-   
-    const updateBlogByIdResponse =
+    const updatedBlogResponse =
       await blogService.updateBlogById(body, blogId);
-      return res.send({status: updateBlogByIdResponse.status, message:updateBlogByIdResponse.message});
+
+      return res.status(200).send({data:updatedBlogResponse,message: 'Blog  is updated successfully' });
   } catch (err) {
     console.error(err);  next(err);
   }
@@ -87,18 +81,15 @@ const updateBlogById = async (req, res, next) => {
 const deleteBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
-
-    const deleteBlogByIdResponse = await blogService.deleteBlogById(
+    const deletedBlogResponse = await blogService.deleteBlogById(
      blogId
     );
-    return res.status(200).json(deleteBlogByIdResponse);
+    return res.status(200).send({data:deletedBlogResponse,message: 'Blog is deleted successfully' });
     
   } catch (err) {
     console.error(err);  next(err);
   }
 };
-
-
 
 
 
