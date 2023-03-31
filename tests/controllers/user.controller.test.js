@@ -2,53 +2,55 @@
 
 describe('Testing User Controller: ', () => {
     describe('Testing getAllUsers Function: ', () => {
-        it('Should register user successfully', async () => {
+        it('Return all users in response', async () => {
 
         });
 
-        it('Should throw an error if UserService.createUser throws an error', async () => {
-
-        });
-    });
-
-    describe('Testing getUserByUsername Function: ', () => {
-        it('Should login user successfully and return access token: ', async () => {
-
-        });
-
-        it('Should throw an error if UserService.findUser throws an error', async () => {
+        it('Throw an error if the service call fails', async () => {
 
         });
     });
 
     describe('Testing getUserByUsername Function: ', () => {
-        it('', async () => {
+        it('Return a user response by username', async () => {
 
         });
 
-        it('', async () => {
+        it('Throw an error if the service call fails', async () => {
 
         });
     });
+
+  
 
 
     describe('Testing updateUserPasswordByUsername Function: ', () => {
-        it('', async () => {
+        it('Should update user password by username and return updated user response', async () => {
 
         });
 
-        it('', async () => {
+        it('Should throw an error user not found if the blog is not found', async () => {
 
         });
+
+        it('Should throw an error if the service call fails', async () => {
+
+        });
+
+        
     });
 
 
     describe('Testing deleteUserByUsername Function: ', () => {
-        it('', async () => {
+        it('Should delete a blog by username', async () => {
 
         });
 
-        it('', async () => {
+        it('Should throw an error user not found if the user is not found', async () => {
+
+        });
+
+        it('Should throw an error if the service call fails', async () => {
 
         });
     });

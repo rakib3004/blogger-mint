@@ -2,25 +2,30 @@
 
 describe('Testing Auth Controller: ', () => {
     describe('Testing registerUser Function: ', () => {
-        it('Should register user successfully', async () => {
+        it('1.Register User Successfully and return access token', async () => {
 
         });
 
-        it('Should throw an error if UserService.createUser throws an error', async () => {
+        it('2.username, email and password are missing', async () => {
+    
+        });
+
+        it('3.Auth Service returns an error and failed to return access token', async () => {
 
         });
+
 
         describe('Testing loginUser Function: ', () => {
-            it('Should login user successfully and return access token: ', async () => {
+            it('1.User login Successfully and return access token', async () => {
 
             });
-
-            it('Should throw an error if UserService.findUser throws an error', async () => {
-
+    
+            it('2.username and password are missing', async () => {
+    
             });
-
-            it('Should throw an error if password is incorrect', async () => {
-
+    
+            it('3.Auth Service returns an error and failed to return access token', async () => {
+    
             });
         });
     });

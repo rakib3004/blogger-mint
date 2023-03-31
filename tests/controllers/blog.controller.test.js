@@ -1,31 +1,31 @@
 
 describe('Testing Blog Controller', () => {
     describe('Testing getAllBlogs Function: ', () => {
-        it('Should return an array of blogs: ', async () => {
+        it('Return all blogs in response', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it('Throw an error if the service call fails', async () => {
 
         });
     });
 
     describe('Testing getBlogById Function: ', () => {
-        it('Should return a blog by id: ', async () => {
+        it('Return a blog response by id', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it('Throw an error if the service call fails', async () => {
 
         });
     });
 
     describe('Testing getBlogByAuthorId Function: ', () => {
-        it('Should return an array of blogs of a given authorId: ', async () => {
+        it('Return an array of blogs of a given authorId: ', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it(' Throw an error if the service call fails', async () => {
 
         });
     });
@@ -35,21 +35,21 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it('Should throw an error if the service call fails', async () => {
 
         });
     });
 
     describe('Testing updateBlogById Function: ', () => {
-        it('Should update a blog by id', async () => {
+        it('Should update a blog by id and return updated blog response', async () => {
 
         });
 
-        it('Should throw an HTTP404NotFoundError if the blog is not found', async () => {
+        it('Should throw an error blog not found if the blog is not found', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it('Should throw an error if the service call fails', async () => {
 
         });
     });
@@ -59,11 +59,11 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Should throw an HTTP404NotFoundError if the blog is not found', async () => {
+        it('Should throw an error blog not found if the blog is not found', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it('Should throw an error if the service call fails', async () => {
 
         });
     });
