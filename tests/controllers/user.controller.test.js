@@ -29,7 +29,7 @@ describe("Testing User Controller: ", () => {
 
       const response = await userController.getAllUsers(req, res, next);
 
-      expect(userService.createUser).toHaveBeenCalledTimes(1);
+      expect(userService.getAllUsers).toHaveBeenCalledTimes(1);
       expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
       expect(response).toBe(expectedResponse);
     });
@@ -57,9 +57,11 @@ describe("Testing User Controller: ", () => {
 
   describe("Testing getUserByUsername Function: ", () => {
     it("Return a user response by username", async () => {
+
+      const username = "tester";
       const req = {
         params: {
-          username: "tester",
+          username: username,
         },
       };
       const res = {};
@@ -77,7 +79,7 @@ describe("Testing User Controller: ", () => {
         )
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.getAllUsers(req, res, next);
+      const response = await userController.getUserByUsername(req, res, next);
 
       expect(userService.getUserByUsername).toHaveBeenCalledTimes(1);
       expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
@@ -87,9 +89,10 @@ describe("Testing User Controller: ", () => {
 
     it(" throw an error user not found if the user is not found", async () => {
 
+      const username = "annonymous";
       const req = {
         params: {
-          username: "annonymous",
+          username: username,
         },
       };
       const res = {};
@@ -124,9 +127,11 @@ describe("Testing User Controller: ", () => {
 
     it("Throw an error if the userService call fails", async () => {
 
+    const username = "tester";
+
       const req = {
         params: {
-          username: "tester",
+          username:username,
         },
       };
       const res = {};
@@ -148,12 +153,14 @@ describe("Testing User Controller: ", () => {
   describe("Testing updateUserPasswordByUsername Function: ", () => {
     it(" update user password by username and return updated user response", async () => {
 
+      const username = "tester";
+      const password = "test123";
       const req = {
         params: {
-          username: "tester",
+          username: username,
         },
         body: {
-          password: "test123",
+          password: password,
         },
       };
       const res = {};
@@ -171,7 +178,7 @@ describe("Testing User Controller: ", () => {
         )
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.getAllUsers(req, res, next);
+      const response = await userController.updateUserPasswordByUsername(req, res, next);
 
       expect(userService.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
       expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
@@ -181,20 +188,64 @@ describe("Testing User Controller: ", () => {
 
     });
 
-    it(" throw an error if password field is empty", async () => {});
+    it(" throw an error if password field is empty", async () => {
 
-    it(" throw an error if the userService call fails", async () => {});
+      const username = "tester";
+      const req = {
+        params: {
+          username: username,
+        },
+        body: {},
+      };
+      const res = {};
+      const next = jest.fn();
+
+      const expectedError = new AppError('Password field is empty',400);
+
+
+      jest.spyOn(userService, 'updateUserPasswordByUsername').mockRejectedValueOnce(expectedError);
+
+      await userController.updateUserPasswordByUsername(req,res,next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+
+
+    });
+
+    it(" throw an error if the userService call fails", async () => {
+
+
+      const username = "tester";
+      const password = "test123";
+      const req = {
+        params: {
+          username: username,
+        },
+        body: {
+          password: password,
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+      const expectedError = new Error("Internal Server Error");
+
+      jest
+        .spyOn(userService, 'updateUserPasswordByUsername')
+        .mockRejectedValueOnce(expectedError);
+
+      await userController.updateUserPasswordByUsername(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+
+    });
   });
 
   describe("Testing deleteUserByUsername Function: ", () => {
     it(" delete a blog by username", async () => {
-
-
       const req = {
         params: {
           username: "tester",
         },
-      
       };
       const res = {};
       const next = jest.fn();
@@ -211,7 +262,7 @@ describe("Testing User Controller: ", () => {
         )
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.getAllUsers(req, res, next);
+      const response = await userController.deleteUserByUsername(req, res, next);
 
       expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
       expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
@@ -220,6 +271,30 @@ describe("Testing User Controller: ", () => {
 
     });
 
-    it(" throw an error if the userService call fails", async () => {});
+    it(" throw an error if the userService call fails", async () => {
+
+
+      const username = "tester";
+      const req = {
+        params: {
+          username: username,
+        },
+      
+      };
+      const res = {};
+      const next = jest.fn();
+      const expectedError = new Error("Internal Server Error");
+
+      jest
+        .spyOn(userService, "deleteUserByUsername")
+        .mockRejectedValueOnce(expectedError);
+
+      await userController.deleteUserByUsername(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+
+
+
+    });
   });
 });
