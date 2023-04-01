@@ -7,7 +7,7 @@ const getAllBlogs = async (req, res, next) => {
   try {
     const query = req.query;
     const getAllBlogsResponse = await blogService.getAllBlogs(query);
-    sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
+    return sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
   } catch (err) {
     next(err);
   }
@@ -19,7 +19,7 @@ const getBlogById = async (req, res, next) => {
     const blogResponse = await blogService.getBlogById(
       blogId
     );
-    sendResponseInContentNegotiation(req,res,200,blogResponse);
+    return sendResponseInContentNegotiation(req,res,200,blogResponse);
    
   } catch (err) {
     next(err);
@@ -50,7 +50,9 @@ const createBlog = async (req, res, next) => {
 
    body.username = req.username;
    const newBlogResponse = await blogService.createBlog(body);
-   sendResponseInContentNegotiation(req,res,201,{data:newBlogResponse,message: 'Blog is created successfully'});
+
+   const clientResponse = {data:newBlogResponse,message: 'Blog is successfully created'};
+   return sendResponseInContentNegotiation(req,res,201,clientResponse);
 
  } catch (err) {
    next(err);
@@ -72,7 +74,9 @@ const updateBlogById = async (req, res, next) => {
     const updatedBlogResponse =
       await blogService.updateBlogById(body, blogId);
 
-      return res.status(200).send({data:updatedBlogResponse,message: 'Blog  is updated successfully' });
+      const clientResponse = {data:updatedBlogResponse,message: 'Blog  is successfully updated' };
+      return sendResponseInContentNegotiation(req,res,200,clientResponse);
+
   } catch (err) {
     next(err);
   }
@@ -84,7 +88,9 @@ const deleteBlogById = async (req, res, next) => {
     const deletedBlogResponse = await blogService.deleteBlogById(
      blogId
     );
-    return res.status(200).send({data:deletedBlogResponse,message: 'Blog is deleted successfully' });
+
+    const clientResponse = {data:deletedBlogResponse,message: 'Blog  is successfully deleted' };
+    return sendResponseInContentNegotiation(req,res,200,clientResponse);
     
   } catch (err) {
     next(err);

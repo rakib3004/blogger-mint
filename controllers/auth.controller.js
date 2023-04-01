@@ -14,10 +14,11 @@ const registerUser = async (req, res, next) => {
     
      const registerUserResponse = await authService.registerUser(req.body);
 
-      res.cookie("jwt", registerUserResponse.message, { httpOnly: true });
-      registerUserResponse.message = "Registration is successful";
+      res.cookie("jwt", registerUserResponse.token, { httpOnly: true });
+
+      const clientResponse = {data: registerUserResponse.data, message: "Registration is successful"}
      
-     sendResponseInContentNegotiation(req,res,201,registerUserResponse)
+     return sendResponseInContentNegotiation(req,res,201,clientResponse);
     
   } catch (err) {
     next(err);   
@@ -35,8 +36,11 @@ const loginUser = async (req, res, next) => {
 
     const loginUserResponse = await authService.loginUser(req.body);
    
-      res.cookie("jwt", loginUserResponse, { httpOnly: true });    
-    return res.status(200).send("Login is successful");
+      res.cookie("jwt", loginUserResponse, { httpOnly: true }); 
+
+      const clientResponse = {message: "Login is successful"};
+      
+      return sendResponseInContentNegotiation(req,res,200,clientResponse);
     
   } catch (err) {
     next(err);
