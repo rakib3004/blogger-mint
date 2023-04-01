@@ -5,7 +5,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Throw an error if the service call fails', async () => {
+        it('Throw an error if the blogService call fails', async () => {
 
         });
     });
@@ -15,7 +15,11 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Throw an error if the service call fails', async () => {
+        it('Throw an 404 error if blog id does not exits', async () => {
+
+        });
+
+        it('Throw an error if the blogService call fails', async () => {
 
         });
     });
@@ -24,46 +28,50 @@ describe('Testing Blog Controller', () => {
         it('Return an array of blogs of a given authorId: ', async () => {
 
         });
+        it('Throw an 404 error if author id does not exits', async () => {
 
-        it(' Throw an error if the service call fails', async () => {
+        });
+
+        it(' Throw an error if the blogService call fails', async () => {
 
         });
     });
 
     describe('Testing createBlog Function: ', () => {
-        it('Should create an Story and return a Story body: ', async () => {
+        it(' create an Story and return a Story body: ', async () => {
 
         });
 
-        it('Should throw an error if the service call fails', async () => {
+        it(' throw an error if the title and description are empty', async () => {
+
+        });
+
+
+        it(' throw an error if the blogService call fails', async () => {
 
         });
     });
 
     describe('Testing updateBlogById Function: ', () => {
-        it('Should update a blog by id and return updated blog response', async () => {
+        it(' update a blog by id and return updated blog response', async () => {
 
         });
 
-        it('Should throw an error blog not found if the blog is not found', async () => {
+        it(' throw an error if the both title and description are empty', async () => {
 
         });
 
-        it('Should throw an error if the service call fails', async () => {
+        it(' throw an error if the blogService call fails', async () => {
 
         });
     });
 
     describe('Testing deleteBlogById Function: ', () => {
-        it('Should delete a blog by id: ', async () => {
+        it(' delete a blog by id: ', async () => {
 
         });
 
-        it('Should throw an error blog not found if the blog is not found', async () => {
-
-        });
-
-        it('Should throw an error if the service call fails', async () => {
+        it(' throw an error if the blogService call fails', async () => {
 
         });
     });

@@ -1,69 +1,69 @@
 
 describe('Testing Blog Service', () => {
     describe('Testing getAllBlogs Function: ', () => {
-        it('Should return an array of blogs: ', async () => {
+        it('Return all blogs in Response', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
-
-        });
-    });
-
-    describe('Testing getBlogById Function: ', () => {
-        it('Should return a blog by id: ', async () => {
-
-        });
-
-        it('Should throw an error if the repository call fails', async () => {
-
-        });
-    });
-
-    describe('Testing getBlogByAuthorId Function: ', () => {
-        it('Should return an array of blogs of a given authorId: ', async () => {
-
-        });
-
-        it('Should throw an error if the repository call fails', async () => {
+        it('Throw an error if the blogRepository call fails', async () => {
 
         });
     });
 
     describe('Testing createBlog Function: ', () => {
-        it('Should create an Story and return a Story body: ', async () => {
+        it(' create an blog and return a blog body: ', async () => {
 
         });
 
-        it('Should throw an error if the repository call fails', async () => {
+        it('Throw an error if the blogRepository call fails', async () => {
 
         });
     });
 
+    describe('Testing getBlogById Function: ', () => {
+        it('Return a blog by id: ', async () => {
+
+        });
+
+        it('Throw an error blog not found if blog id does not exits', async () => {
+
+        });
+
+        it('Throw an error if the blogRepository call fails', async () => {
+
+        });
+    });
+
+    describe('Testing getBlogByAuthorId Function: ', () => {
+        it('Return an array of blogs of a given authorId: ', async () => {
+
+        });
+        it('Throw an error blog not found if author id does not exits', async () => {
+
+        });
+        it('Throw an error if the blogRepository call fails', async () => {
+
+        });
+    });
+
+    
+
     describe('Testing updateBlogById Function: ', () => {
-        it('Should update a blog by id', async () => {
+        it(' update a blog by id and return a blog response ', async () => {
 
         });
 
-        it('Should throw an HTTP404NotFoundError if the blog is not found', async () => {
-
-        });
-
-        it('Should throw an error if the repository call fails', async () => {
+        it('Throw an error if the blogRepository call fails', async () => {
 
         });
     });
 
     describe('Testing deleteBlogById Function: ', () => {
-        it('Should delete a blog by id: ', async () => {
+        it(' delete a blog by id: ', async () => {
 
         });
 
-        it('Should throw an HTTP404NotFoundError if the blog is not found', async () => {
-
-        });
-
-        it('Should throw an error if the repository call fails', async () => {
+        it('Throw an error if the blogRepository call fails', async () => {
 
         });
     });

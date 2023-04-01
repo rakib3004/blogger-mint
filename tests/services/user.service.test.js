@@ -2,53 +2,71 @@
 
 describe('Testing User Service: ', () => {
     describe('Testing getAllUsers Function: ', () => {
-        it('Should register user successfully', async () => {
+        it('Return all user in Response', async () => {
 
         });
 
-        it('Should throw an error if UserService.createUser throws an error', async () => {
+        it('Throw an error if the userRepository call fails', async () => {
+
+        });
+    });
+
+    describe('Testing createUser Function: ', () => {
+        it('Create an user and return a user body: ', async () => {
+
+        });
+
+        it('Throw an error if the userRepository call fails', async () => {
 
         });
     });
 
     describe('Testing getUserByUsername Function: ', () => {
-        it('Should login user successfully and return access token: ', async () => {
+        it('Return a user by username: ', async () => {
 
         });
 
-        it('Should throw an error if UserService.findUser throws an error', async () => {
+        it('Throw an error user not found if username does not exits', async () => {
+
+        });
+
+        it('Throw an error if the userRepository call fails', async () => {
 
         });
     });
 
-    describe('Testing getUserByUsername Function: ', () => {
-        it('', async () => {
+    describe('Testing getUserLoginInfo Function: ', () => {
+        it('Return a user by username: ', async () => {
 
         });
 
-        it('', async () => {
+        it('Throw an error user not found if username does not exits', async () => {
+
+        });
+
+        it('Throw an error if the userRepository call fails', async () => {
 
         });
     });
 
 
     describe('Testing updateUserPasswordByUsername Function: ', () => {
-        it('', async () => {
+        it(' update a user password by username and return a user response ', async () => {
 
         });
 
-        it('', async () => {
+        it('Throw an error if the userRepository call fails', async () => {
 
         });
     });
 
 
     describe('Testing deleteUserByUsername Function: ', () => {
-        it('', async () => {
+        it(' delete a user by username ', async () => {
 
         });
 
-        it('', async () => {
+        it('Throw an error if the userRepository call fails', async () => {
 
         });
     });
