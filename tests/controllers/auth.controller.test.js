@@ -1,4 +1,9 @@
 
+const authController = require("../../controllers/auth.controller");
+const authService = require("../../services/auth.service");
+const authDatabase = require("../databases/auth.database");
+const { AppError } = require("../../utils/error.handler.util");
+const sendResponseInContentNegotiation = require("../../utils/content-negotiation.util");
 
 describe('Testing Auth Controller: ', () => {
     describe('Testing registerUser Function: ', () => {
@@ -23,17 +28,11 @@ describe('Testing Auth Controller: ', () => {
             jest
               .spyOn(authService, 'registerUser')
               .mockResolvedValue(expectedResponse);
-            jest
-              .spyOn(
-                sendResponseInContentNegotiation,
-                'sendResponseInContentNegotiation'
-              )
-              .mockResolvedValue(expectedResponse);
+ 
       
             const response = await authController.registerUser(req, res, next);
       
-            expect(authService.createBlog).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(authService.registerUser).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
 
@@ -78,10 +77,10 @@ describe('Testing Auth Controller: ', () => {
             
             const expectedError = new Error("Internal Server Error");
       
-            jest.spyOn(blogService, 'registerUser')
+            jest.spyOn(authService, 'registerUser')
               .mockRejectedValueOnce(expectedError);
       
-            await blogController.registerUser(req, res, next);
+            await authController.registerUser(req, res, next);
             expect(next).toHaveBeenCalledWith(expectedError);
         });
 
@@ -158,10 +157,10 @@ describe('Testing Auth Controller: ', () => {
     
                 const expectedError = new Error("Internal Server Error");
           
-                jest.spyOn(blogService, 'loginUser')
+                jest.spyOn(authService, 'loginUser')
                   .mockRejectedValueOnce(expectedError);
           
-                await blogController.loginUser(req, res, next);
+                await authController.loginUser(req, res, next);
                 expect(next).toHaveBeenCalledWith(expectedError);
 
             });
