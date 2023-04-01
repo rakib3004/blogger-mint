@@ -10,7 +10,7 @@ const registerUser = async (body) => {
       const token = await authUtil.generateJwtToken(
         newUserResponse.user.username
       );
-      return { data: newUserResponse, message: token };
+      return { data: newUserResponse, token: token };
     };
 
 
