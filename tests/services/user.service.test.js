@@ -30,7 +30,7 @@ describe('Testing User Service: ', () => {
                 limit: 5,
             };
           const expectedError = new Error("Internal Server Error");
-          
+
             jest
               .spyOn(userRepository, 'getAllUsers')
               .mockRejectedValueOnce(expectedError);
@@ -42,20 +42,14 @@ describe('Testing User Service: ', () => {
     describe('Testing createUser Function: ', () => {
         it('createUser: Create an user and return a user response: ', async () => {
 
-            const id = "16514651474";
             const username = "test";
             const email =  "test@cefalo.com";
-
             const password = "test";
-            const createdAt = "2023-04-01 09:59:20";
-            const updatedAt = "2023-04-01 09:59:20";
+          
             const body = {
-                id: id,
                 username: username,
                 email :email,
                 password :password,
-                createdAt :createdAt,
-                updatedAt :updatedAt,
             };
                   
             const expectedResponse = {};
