@@ -7,7 +7,7 @@ const sendResponseInContentNegotiation = require("../../utils/content-negotiatio
 
 describe('Testing Auth Controller: ', () => {
     describe('Testing registerUser Function: ', () => {
-        it('Register User Successfully and return access token', async () => {
+        it('registerUser: Register User Successfully and return access token', async () => {
 
             const username = 'test';
             const email = 'test@cefalo.com';
@@ -39,7 +39,7 @@ describe('Testing Auth Controller: ', () => {
 
         });
 
-        it('Throw an App eror if username, email and password are missing', async () => {
+        it('registerUser: Throw an App eror if username, email and password are missing', async () => {
            
             const req = {
               body: {
@@ -59,7 +59,7 @@ describe('Testing Auth Controller: ', () => {
             
         });
 
-        it('Auth Service returns an error and failed to return access token', async () => {
+        it('registerUser: Auth Service returns an error and failed to return access token', async () => {
             const username = 'test';
             const email = 'test@cefalo.com';
             const password = 'test1234';
@@ -73,8 +73,6 @@ describe('Testing Auth Controller: ', () => {
             };
             const res = {};
             const next = jest.fn();
-
-            
             const expectedError = new Error("Internal Server Error");
       
             jest.spyOn(authService, 'registerUser')
@@ -86,7 +84,7 @@ describe('Testing Auth Controller: ', () => {
 
 
         describe('Testing loginUser Function: ', () => {
-            it('User login Successfully and return access token', async () => {
+            it('loginUser: User login Successfully and return access token', async () => {
 
                 const username = 'test';
                 const password = 'test1234';
@@ -121,7 +119,7 @@ describe('Testing Auth Controller: ', () => {
 
             });
     
-            it('Throw an App eror if username and password are missing', async () => {
+            it('loginUser: Throw an App eror if username and password are missing', async () => {
     
                 const req = {
                     body: {
@@ -141,7 +139,7 @@ describe('Testing Auth Controller: ', () => {
 
             });
     
-            it('Auth Service returns an error and failed to return access token', async () => {
+            it('loginUser: Auth Service returns an error and failed to return access token', async () => {
     
                 const username = 'test';
                 const password = 'test1234';

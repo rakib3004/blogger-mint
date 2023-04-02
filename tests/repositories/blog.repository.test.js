@@ -1,71 +1,71 @@
 
 describe('Testing Blog Repository: ', () => {
     describe('Testing getAllBlogs Function: ', () => {
-        it('Return an array of blogs: ', async () => {
+        it('getAllBlogs: Return an array of blogs: ', async () => {
 
         });
 
-        it('Throw an error for database query error', async () => {
+        it('getAllBlogs: Throw an error for database query error', async () => {
 
         });
     });
 
     describe('Testing getBlogById Function: ', () => {
-        it('Return a blog by id: ', async () => {
+        it('getBlogById: Return a blog by id: ', async () => {
 
         });
 
-        it('Return 0 if the blog does not exist', async () => {
+        it('getBlogById: Return 0 if the blog does not exist', async () => {
 
         });
 
-        it('Throw an error for database query error', async () => {
+        it('getBlogById: Throw an error for database query error', async () => {
 
         });
     });
 
     describe('Testing getBlogByAuthorId Function: ', () => {
-        it('Return an array of blogs of a given authorId: ', async () => {
+        it('getBlogByAuthorId: Return an array of blogs of a given authorId: ', async () => {
 
         });
 
-        it('Return 0 if the author does not exist', async () => {
+        it('getBlogByAuthorId: Return 0 if the author does not exist', async () => {
 
         });
 
-        it('Throw an error for database query error', async () => {
+        it('getBlogByAuthorId: Throw an error for database query error', async () => {
 
         });
     });
 
     describe('Testing createBlog Function: ', () => {
-        it(' create an blog and return a blog body: ', async () => {
+        it('createBlog: create an blog and return a blog body: ', async () => {
 
         });
 
-        it('Throw an error for database query error', async () => {
+        it('createBlog: Throw an error for database query error', async () => {
 
         });
     });
 
     describe('Testing updateBlogById Function: ', () => {
-        it(' update a blog by id', async () => {
+        it('updateBlogById: update a blog by id', async () => {
 
         });
 
        
-        it('Throw an error for database query error', async () => {
+        it('updateBlogById: Throw an error for database query error', async () => {
 
         });
     });
 
     describe('Testing deleteBlogById Function: ', () => {
-        it(' delete a blog by id: ', async () => {
+        it('deleteBlogById: delete a blog by id: ', async () => {
 
         });
 
 
-        it('Throw an error for database query error', async () => {
+        it('deleteBlogById: Throw an error for database query error', async () => {
 
         });
     });

@@ -3,13 +3,12 @@
 const authService = require("../../services/auth.service");
 const authDatabase = require("../databases/auth.database");
 const userService = require("../../services/user.service");
-
 const { AppError } = require("../../utils/error.handler.util");
 
 
 describe('Testing Auth Service: ', () => {
     describe('Testing registerUser Function: ', () => {
-        it('Register user successfully and return access token', async () => {
+        it('registerUser: Register user successfully and return access token', async () => {
 
             const username = 'test';
             const email = 'test@cefalo.com';
@@ -28,24 +27,18 @@ describe('Testing Auth Service: ', () => {
             const expectedResponse = {};
       
             jest
-              .spyOn(authService, 'registerUser')
+              .spyOn(userService, 'createUser')
               .mockResolvedValue(expectedResponse);
-            jest
-              .spyOn(
-                sendResponseInContentNegotiation,
-                'sendResponseInContentNegotiation'
-              )
-              .mockResolvedValue(expectedResponse);
+       
       
-            const response = await authController.registerUser(req, res, next);
+            const response = await authService.registerUser(req, res, next);
       
-            expect(authService.createBlog).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(userService.createUser).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
         });
 
-        it('Throw an error if userService.createUser throws an error', async () => {
+        it('registerUser: Throw an error if userService.createUser throws an error', async () => {
 
             const username = 'test';
             const email = 'test@cefalo.com';
@@ -62,9 +55,9 @@ describe('Testing Auth Service: ', () => {
             const next = jest.fn();
 
             
-            const expectedError = new AppError('Authentication Failed', 401);
+            const expectedError = new Error("Internal Server Error");
       
-            jest.spyOn(userService, 'registerUser')
+            jest.spyOn(userService, 'createUser')
               .mockRejectedValueOnce(expectedError);
       
             await authService.registerUser(req, res, next);
@@ -76,7 +69,7 @@ describe('Testing Auth Service: ', () => {
     });
 
     describe('Testing loginUser Function: ', () => {
-        it('Login user successfully and return access token: ', async () => {
+        it('loginUser: Login user successfully and return access token: ', async () => {
 
             const username = 'test';
             const password = 'test1234';
@@ -93,18 +86,18 @@ describe('Testing Auth Service: ', () => {
             const expectedResponse = {};
       
             jest
-              .spyOn(authService, 'loginUser')
+              .spyOn(userService, 'getUserLoginInfo')
               .mockResolvedValue(expectedResponse);
         
       
-            const response = await authController.loginUser(req, res, next);
+            const response = await authService.loginUser(req, res, next);
       
-            expect(authService.loginUser).toHaveBeenCalledTimes(1);
+            expect(userService.loginUser).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
         });
 
-        it('Throw an error if UserService.getUserLoginInfo throws an error', async () => {
+        it('loginUser: Throw an error if UserService.getUserLoginInfo throws an error', async () => {
                 const username = 'test';
                 const password = 'test1234';
     
@@ -119,7 +112,7 @@ describe('Testing Auth Service: ', () => {
     
                 const expectedError = new Error("Internal Server Error");
           
-                jest.spyOn(userService, 'loginUser')
+                jest.spyOn(userService, 'getUserLoginInfo')
                   .mockRejectedValueOnce(expectedError);
           
                 await authService.loginUser(req, res, next);
@@ -127,8 +120,7 @@ describe('Testing Auth Service: ', () => {
 
         });
 
-        it('Throw an error if password is not matching', async () => {
-
+        it('loginUser: Throw an error if password is not matching', async () => {
 
             const username = 'test';
             const password = 'test1234';
@@ -142,14 +134,13 @@ describe('Testing Auth Service: ', () => {
             const res = {};
             const next = jest.fn();
 
-            const expectedError = new AppError("Internal Server Error");
+            const expectedError = new AppError('Authentication Failed', 401);
       
             jest.spyOn(userService, 'getUserLoginInfo')
               .mockRejectedValueOnce(expectedError);
       
             await authService.loginUser(req, res, next);
             expect(next).toHaveBeenCalledWith(expectedError);
-
 
         });
     });

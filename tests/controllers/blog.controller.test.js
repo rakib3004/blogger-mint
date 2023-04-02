@@ -7,7 +7,7 @@ const sendResponseInContentNegotiation = require("../../utils/content-negotiatio
 
 describe('Testing Blog Controller', () => {
     describe('Testing getAllBlogs Function: ', () => {
-        it('Return all blogs in response', async () => {
+        it('getAllBlogs: Return all blogs in response', async () => {
 
             const req = {
                 query: {
@@ -38,7 +38,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Throw an error if the blogService call fails', async () => {
+        it('getAllBlogs: Throw an error if the blogService call fails', async () => {
 
             const req = {
                 query: {
@@ -62,7 +62,7 @@ describe('Testing Blog Controller', () => {
     });
 
     describe('Testing getBlogById Function: ', () => {
-        it('Return a blog response by id', async () => {
+        it('getBlogById: Return a blog response by id', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -93,7 +93,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Throw a 404 error if blog id does not exits', async () => {
+        it('getBlogById: Throw a 404 error if blog id does not exits', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -114,7 +114,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it('Throw an error if the blogService call fails', async () => {
+        it('getBlogById: Throw an error if the blogService call fails', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -139,7 +139,7 @@ describe('Testing Blog Controller', () => {
     });
 
     describe('Testing getBlogByAuthorId Function: ', () => {
-        it('Return an array of blogs of a given authorId: ', async () => {
+        it('getBlogByAuthorId: Return an array of blogs of a given authorId: ', async () => {
 
             const authorId = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -169,7 +169,7 @@ describe('Testing Blog Controller', () => {
             expect(response).toBe(expectedResponse);
 
         });
-        it('Throw an 404 error if author id does not exits', async () => {
+        it('getBlogByAuthorId: Throw an 404 error if author id does not exits', async () => {
 
 
             const authorId = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
@@ -193,7 +193,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it(' Throw an error if the blogService call fails', async () => {
+        it('getBlogByAuthorId: Throw an error if the blogService call fails', async () => {
 
             const authorId = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -217,7 +217,7 @@ describe('Testing Blog Controller', () => {
     });
 
     describe('Testing createBlog Function: ', () => {
-        it(' create an blog and return a blog response: ', async () => {
+        it('createBlog: create an blog and return a blog response: ', async () => {
 
             const title = 'Testing Title';
             const description = 'Testing description';
@@ -252,7 +252,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it(' throw an error if the title and description are empty', async () => {
+        it('createBlog: throw an error if the title and description are empty', async () => {
 
             const req = {
                 body: {
@@ -273,7 +273,7 @@ describe('Testing Blog Controller', () => {
         });
 
 
-        it(' throw an error if the blogService call fails', async () => {
+        it('createBlog: throw an error if the blogService call fails', async () => {
 
             const title = 'Testing Title';
             const description = 'Testing description';
@@ -303,7 +303,7 @@ describe('Testing Blog Controller', () => {
     });
 
     describe('Testing updateBlogById Function: ', () => {
-        it(' update a blog by id and return updated blog response', async () => {
+        it('updateBlogById: update a blog by id and return updated blog response', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const title = 'Testing Title';
@@ -341,9 +341,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it(' throw an error if the both title and description are empty', async () => {
-
-
+        it('updateBlogById: throw an error if the both title and description are empty', async () => {
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
 
             const req = {
@@ -365,7 +363,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it(' throw an error if the blogService call fails', async () => {
+        it('updateBlogById: throw an error if the blogService call fails', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const title = 'Testing Title';
@@ -395,7 +393,7 @@ describe('Testing Blog Controller', () => {
     });
 
     describe('Testing deleteBlogById Function: ', () => {
-        it(' delete a blog by id: ', async () => {
+        it('deleteBlogById: delete a blog by id: ', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -427,7 +425,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-        it(' throw an error if the blogService call fails', async () => {
+        it('deleteBlogById: throw an error if the blogService call fails', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {

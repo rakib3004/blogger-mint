@@ -6,7 +6,7 @@ const sendResponseInContentNegotiation = require("../../utils/content-negotiatio
 
 describe("Testing User Controller: ", () => {
   describe("Testing getAllUsers Function: ", () => {
-    it("Return all users in response", async () => {
+    it("getAllUsers: Return all users in response", async () => {
       const req = {
         query: {
           page: 1,
@@ -34,7 +34,7 @@ describe("Testing User Controller: ", () => {
       expect(response).toBe(expectedResponse);
     });
 
-    it("Throw an error if the userService call fails", async () => {
+    it("getAllUsers: Throw an error if the userService call fails", async () => {
       const req = {
         query: {
           page: 1,
@@ -56,7 +56,7 @@ describe("Testing User Controller: ", () => {
   });
 
   describe("Testing getUserByUsername Function: ", () => {
-    it("Return a user response by username", async () => {
+    it("getUserByUsername: Return a user response by username", async () => {
 
       const username = "tester";
       const req = {
@@ -87,7 +87,7 @@ describe("Testing User Controller: ", () => {
       expect(response).toBe(expectedResponse);
     });
 
-    it(" throw an error user not found if the user is not found", async () => {
+    it("getUserByUsername: throw an error user not found if the user is not found", async () => {
 
       const username = "annonymous";
       const req = {
@@ -107,7 +107,7 @@ describe("Testing User Controller: ", () => {
 
     });
 
-    it("Throw an error for bad request", async () => {
+    it("getUserByUsername: Throw an error for bad request", async () => {
 
       const req = {};
       const res = {};
@@ -125,7 +125,7 @@ describe("Testing User Controller: ", () => {
     });
 
 
-    it("Throw an error if the userService call fails", async () => {
+    it("getUserByUsername: Throw an error if the userService call fails", async () => {
 
     const username = "tester";
 
@@ -151,7 +151,7 @@ describe("Testing User Controller: ", () => {
   });
 
   describe("Testing updateUserPasswordByUsername Function: ", () => {
-    it(" update user password by username and return updated user response", async () => {
+    it("updateUserPasswordByUsername: update user password by username and return updated user response", async () => {
 
       const username = "tester";
       const password = "test123";
@@ -188,7 +188,7 @@ describe("Testing User Controller: ", () => {
 
     });
 
-    it(" throw an error if password field is empty", async () => {
+    it("updateUserPasswordByUsername: throw an error if password field is empty", async () => {
 
       const username = "tester";
       const req = {
@@ -212,8 +212,7 @@ describe("Testing User Controller: ", () => {
 
     });
 
-    it(" throw an error if the userService call fails", async () => {
-
+    it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
 
       const username = "tester";
       const password = "test123";
@@ -241,7 +240,7 @@ describe("Testing User Controller: ", () => {
   });
 
   describe("Testing deleteUserByUsername Function: ", () => {
-    it(" delete a blog by username", async () => {
+    it("deleteUserByUsername: delete a blog by username", async () => {
       const req = {
         params: {
           username: "tester",
@@ -249,7 +248,6 @@ describe("Testing User Controller: ", () => {
       };
       const res = {};
       const next = jest.fn();
-
       const expectedResponse = {};
 
       jest
@@ -271,8 +269,7 @@ describe("Testing User Controller: ", () => {
 
     });
 
-    it(" throw an error if the userService call fails", async () => {
-
+    it("deleteUserByUsername: throw an error if the userService call fails", async () => {
 
       const username = "tester";
       const req = {
@@ -292,8 +289,6 @@ describe("Testing User Controller: ", () => {
       await userController.deleteUserByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-
-
 
     });
   });
