@@ -210,7 +210,7 @@ describe('Testing User Service: ', () => {
         it('deleteUserByUsername: delete a user by username ', async () => {
             const id = "16514651474";
             const expectedResponse = {};
-      
+
             jest
               .spyOn(userRepository, 'deleteUserByUsername')
               .mockResolvedValue(expectedResponse);

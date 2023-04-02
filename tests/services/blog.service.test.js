@@ -39,7 +39,7 @@ describe("Testing Blog Service", () => {
   });
 
   describe("Testing createBlog Function: ", () => {
-    it("createBlog: create an blog and return a blog body: ", async () => {
+    it("createBlog: create an blog and return a blog response: ", async () => {
 
 
       const title = "test";
