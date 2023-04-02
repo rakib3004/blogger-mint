@@ -16,7 +16,7 @@ describe("Testing Blog Service", () => {
         .spyOn(blogRepository, 'getAllBlogs')
         .mockResolvedValue(expectedResponse);
 
-      const response = await blogService.getAllUsers(query);
+      const response = await blogService.getAllBlogs(query);
       expect(blogRepository.getAllBlogs).toHaveBeenCalledTimes(1);
       expect(response).toBe(expectedResponse);
     });
@@ -32,7 +32,7 @@ describe("Testing Blog Service", () => {
         .spyOn(blogRepository, 'getAllBlogs')
         .mockRejectedValueOnce(expectedError);
 
-      await expect(blogService.getAllUsers(query)).rejects.toThrow(
+      await expect(blogService.getAllBlogs(query)).rejects.toThrow(
         expectedError
       );
     });

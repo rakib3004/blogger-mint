@@ -1,3 +1,7 @@
+const userRepository = require("../../repositories/user.repository");
+const userDatabase = require("../databases/user.database");
+const {User} = require("../models");
+
 
 describe('Testing User Repository: ', () => {
     describe('Testing getAllUsers Function: ', () => {
@@ -10,11 +14,11 @@ describe('Testing User Repository: ', () => {
       
             const expectedResponse = {};
             jest
-              .spyOn(userRepository, 'getAllUsers')
+              .spyOn(User, 'getAllUsers')
               .mockResolvedValue(expectedResponse);
             
-            const response = await userService.getAllUsers(query);
-            expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
+            const response = await userRepository.getAllUsers(query);
+            expect(User.getAllUsers).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
         });
@@ -28,9 +32,9 @@ describe('Testing User Repository: ', () => {
           const expectedError = new Error("Internal Server Error");
 
             jest
-              .spyOn(userRepository, 'getAllUsers')
+              .spyOn(User, 'getAllUsers')
               .mockRejectedValueOnce(expectedError);
-              await expect(userService.getAllUsers(query)).rejects.toThrow(expectedError);
+              await expect(userRepository.getAllUsers(query)).rejects.toThrow(expectedError);
 
 
         });
@@ -53,11 +57,11 @@ describe('Testing User Repository: ', () => {
             const expectedResponse = {};
       
             jest
-              .spyOn(userRepository, 'createUser')
+              .spyOn(User, 'createUser')
               .mockResolvedValue(expectedResponse);
-            const response = await userService.createUser(body);
+            const response = await userRepository.createUser(body);
       
-            expect(userRepository.createUser).toHaveBeenCalledTimes(1);
+            expect(User.createUser).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);     
 
 
@@ -85,9 +89,9 @@ describe('Testing User Repository: ', () => {
             const expectedError = new Error("Internal Server Error");
       
             jest
-              .spyOn(userRepository, 'createUser')
+              .spyOn(User, 'createUser')
               .mockRejectedValueOnce(expectedError);
-              await expect(userService.createUser(body)).rejects.toThrow(expectedError);
+              await expect(userRepository.createUser(body)).rejects.toThrow(expectedError);
 
         });
     });
@@ -100,11 +104,11 @@ describe('Testing User Repository: ', () => {
             const id = "16514651474";
             const expectedResponse = {};
             jest
-              .spyOn(userRepository, 'getUserByUsername')
+              .spyOn(User, 'getUserByUsername')
               .mockResolvedValue(expectedResponse);
             
-            const response = await userService.getUserByUsername(id);
-            expect(userRepository.getUserByUsername).toHaveBeenCalledTimes(1);
+            const response = await userRepository.getUserByUsername(id);
+            expect(User.getUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
 
@@ -114,9 +118,9 @@ describe('Testing User Repository: ', () => {
 
             const id = "16514651474";
             const expectedError = new AppError("User not found",404);
-            jest.spyOn(userRepository, 'getUserByUsername')
+            jest.spyOn(User, 'getUserByUsername')
               .mockRejectedValueOnce(expectedError);
-              await expect(userService.getUserByUsername(id)).rejects.toThrow(expectedError);
+              await expect(userRepository.getUserByUsername(id)).rejects.toThrow(expectedError);
 
               
         });
@@ -125,9 +129,9 @@ describe('Testing User Repository: ', () => {
             const id = "16514651474";
             const expectedError = new Error("Internal Server Error");
             jest
-              .spyOn(userRepository, 'getUserByUsername')
+              .spyOn(User, 'getUserByUsername')
               .mockRejectedValueOnce(expectedError);
-              await expect(userService.getUserByUsername(id)).rejects.toThrow(expectedError);
+              await expect(userRepository.getUserByUsername(id)).rejects.toThrow(expectedError);
               
         });
     });
@@ -146,12 +150,12 @@ describe('Testing User Repository: ', () => {
             const expectedResponse = {};
       
             jest
-              .spyOn(userRepository, 'updateUserPasswordByUsername')
+              .spyOn(User, 'updateUserPasswordByUsername')
               .mockResolvedValue(expectedResponse);
             
-            const response = await userService.updateUserPasswordByUsername(body, id);
+            const response = await userRepository.updateUserPasswordByUsername(body, id);
       
-            expect(userRepository.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
+            expect(User.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
         });
@@ -166,10 +170,10 @@ describe('Testing User Repository: ', () => {
             const expectedError = new Error("Internal Server Error");
       
             jest
-              .spyOn(userRepository, 'updateUserPasswordByUsername')
+              .spyOn(User, 'updateUserPasswordByUsername')
               .mockRejectedValueOnce(expectedError);
 
-              await expect(userService.updateUserPasswordByUsername(body,id)).rejects.toThrow(expectedError);
+              await expect(userRepository.updateUserPasswordByUsername(body,id)).rejects.toThrow(expectedError);
 
               
         });
@@ -182,12 +186,12 @@ describe('Testing User Repository: ', () => {
             const expectedResponse = {};
 
             jest
-              .spyOn(userRepository, 'deleteUserByUsername')
+              .spyOn(User, 'deleteUserByUsername')
               .mockResolvedValue(expectedResponse);
             
-            const response = await userService.deleteUserByUsername(id);
+            const response = await userRepository.deleteUserByUsername(id);
       
-            expect(userRepository.deleteUserByUsername).toHaveBeenCalledTimes(1);
+            expect(User.deleteUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
         });
 
@@ -200,10 +204,10 @@ describe('Testing User Repository: ', () => {
             const expectedError = new Error("Internal Server Error");
       
             jest
-              .spyOn(userRepository, 'deleteUserByUsername')
+              .spyOn(User, 'deleteUserByUsername')
               .mockRejectedValueOnce(expectedError);
 
-              await expect(userService.deleteUserByUsername(id)).rejects.toThrow(expectedError);
+              await expect(userRepository.deleteUserByUsername(id)).rejects.toThrow(expectedError);
           
 
         });
