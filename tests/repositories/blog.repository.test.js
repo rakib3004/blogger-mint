@@ -19,6 +19,7 @@ describe('Testing Blog Repository: ', () => {
         
               const response = await blogRepository.getAllBlogs(query);
               expect(Blog.findAll).toHaveBeenCalledTimes(1);
+              Blog.findAll.mockClear();
               expect(response).toBe(expectedResponse);
         });
 
@@ -132,7 +133,7 @@ describe('Testing Blog Repository: ', () => {
               .mockResolvedValue(expectedResponse);
             const response = await blogRepository.getBlogByAuthorId(authorId);
       
-            expect(Blog.findAll).toHaveBeenCalledTimes(2);
+            expect(Blog.findAll).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
 
         });

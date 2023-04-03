@@ -1,5 +1,7 @@
 const blogRepository = require("../../repositories/blog.repository");
 const blogDatabase = require("../databases/blog.database");
+const {fullBlogList, authorFullBlogList} = require("../databases/blog.database");
+const userService = require("../../services/user.service");
 const blogService = require("../../services/blog.service");
 const { AppError } = require("../../utils/error.handler.util");
 
@@ -11,7 +13,7 @@ describe("Testing Blog Service", () => {
         limit: 5,
       };
 
-      const expectedResponse = {};
+      const expectedResponse = fullBlogList;
       jest
         .spyOn(blogRepository, 'getAllBlogs')
         .mockResolvedValue(expectedResponse);
@@ -49,15 +51,32 @@ describe("Testing Blog Service", () => {
         description: description,
       };
       const expectedResponse = {
-
-      };
+        "createdAt": "2023-04-03T09:05:43.000Z",
+        "updatedAt": "2023-04-03T09:05:43.009Z",
+        "id": "476901fd-4bef-4f15-a65f-c04d601627fe",
+        "title": "Testing title",
+        "description": "Testing description",
+        "authorId": "5ca32cb8-5c35-4f77-96c3-517007593328"
+    };
+    const userResponse = { "user": {
+      "id": "5ca32cb8-5c35-4f77-96c3-517007593328",
+      "username": "inan",
+      "email": "inan@cefalo.com",
+      "createdAt": "2023-04-03T09:03:43.000Z",
+      "updatedAt": "2023-04-03T09:03:43.280Z"
+  }};
 
       jest
         .spyOn(blogRepository, 'createBlog')
         .mockResolvedValue(expectedResponse);
+      jest.spyOn(userService, 'getUserByUsername')
+      .mockResolvedValueOnce(userResponse);
+      
       const response = await blogService.createBlog(body);
 
       expect(blogRepository.createBlog).toHaveBeenCalledTimes(1);
+      expect(userService.getUserByUsername).toHaveBeenCalledTimes(1);
+
       expect(response).toBe(expectedResponse);
     });
 

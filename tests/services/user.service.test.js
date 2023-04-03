@@ -2,6 +2,9 @@ const userRepository = require("../../repositories/user.repository");
 const userDatabase = require("../databases/user.database");
 const userService = require("../../services/user.service");
 const { AppError } = require("../../utils/error.handler.util");
+const { fullUserList } = require("../databases/user.database");
+const UserDTO = require("../../DTO/user.dto");
+
 
 describe('Testing User Service: ', () => {
     describe('Testing getAllUsers Function: ', () => {
@@ -12,11 +15,14 @@ describe('Testing User Service: ', () => {
                 limit: 5,
             };
       
-            const expectedResponse = {};
-            jest
+            const expectedResponse = fullUserList;
+          
+            
+             
+
+              jest
               .spyOn(userRepository, 'getAllUsers')
               .mockResolvedValue(expectedResponse);
-            
             const response = await userService.getAllUsers(query);
             expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
@@ -52,7 +58,13 @@ describe('Testing User Service: ', () => {
                 password :password,
             };
                   
-            const expectedResponse = {};
+            const expectedResponse = { "user": {
+              "id": "5ca32cb8-5c35-4f77-96c3-517007593328",
+              "username": "inan",
+              "email": "inan@cefalo.com",
+              "createdAt": "2023-04-03T09:03:43.000Z",
+              "updatedAt": "2023-04-03T09:03:43.280Z"
+          }};
       
             jest
               .spyOn(userRepository, 'createUser')

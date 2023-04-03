@@ -82,4 +82,4 @@ const fullUserList =  [
     }
 ];
 
-module.exports = fullUserList;
+module.exports = {fullUserList};
