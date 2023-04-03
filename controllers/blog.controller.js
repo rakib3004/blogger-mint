@@ -1,5 +1,5 @@
 const blogService = require("../services/blog.service");
-const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
+const contentNegotiation = require("../utils/content-negotiation.util");
 const blogValidationUtil = require("../utils/blog.validation.util");
 const { AppError } = require("../utils/error.handler.util");
 
@@ -7,7 +7,7 @@ const getAllBlogs = async (req, res, next) => {
   try {
     const query = req.query;
     const getAllBlogsResponse = await blogService.getAllBlogs(query);
-    return sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
+    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,getAllBlogsResponse);
   } catch (err) {
     next(err);
   }
@@ -19,7 +19,7 @@ const getBlogById = async (req, res, next) => {
     const blogResponse = await blogService.getBlogById(
       blogId
     );
-    return sendResponseInContentNegotiation(req,res,200,blogResponse);
+    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,blogResponse);
    
   } catch (err) {
     next(err);
@@ -32,7 +32,7 @@ const getBlogByAuthorId = async (req, res, next) => {
     const blogId = req.params.id;
 
      const blogResponse = await blogService.getBlogByAuthorId(blogId);
-    return sendResponseInContentNegotiation(req,res,200,blogResponse);
+    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,blogResponse);
   } catch (err) {
     next(err);
   }
@@ -52,7 +52,7 @@ const createBlog = async (req, res, next) => {
    const newBlogResponse = await blogService.createBlog(body);
 
    const clientResponse = {data:newBlogResponse,message: 'Blog is successfully created'};
-   return sendResponseInContentNegotiation(req,res,201,clientResponse);
+   return contentNegotiation.sendResponseInContentNegotiation(req,res,201,clientResponse);
 
  } catch (err) {
    next(err);
@@ -75,7 +75,7 @@ const updateBlogById = async (req, res, next) => {
       await blogService.updateBlogById(body, blogId);
 
       const clientResponse = {message: 'Blog  is successfully updated' };
-      return sendResponseInContentNegotiation(req,res,200,clientResponse);
+      return contentNegotiation.sendResponseInContentNegotiation(req,res,200,clientResponse);
 
   } catch (err) {
     next(err);
@@ -90,7 +90,7 @@ const deleteBlogById = async (req, res, next) => {
     );
 
     const clientResponse = {message: 'Blog  is successfully deleted' };
-    return sendResponseInContentNegotiation(req,res,200,clientResponse);
+    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,clientResponse);
     
   } catch (err) {
     next(err);

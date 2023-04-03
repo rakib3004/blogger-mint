@@ -1,7 +1,7 @@
 const authService = require("../services/auth.service");
 const userValidationUtil = require("../utils/user.validation.util");
 const { AppError } = require("../utils/error.handler.util");
-const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
+const contentNegotiation = require("../utils/content-negotiation.util");
 
 
 const registerUser = async (req, res, next) => {
@@ -18,7 +18,7 @@ const registerUser = async (req, res, next) => {
 
       const clientResponse = {data: registerUserResponse.data, message: "Registration is successful"}
      
-     return sendResponseInContentNegotiation(req,res,201,clientResponse);
+     return contentNegotiation.sendResponseInContentNegotiation(req,res,201,clientResponse);
     
   } catch (err) {
     next(err);   
@@ -40,7 +40,7 @@ const loginUser = async (req, res, next) => {
 
       const clientResponse = {message: "Login is successful"};
       
-      return sendResponseInContentNegotiation(req,res,200,clientResponse);
+      return contentNegotiation.sendResponseInContentNegotiation(req,res,200,clientResponse);
     
   } catch (err) {
     next(err);

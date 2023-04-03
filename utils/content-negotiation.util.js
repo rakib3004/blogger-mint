@@ -42,4 +42,4 @@ const sendResponseInContentNegotiation = (req, res, status, data) => {
 }
 
 
-module.exports = sendResponseInContentNegotiation;
+module.exports = {sendResponseInContentNegotiation};
