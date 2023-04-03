@@ -12,7 +12,7 @@ describe('Testing Auth Service: ', () => {
 
             const username = 'test';
             const email = 'test@cefalo.com';
-            const password = 'test1234';
+            const password = 'cefalo123';
 
             const req = {
               body: {
@@ -40,9 +40,9 @@ describe('Testing Auth Service: ', () => {
 
         it('registerUser: Throw an error if userService.createUser throws an error', async () => {
 
-            const username = 'test';
-            const email = 'test@cefalo.com';
-            const password = 'test1234';
+          const username = 'test';
+          const email = 'test@cefalo.com';
+          const password = 'cefalo123';
 
             const req = {
               body: {
@@ -72,7 +72,7 @@ describe('Testing Auth Service: ', () => {
         it('loginUser: Login user successfully and return access token: ', async () => {
 
             const username = 'test';
-            const password = 'test1234';
+            const password = 'cefalo123';
 
             const req = {
               body: {
@@ -98,8 +98,9 @@ describe('Testing Auth Service: ', () => {
         });
 
         it('loginUser: Throw an error if UserService.getUserLoginInfo throws an error', async () => {
-                const username = 'test';
-                const password = 'test1234';
+             
+              const username = 'test';
+              const password = 'cefalo123';
     
                 const req = {
                   body: {
@@ -122,8 +123,8 @@ describe('Testing Auth Service: ', () => {
 
         it('loginUser: Throw an error if password is not matching', async () => {
 
-            const username = 'test';
-            const password = 'test1234';
+          const username = 'test';
+          const password = 'cefalo123';
 
             const req = {
               body: {

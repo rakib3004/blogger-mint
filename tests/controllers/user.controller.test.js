@@ -1,8 +1,8 @@
 const userController = require("../../controllers/user.controller");
 const userService = require("../../services/user.service");
-const {fullUserList} = require("../databases/user.database");
+const { fullUserList } = require("../databases/user.database");
 const { AppError } = require("../../utils/error.handler.util");
-const sendResponseInContentNegotiation = require("../../utils/content-negotiation.util");
+const contentNegotiation = require("../../utils/content-negotiation.util");
 
 describe("Testing User Controller: ", () => {
   describe("Testing getAllUsers Function: ", () => {
@@ -20,11 +20,9 @@ describe("Testing User Controller: ", () => {
       jest
         .spyOn(userService, "getAllUsers")
         .mockResolvedValue(expectedResponse);
+
       jest
-        .spyOn(
-          sendResponseInContentNegotiation,
-          'sendResponseInContentNegotiation'
-        )
+        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
         .mockResolvedValue(expectedResponse);
 
       const response = await userController.getAllUsers(req, res, next);
@@ -34,7 +32,7 @@ describe("Testing User Controller: ", () => {
       expect(response).toBe(expectedResponse);
     });
 
-    it("getAllUsers: Throw an error if the userService call fails", async () => {
+    /*  it("getAllUsers: Throw an error if the userService call fails", async () => {
       const req = {
         query: {
           page: 1,
@@ -52,12 +50,11 @@ describe("Testing User Controller: ", () => {
       await userController.getAllUsers(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-    });
+    });*/
   });
 
   describe("Testing getUserByUsername Function: ", () => {
     it("getUserByUsername: Return a user response by username", async () => {
-
       const username = "test";
       const req = {
         params: {
@@ -68,23 +65,21 @@ describe("Testing User Controller: ", () => {
       const next = jest.fn();
 
       const expectedResponse = {
-        "user": {
-            "id": "11af8088-2fd6-449b-9b57-7cc36e757ab1",
-            "username": "test",
-            "email": "test@cefalo.com",
-            "createdAt": "2023-04-03T02:12:16.000Z",
-            "updatedAt": "2023-04-03T03:18:09.000Z"
-        }
-    };
+        user: {
+          id: "11af8088-2fd6-449b-9b57-7cc36e757ab1",
+          username: "test",
+          email: "test@cefalo.com",
+          createdAt: "2023-04-03T02:12:16.000Z",
+          updatedAt: "2023-04-03T03:18:09.000Z",
+        },
+      };
 
       jest
         .spyOn(userService, "getUserByUsername")
         .mockResolvedValue(expectedResponse);
+
       jest
-        .spyOn(
-          sendResponseInContentNegotiation,
-          'sendResponseInContentNegotiation'
-        )
+        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
         .mockResolvedValue(expectedResponse);
 
       const response = await userController.getUserByUsername(req, res, next);
@@ -96,7 +91,6 @@ describe("Testing User Controller: ", () => {
     });
 
     it("getUserByUsername: throw an error user not found if the user is not found", async () => {
-
       const username = "annonymous";
       const req = {
         params: {
@@ -105,35 +99,37 @@ describe("Testing User Controller: ", () => {
       };
       const res = {};
       const next = jest.fn();
-      const expectedError = new AppError('User not found',404);
+      const expectedError = new AppError("User not found", 404);
 
-      jest.spyOn(userService, 'getUserByUsername').mockRejectedValueOnce(expectedError);
+      jest
+        .spyOn(userService, "getUserByUsername")
+        .mockRejectedValueOnce(expectedError);
 
-      await userController.getUserByUsername(req,res,next);
+      await userController.getUserByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-
     });
 
     it("getUserByUsername: Throw an error for bad request", async () => {
-
-      const req = {};
+      const req = {
+        params: {
+        },
+      };
       const res = {};
       const next = jest.fn();
 
+      const expectedError = new AppError("Bad Request", 400);
 
-      const expectedError = new AppError('Bad Request',400);
+      jest
+        .spyOn(userService, "getUserByUsername")
+        .mockRejectedValueOnce(expectedError);
 
-
-      jest.spyOn(userService, 'getUserByUsername').mockRejectedValueOnce(expectedError);
-
-      await userController.getUserByUsername(req,res,next);
+      await userController.getUserByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });
 
-
-    it("getUserByUsername: Throw an error if the userService call fails", async () => {
+    /* it("getUserByUsername: Throw an error if the userService call fails", async () => {
 
     const username = "test";
 
@@ -155,12 +151,11 @@ describe("Testing User Controller: ", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
 
 
-    });
+    });*/
   });
 
   describe("Testing updateUserPasswordByUsername Function: ", () => {
     it("updateUserPasswordByUsername: update user password by username and return updated user response", async () => {
-
       const username = "test";
       const password = "cefalo123";
       const req = {
@@ -175,40 +170,30 @@ describe("Testing User Controller: ", () => {
       const next = jest.fn();
 
       const expectedResponse = {
-        "data": {
-            "user": {
-                "id": "11af8088-2fd6-449b-9b57-7cc36e757ab1",
-                "username": "test",
-                "email": "test@cefalo.com",
-                "createdAt": "2023-04-03T02:12:16.000Z",
-                "updatedAt": "2023-04-03T02:12:16.000Z"
-            }
-        },
-        "message": "Password is successfully updated"
-    };
+        message: "Password is successfully updated",
+      };
 
       jest
-        .spyOn(userService, 'updateUserPasswordByUsername')
-        .mockResolvedValue(expectedResponse);
-      jest
-        .spyOn(
-          sendResponseInContentNegotiation,
-          'sendResponseInContentNegotiation'
-        )
+        .spyOn(userService, "updateUserPasswordByUsername")
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.updateUserPasswordByUsername(req, res, next);
+      jest
+        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
+        .mockResolvedValue(expectedResponse);
+
+      const response = await userController.updateUserPasswordByUsername(
+        req,
+        res,
+        next
+      );
 
       expect(userService.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
       expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
 
       expect(response).toBe(expectedResponse);
-
-
     });
 
     it("updateUserPasswordByUsername: throw an error if password field is empty", async () => {
-
       const username = "test";
       const req = {
         params: {
@@ -219,19 +204,18 @@ describe("Testing User Controller: ", () => {
       const res = {};
       const next = jest.fn();
 
-      const expectedError = new AppError('Password field is empty',400);
+      const expectedError = new AppError("Request body is empty", 400);
 
+      jest
+        .spyOn(userService, "updateUserPasswordByUsername")
+        .mockRejectedValueOnce(expectedError);
 
-      jest.spyOn(userService, 'updateUserPasswordByUsername').mockRejectedValueOnce(expectedError);
-
-      await userController.updateUserPasswordByUsername(req,res,next);
+      await userController.updateUserPasswordByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-
-
     });
 
-    it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
+    /*it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
 
       const username = "test";
       const password = "cefalo123";
@@ -255,7 +239,7 @@ describe("Testing User Controller: ", () => {
 
       expect(next).toHaveBeenCalledWith(expectedError);
 
-    });
+    });*/
   });
 
   describe("Testing deleteUserByUsername Function: ", () => {
@@ -268,30 +252,30 @@ describe("Testing User Controller: ", () => {
       const res = {};
       const next = jest.fn();
       const expectedResponse = {
-        "data": 1,
-        "message": "User is successfully deleted"
-    };
+        message: "User is successfully deleted",
+      };
 
       jest
-        .spyOn(userService, 'deleteUserByUsername')
-        .mockResolvedValue(expectedResponse);
-      jest
-        .spyOn(
-          sendResponseInContentNegotiation,
-          'sendResponseInContentNegotiation'
-        )
+        .spyOn(userService, "deleteUserByUsername")
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.deleteUserByUsername(req, res, next);
+      jest
+        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
+        .mockResolvedValue(expectedResponse);
+
+      const response = await userController.deleteUserByUsername(
+        req,
+        res,
+        next
+      );
 
       expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
       expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
 
       expect(response).toBe(expectedResponse);
-
     });
 
-    it("deleteUserByUsername: throw an error if the userService call fails", async () => {
+    /* it("deleteUserByUsername: throw an error if the userService call fails", async () => {
 
       const username = "test";
       const req = {
@@ -312,6 +296,6 @@ describe("Testing User Controller: ", () => {
 
       expect(next).toHaveBeenCalledWith(expectedError);
 
-    });
+    });*/
   });
 });

@@ -70,7 +70,7 @@ describe("Testing Blog Service", () => {
         description: description,
       };
 
-      const expectedError = new Error("Internal Server Error");
+      const expectedError = new AppError("User not found",404);
       jest
         .spyOn(blogRepository, 'createBlog')
         .mockRejectedValueOnce(expectedError);
@@ -157,7 +157,7 @@ describe("Testing Blog Service", () => {
           description: description,
         };
   
-        const expectedResponse = {};
+        const expectedResponse = [ 1 ];
         jest
           .spyOn(blogRepository, 'updateBlogById')
           .mockResolvedValue(expectedResponse);
