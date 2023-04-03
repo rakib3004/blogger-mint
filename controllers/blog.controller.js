@@ -74,7 +74,7 @@ const updateBlogById = async (req, res, next) => {
     const updatedBlogResponse =
       await blogService.updateBlogById(body, blogId);
 
-      const clientResponse = {data:updatedBlogResponse,message: 'Blog  is successfully updated' };
+      const clientResponse = {message: 'Blog  is successfully updated' };
       return sendResponseInContentNegotiation(req,res,200,clientResponse);
 
   } catch (err) {
@@ -89,7 +89,7 @@ const deleteBlogById = async (req, res, next) => {
      blogId
     );
 
-    const clientResponse = {data:deletedBlogResponse,message: 'Blog  is successfully deleted' };
+    const clientResponse = {message: 'Blog  is successfully deleted' };
     return sendResponseInContentNegotiation(req,res,200,clientResponse);
     
   } catch (err) {

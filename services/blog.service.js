@@ -67,8 +67,7 @@ const updateBlogById = async (body, blogId) => {
     }
     const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
     const updatedBlog = await blogRepository.updateBlogById(title, description, updatedAt, blogId);
-    const updatedBlogResponse = await blogRepository.getBlogById(blogId);
-    return updatedBlogResponse;
+    return updatedBlog;
 };
 
 const deleteBlogById = async (blogId) => {

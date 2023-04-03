@@ -91,9 +91,7 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
     username
   );
 
-  const userResponse = await userRepository.getUserByUsername(username);
-  const dtoUser = new UserDTO(userResponse);
-  return dtoUser;
+  return updatedUserResponse;
   
 };
 
@@ -101,8 +99,7 @@ const deleteUserByUsername = async (usernameParamData) => {
 
   const username = usernameParamData.toLowerCase();
  
-  const deletedUserResponse =
-    userRepository.deleteUserByUsername(username);
+  const deletedUserResponse = userRepository.deleteUserByUsername(username);
   return deletedUserResponse;
 
 };

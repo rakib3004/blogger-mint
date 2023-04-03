@@ -42,7 +42,7 @@ const updateUserPasswordByUsername = async (req, res, next) => {
         username
       );
 
-      const clientResponse = {data:updatedUserResponse,message: 'Password is successfully updated'};
+      const clientResponse = {message: 'Password is successfully updated'};
       return sendResponseInContentNegotiation(req,res,200,clientResponse);
   } catch (err) {
     next(err);
@@ -57,7 +57,7 @@ const deleteUserByUsername = async (req, res, next) => {
     );
     res.clearCookie("jwt");
 
-    const clientResponse = {data:deletedUserResponse,message: 'User is successfully deleted'};
+    const clientResponse = {message: 'User is successfully deleted'};
     return sendResponseInContentNegotiation(req,res,200,clientResponse);
   } catch (err) {
     next(err);
