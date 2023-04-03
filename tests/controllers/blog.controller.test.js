@@ -33,7 +33,8 @@ describe('Testing Blog Controller', () => {
               const response = await blogController.getAllBlogs(req, res, next);
         
               expect(blogService.getAllBlogs).toHaveBeenCalledTimes(1);
-              expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+              expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+              contentNegotiation.sendResponseInContentNegotiation.mockClear();
               expect(response).toBe(expectedResponse);
            
 
@@ -94,7 +95,8 @@ describe('Testing Blog Controller', () => {
             const response = await blogController.getBlogById(req, res, next);
       
             expect(blogService.getBlogById).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
             expect(response).toBe(expectedResponse);
 
         });
@@ -168,7 +170,8 @@ describe('Testing Blog Controller', () => {
             const response = await blogController.getBlogByAuthorId(req, res, next);
       
             expect(blogService.getBlogByAuthorId).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
             expect(response).toBe(expectedResponse);
 
         });
@@ -256,7 +259,8 @@ describe('Testing Blog Controller', () => {
             const response = await blogController.createBlog(req, res, next);
       
             expect(blogService.createBlog).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
             expect(response).toBe(expectedResponse);
 
 
@@ -346,7 +350,8 @@ describe('Testing Blog Controller', () => {
             const response = await blogController.updateBlogById(req, res, next);
       
             expect(blogService.updateBlogById).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
             expect(response).toBe(expectedResponse);
 
         });
@@ -429,7 +434,8 @@ describe('Testing Blog Controller', () => {
             const response = await blogController.deleteBlogById(req, res, next);
       
             expect(blogService.deleteBlogById).toHaveBeenCalledTimes(1);
-            expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+            expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
             expect(response).toBe(expectedResponse);
 
 

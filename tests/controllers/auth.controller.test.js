@@ -45,7 +45,8 @@ describe("Testing Auth Controller: ", () => {
       const response = await authController.registerUser(req, res, next);
 
       expect(authService.registerUser).toHaveBeenCalledTimes(1);
-      expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
       expect(response).toBe(expectedResponse);
     });
 
@@ -117,7 +118,8 @@ describe("Testing Auth Controller: ", () => {
         const response = await authController.loginUser(req, res, next);
 
         expect(authService.loginUser).toHaveBeenCalledTimes(1);
-        expect(sendResponseInContentNegotiation).toHaveBeenCalled();
+        expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
         expect(response).toBe(expectedResponse);
       });
 

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.53% </span>
+                <span class="strong">80.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/26</span>
+                <span class='fraction'>21/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.53% </span>
+                <span class="strong">80.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/26</span>
+                <span class='fraction'>21/26</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -124,44 +124,44 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,24 +172,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const authService = require("../services/auth.service");
 const userValidationUtil = require("../utils/user.validation.util");
 const { AppError } = require("../utils/error.handler.util");
-const sendResponseInContentNegotiation = require("../utils/content-negotiation.util");
+const contentNegotiation = require("../utils/content-negotiation.util");
 &nbsp;
 &nbsp;
 const registerUser = async (req, res, next) =&gt; {
  
   try {
     const ValidRegistration = userValidationUtil.checkValidRegistration(req.body);
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (!ValidRegistration.valid) {
+    if (!ValidRegistration.valid) {
       throw new AppError(ValidRegistration.message, 400);
     }
     
-     const registerUserResponse = <span class="cstat-no" title="statement not covered" >await authService.registerUser(req.body);</span>
+     const registerUserResponse = await authService.registerUser(req.body);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      res.cookie("jwt", registerUserResponse.token, { httpOnly: true });</span>
+      res.cookie("jwt", registerUserResponse.token, { httpOnly: true });
 &nbsp;
       const clientResponse = <span class="cstat-no" title="statement not covered" >{data: registerUserResponse.data, message: "Registration is successful"}</span>
      
-<span class="cstat-no" title="statement not covered" >     return sendResponseInContentNegotiation(req,res,201,clientResponse);</span>
+<span class="cstat-no" title="statement not covered" >     return contentNegotiation.sendResponseInContentNegotiation(req,res,201,clientResponse);</span>
     
   } catch (err) {
     next(err);   
@@ -201,17 +201,17 @@ const loginUser = async (req, res, next) =&gt; {
   try {
    const body = req.body;
     const validLogin = userValidationUtil.checkValidLogin(body);
-<span class="cstat-no" title="statement not covered" >    if (!validLogin.valid) {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!validLogin.valid) {
 <span class="cstat-no" title="statement not covered" >      throw new AppError(validLogin.message,400);</span>
     }
 &nbsp;
-    const loginUserResponse = <span class="cstat-no" title="statement not covered" >await authService.loginUser(req.body);</span>
+    const loginUserResponse = await authService.loginUser(req.body);
    
-<span class="cstat-no" title="statement not covered" >      res.cookie("jwt", loginUserResponse, { httpOnly: true }); </span>
+      res.cookie("jwt", loginUserResponse, { httpOnly: true }); 
 &nbsp;
       const clientResponse = <span class="cstat-no" title="statement not covered" >{message: "Login is successful"};</span>
       
-<span class="cstat-no" title="statement not covered" >      return sendResponseInContentNegotiation(req,res,200,clientResponse);</span>
+<span class="cstat-no" title="statement not covered" >      return contentNegotiation.sendResponseInContentNegotiation(req,res,200,clientResponse);</span>
     
   } catch (err) {
     next(err);
@@ -229,7 +229,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-03T06:47:35.363Z
+                at 2023-04-03T08:49:58.483Z
             </div>
         <script src="../prettify.js"></script>
         <script>

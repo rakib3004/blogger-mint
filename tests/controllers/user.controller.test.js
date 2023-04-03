@@ -28,7 +28,9 @@ describe("Testing User Controller: ", () => {
       const response = await userController.getAllUsers(req, res, next);
 
       expect(userService.getAllUsers).toHaveBeenCalledTimes(1);
-      expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
+
       expect(response).toBe(expectedResponse);
     });
 
@@ -85,7 +87,8 @@ describe("Testing User Controller: ", () => {
       const response = await userController.getUserByUsername(req, res, next);
 
       expect(userService.getUserByUsername).toHaveBeenCalledTimes(1);
-      expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
 
       expect(response).toBe(expectedResponse);
     });
@@ -188,7 +191,8 @@ describe("Testing User Controller: ", () => {
       );
 
       expect(userService.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
-      expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
 
       expect(response).toBe(expectedResponse);
     });
@@ -251,9 +255,7 @@ describe("Testing User Controller: ", () => {
       };
       const res = {};
       const next = jest.fn();
-      const expectedResponse = {
-        message: "User is successfully deleted",
-      };
+      const expectedResponse = {message: 'User is successfully deleted'};
 
       jest
         .spyOn(userService, "deleteUserByUsername")
@@ -270,7 +272,8 @@ describe("Testing User Controller: ", () => {
       );
 
       expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
-      expect(sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
 
       expect(response).toBe(expectedResponse);
     });
