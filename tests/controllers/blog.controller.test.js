@@ -1,6 +1,6 @@
 const blogController = require("../../controllers/blog.controller");
 const blogService = require("../../services/blog.service");
-const blogDatabase = require("../databases/blog.database");
+const {fullBlogList, authorFullBlogList} = require("../databases/blog.database");
 const { AppError } = require("../../utils/error.handler.util");
 const sendResponseInContentNegotiation = require("../../utils/content-negotiation.util");
 
@@ -17,7 +17,7 @@ describe('Testing Blog Controller', () => {
               };
               const res = {};
               const next = jest.fn();
-              const expectedResponse = {};
+              const expectedResponse = fullBlogList;
         
               jest
                 .spyOn(blogService, 'getAllBlogs')
@@ -64,7 +64,7 @@ describe('Testing Blog Controller', () => {
     describe('Testing getBlogById Function: ', () => {
         it('getBlogById: Return a blog response by id', async () => {
 
-            const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
+            const id = "2afcb6d5-32e5-4b33-becb-83dee222b3c2";
             const req = {
               params: {
                 id: id,
@@ -73,7 +73,14 @@ describe('Testing Blog Controller', () => {
             const res = {};
             const next = jest.fn();
       
-            const expectedResponse = {};
+            const expectedResponse = {
+              "id": "2afcb6d5-32e5-4b33-becb-83dee222b3c2",
+              "title": "Introduction to Software Testing",
+              "description": "Software testing is the process of evaluating a software system or application to ensure that it meets its requirements and works as intended. It involves executing software under controlled conditions and using a variety of techniques and tools to identify defects, errors, and other issues that could impact the quality, functionality, or performance of the software.",
+              "createdAt": "2023-04-03T02:40:44.000Z",
+              "updatedAt": "2023-04-03T02:40:44.000Z",
+              "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+          };
       
             jest
               .spyOn(blogService, 'getBlogById')
@@ -150,7 +157,7 @@ describe('Testing Blog Controller', () => {
             const res = {};
             const next = jest.fn();
       
-            const expectedResponse = {};
+            const expectedResponse = authorFullBlogList;
       
             jest
               .spyOn(blogService, 'getBlogByAuthorId')
@@ -231,7 +238,17 @@ describe('Testing Blog Controller', () => {
             const res = {};
             const next = jest.fn();
       
-            const expectedResponse = {};
+            const expectedResponse = {
+              "data": {
+                  "createdAt": "2023-04-03T02:54:11.000Z",
+                  "updatedAt": "2023-04-03T02:54:11.133Z",
+                  "id": "901f45d4-f1e6-40f6-a8a6-4311d340f922",
+                  "title": "Testing Title",
+                  "description": "Testing description",
+                  "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+              },
+              "message": "Blog is successfully created"
+          };
       
             jest
               .spyOn(blogService, 'createBlog')
@@ -321,7 +338,17 @@ describe('Testing Blog Controller', () => {
             const res = {};
             const next = jest.fn();
       
-            const expectedResponse = {};
+            const expectedResponse = {
+              "data": {
+                  "id": "901f45d4-f1e6-40f6-a8a6-4311d340f922",
+                  "title": "Testing Title",
+                  "description": "Testing description",
+                  "createdAt": "2023-04-03T02:54:11.000Z",
+                  "updatedAt": "2023-04-03T03:19:46.000Z",
+                  "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+              },
+              "message": "Blog  is successfully updated"
+          };
       
             jest
               .spyOn(blogService, 'updateBlogById')
@@ -404,7 +431,10 @@ describe('Testing Blog Controller', () => {
             const res = {};
             const next = jest.fn();
       
-            const expectedResponse = {};
+            const expectedResponse = {
+              "data": 1,
+              "message": "Blog  is successfully deleted"
+          };
       
             jest
               .spyOn(blogService, 'deleteBlogById')

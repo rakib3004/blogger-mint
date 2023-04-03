@@ -1,6 +1,6 @@
 const userController = require("../../controllers/user.controller");
 const userService = require("../../services/user.service");
-const userDatabase = require("../databases/user.database");
+const {fullUserList} = require("../databases/user.database");
 const { AppError } = require("../../utils/error.handler.util");
 const sendResponseInContentNegotiation = require("../../utils/content-negotiation.util");
 
@@ -15,7 +15,7 @@ describe("Testing User Controller: ", () => {
       };
       const res = {};
       const next = jest.fn();
-      const expectedResponse = {};
+      const expectedResponse = fullUserList;
 
       jest
         .spyOn(userService, "getAllUsers")
@@ -23,7 +23,7 @@ describe("Testing User Controller: ", () => {
       jest
         .spyOn(
           sendResponseInContentNegotiation,
-          "sendResponseInContentNegotiation"
+          'sendResponseInContentNegotiation'
         )
         .mockResolvedValue(expectedResponse);
 
@@ -58,7 +58,7 @@ describe("Testing User Controller: ", () => {
   describe("Testing getUserByUsername Function: ", () => {
     it("getUserByUsername: Return a user response by username", async () => {
 
-      const username = "tester";
+      const username = "test";
       const req = {
         params: {
           username: username,
@@ -67,7 +67,15 @@ describe("Testing User Controller: ", () => {
       const res = {};
       const next = jest.fn();
 
-      const expectedResponse = {};
+      const expectedResponse = {
+        "user": {
+            "id": "11af8088-2fd6-449b-9b57-7cc36e757ab1",
+            "username": "test",
+            "email": "test@cefalo.com",
+            "createdAt": "2023-04-03T02:12:16.000Z",
+            "updatedAt": "2023-04-03T03:18:09.000Z"
+        }
+    };
 
       jest
         .spyOn(userService, "getUserByUsername")
@@ -75,7 +83,7 @@ describe("Testing User Controller: ", () => {
       jest
         .spyOn(
           sendResponseInContentNegotiation,
-          "sendResponseInContentNegotiation"
+          'sendResponseInContentNegotiation'
         )
         .mockResolvedValue(expectedResponse);
 
@@ -127,7 +135,7 @@ describe("Testing User Controller: ", () => {
 
     it("getUserByUsername: Throw an error if the userService call fails", async () => {
 
-    const username = "tester";
+    const username = "test";
 
       const req = {
         params: {
@@ -153,8 +161,8 @@ describe("Testing User Controller: ", () => {
   describe("Testing updateUserPasswordByUsername Function: ", () => {
     it("updateUserPasswordByUsername: update user password by username and return updated user response", async () => {
 
-      const username = "tester";
-      const password = "test123";
+      const username = "test";
+      const password = "cefalo123";
       const req = {
         params: {
           username: username,
@@ -166,7 +174,18 @@ describe("Testing User Controller: ", () => {
       const res = {};
       const next = jest.fn();
 
-      const expectedResponse = {};
+      const expectedResponse = {
+        "data": {
+            "user": {
+                "id": "11af8088-2fd6-449b-9b57-7cc36e757ab1",
+                "username": "test",
+                "email": "test@cefalo.com",
+                "createdAt": "2023-04-03T02:12:16.000Z",
+                "updatedAt": "2023-04-03T02:12:16.000Z"
+            }
+        },
+        "message": "Password is successfully updated"
+    };
 
       jest
         .spyOn(userService, 'updateUserPasswordByUsername')
@@ -174,7 +193,7 @@ describe("Testing User Controller: ", () => {
       jest
         .spyOn(
           sendResponseInContentNegotiation,
-          "sendResponseInContentNegotiation"
+          'sendResponseInContentNegotiation'
         )
         .mockResolvedValue(expectedResponse);
 
@@ -190,7 +209,7 @@ describe("Testing User Controller: ", () => {
 
     it("updateUserPasswordByUsername: throw an error if password field is empty", async () => {
 
-      const username = "tester";
+      const username = "test";
       const req = {
         params: {
           username: username,
@@ -214,8 +233,8 @@ describe("Testing User Controller: ", () => {
 
     it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
 
-      const username = "tester";
-      const password = "test123";
+      const username = "test";
+      const password = "cefalo123";
       const req = {
         params: {
           username: username,
@@ -243,12 +262,15 @@ describe("Testing User Controller: ", () => {
     it("deleteUserByUsername: delete a blog by username", async () => {
       const req = {
         params: {
-          username: "tester",
+          username: "test",
         },
       };
       const res = {};
       const next = jest.fn();
-      const expectedResponse = {};
+      const expectedResponse = {
+        "data": 1,
+        "message": "User is successfully deleted"
+    };
 
       jest
         .spyOn(userService, 'deleteUserByUsername')
@@ -256,7 +278,7 @@ describe("Testing User Controller: ", () => {
       jest
         .spyOn(
           sendResponseInContentNegotiation,
-          "sendResponseInContentNegotiation"
+          'sendResponseInContentNegotiation'
         )
         .mockResolvedValue(expectedResponse);
 
@@ -271,7 +293,7 @@ describe("Testing User Controller: ", () => {
 
     it("deleteUserByUsername: throw an error if the userService call fails", async () => {
 
-      const username = "tester";
+      const username = "test";
       const req = {
         params: {
           username: username,

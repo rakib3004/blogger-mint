@@ -23,7 +23,18 @@ describe('Testing Auth Controller: ', () => {
             const res = {};
             const next = jest.fn();
       
-            const expectedResponse = {};
+            const expectedResponse = {
+              "data": {
+                  "user": {
+                      "id": "11af8088-2fd6-449b-9b57-7cc36e757ab1",
+                      "username": "test",
+                      "email": "test@cefalo.com",
+                      "createdAt": "2023-04-03T02:12:16.000Z",
+                      "updatedAt": "2023-04-03T02:12:16.548Z"
+                  }
+              },
+              "message": "Registration is successful"
+          };
       
             jest
               .spyOn(authService, 'registerUser')
@@ -84,7 +95,7 @@ describe('Testing Auth Controller: ', () => {
 
 
         describe('Testing loginUser Function: ', () => {
-            it('loginUser: User login Successfully and return access token', async () => {
+            it('loginUser: User login Successfully', async () => {
 
                 const username = 'test';
                 const password = 'test1234';
@@ -98,7 +109,9 @@ describe('Testing Auth Controller: ', () => {
                 const res = {};
                 const next = jest.fn();
           
-                const expectedResponse = {};
+                const expectedResponse = {
+                  "message": "Login is successful"
+              };
           
                 jest
                   .spyOn(authService, 'loginUser')
@@ -139,7 +152,7 @@ describe('Testing Auth Controller: ', () => {
 
             });
     
-            it('loginUser: Auth Service returns an error and failed to return access token', async () => {
+            it('loginUser: Auth Service returns an error', async () => {
     
                 const username = 'test';
                 const password = 'test1234';
