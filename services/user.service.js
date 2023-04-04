@@ -44,6 +44,7 @@ const createUser = async (body) => {
   );
 
   const dtoUser = new UserDTO(newUser);
+  console.log(dtoUser);
   return dtoUser;
 
 

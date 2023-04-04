@@ -1,6 +1,8 @@
 const authController = require("../../controllers/auth.controller");
 const authService = require("../../services/auth.service");
-const authDatabase = require("../databases/auth.database");
+const {newUserInfo} = require("../databases/auth.database");
+const userValidationUtil = require("../../utils/user.validation.util");
+
 const { AppError } = require("../../utils/error.handler.util");
 const contentNegotiation = require("../../utils/content-negotiation.util");
 
@@ -18,25 +20,22 @@ describe("Testing Auth Controller: ", () => {
           password: password,
         },
       };
-      const res = {};
+      const res = { cookie: jest.fn() };
       const next = jest.fn();
 
+      const expectedInfo = {
+        data: newUserInfo,
+        token: "json-web-token",
+      };
+
       const expectedResponse = {
-        data: {
-          user: {
-            id: "11af8088-2fd6-449b-9b57-7cc36e757ab1",
-            username: "test",
-            email: "test@cefalo.com",
-            createdAt: "2023-04-03T02:12:16.000Z",
-            updatedAt: "2023-04-03T02:12:16.548Z",
-          },
-        },
-        message: "Registration is successful",
+        data: newUserInfo,
+        message: "Registration is successful"
       };
 
       jest
         .spyOn(authService, "registerUser")
-        .mockResolvedValue(expectedResponse);
+        .mockResolvedValue(expectedInfo);
 
       jest
         .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
@@ -45,6 +44,7 @@ describe("Testing Auth Controller: ", () => {
       const response = await authController.registerUser(req, res, next);
 
       expect(authService.registerUser).toHaveBeenCalledTimes(1);
+      expect(res.cookie).toHaveBeenCalledTimes(1);
       expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
       expect(response).toBe(expectedResponse);
@@ -101,7 +101,7 @@ describe("Testing Auth Controller: ", () => {
             password: password,
           },
         };
-        const res = {};
+        const res = { cookie: jest.fn() };
         const next = jest.fn();
 
         const expectedResponse = {
@@ -109,8 +109,13 @@ describe("Testing Auth Controller: ", () => {
         };
 
         jest
+        .spyOn(userValidationUtil, "checkValidLogin")
+        .mockReturnValueOnce({ valid: true });
+
+        jest
           .spyOn(authService, "loginUser")
           .mockResolvedValue(expectedResponse);
+
         jest
           .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
           .mockResolvedValue(expectedResponse);
@@ -118,17 +123,23 @@ describe("Testing Auth Controller: ", () => {
         const response = await authController.loginUser(req, res, next);
 
         expect(authService.loginUser).toHaveBeenCalledTimes(1);
+        expect(res.cookie).toHaveBeenCalledTimes(1);
         expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+        
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
         expect(response).toBe(expectedResponse);
       });
 
       it("loginUser: Throw an App eror if username and password are missing", async () => {
         const req = {};
-        const res = {};
+        const res = { cookie: jest.fn() };
         const next = jest.fn();
 
-        const expectedError = new AppError("Request body is empty");
+        const expectedError = new AppError("Request body is empty",400);
+
+        jest
+        .spyOn(userValidationUtil, "checkValidLogin")
+        .mockReturnValueOnce({ valid: true, message:"Request body is empty" });
 
         jest
           .spyOn(authService, "loginUser")

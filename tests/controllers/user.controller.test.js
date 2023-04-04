@@ -253,13 +253,14 @@ describe("Testing User Controller: ", () => {
           username: "test",
         },
       };
-      const res = {};
+      const res = { clearCookie: jest.fn() };
       const next = jest.fn();
       const expectedResponse = {message: 'User is successfully deleted'};
 
       jest
         .spyOn(userService, "deleteUserByUsername")
-        .mockResolvedValue(expectedResponse);
+        .mockResolvedValue(1);
+      
 
       jest
         .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
@@ -272,6 +273,7 @@ describe("Testing User Controller: ", () => {
       );
 
       expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
+      expect(res.clearCookie).toHaveBeenCalledTimes(1);
       expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
 

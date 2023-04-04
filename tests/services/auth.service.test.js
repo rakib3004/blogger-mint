@@ -1,5 +1,5 @@
 const authService = require("../../services/auth.service");
-const authDatabase = require("../databases/auth.database");
+const {newUserInfo} = require("../databases/auth.database");
 const userService = require("../../services/user.service");
 const authUtil = require("../../utils/auth.util");
 
@@ -24,16 +24,10 @@ describe("Testing Auth Service: ", () => {
       const token = 'some_chunk_of_data'
 
       const expectedResponse = {
-        "data": {
-          "id": "36de48d1-ae43-402f-a50c-dd84f953771e",
-          "username": "miran",
-          "email": "miran@cefalo.com",
-          "createdAt": "2023-04-03T09:45:46.000Z",
-          "updatedAt": "2023-04-03T09:45:46.698Z"
-      },
+      data: newUserInfo,
       token: token,
       };
-      jest.spyOn(userService, "createUser").mockResolvedValue(expectedResponse);
+      jest.spyOn(userService, "createUser").mockResolvedValue(newUserInfo);
 
       jest.spyOn(authUtil, "generateJwtToken").mockResolvedValue(token);
 
