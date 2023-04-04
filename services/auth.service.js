@@ -16,7 +16,8 @@ const registerUser = async (body) => {
 
 
 const loginUser = async (body) => {
-    const userResponse = await userService.getUserLoginInfo(body);
+    const username = body.username;
+    const userResponse = await userService.getUserLoginInfo(username);
 
     const password = body.password;
     const user = userResponse;

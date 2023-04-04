@@ -7,12 +7,13 @@ const contentNegotiation = require("../utils/content-negotiation.util");
 const registerUser = async (req, res, next) => {
  
   try {
-    const ValidRegistration = userValidationUtil.checkValidRegistration(req.body);
+    const body = req.body;
+    const ValidRegistration = userValidationUtil.checkValidRegistration(body);
     if (!ValidRegistration.valid) {
       throw new AppError(ValidRegistration.message, 400);
     }
     
-     const registerUserResponse = await authService.registerUser(req.body);
+     const registerUserResponse = await authService.registerUser(body);
 
       res.cookie("jwt", registerUserResponse.token, { httpOnly: true });
 
@@ -34,7 +35,7 @@ const loginUser = async (req, res, next) => {
       throw new AppError(validLogin.message,400);
     }
 
-    const loginUserResponse = await authService.loginUser(req.body);
+    const loginUserResponse = await authService.loginUser(body);
    
       res.cookie("jwt", loginUserResponse, { httpOnly: true }); 
 

@@ -49,8 +49,8 @@ const createUser = async (body) => {
 
 };
 
-const getUserByUsername = async (usernameParamData) => {
-  const username = usernameParamData.toLowerCase();
+const getUserByUsername = async (usernameParameter) => {
+  const username = usernameParameter.toLowerCase();
   const validParameter = userValidationUtil.checkValidUsername(username);
   
   if (!validParameter.valid) {
@@ -68,9 +68,8 @@ const getUserByUsername = async (usernameParamData) => {
 
 };
 
-const getUserLoginInfo = async (body) => {
-
-  const username = body.username.toLowerCase();
+const getUserLoginInfo = async (usernameParameter) => {
+  const username = usernameParameter.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
   if (!user) {
     throw new AppError(userNotFoundMessage,404);
@@ -95,9 +94,9 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
   
 };
 
-const deleteUserByUsername = async (usernameParamData) => {
+const deleteUserByUsername = async (usernameParameter) => {
 
-  const username = usernameParamData.toLowerCase();
+  const username = usernameParameter.toLowerCase();
  
   const deletedUserResponse = userRepository.deleteUserByUsername(username);
   return deletedUserResponse;
