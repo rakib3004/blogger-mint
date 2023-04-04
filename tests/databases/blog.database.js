@@ -111,39 +111,47 @@ const fullBlogList =[
     }
 ];
 
-const authorFullBlogList = [
+const authorFullBlogList =[
     {
-        "id": "2afcb6d5-32e5-4b33-becb-83dee222b3c2",
+        "id": "1ee6b779-e057-49d4-941f-4ea8141c331e",
         "title": "Introduction to Software Testing",
         "description": "Software testing is the process of evaluating a software system or application to ensure that it meets its requirements and works as intended. It involves executing software under controlled conditions and using a variety of techniques and tools to identify defects, errors, and other issues that could impact the quality, functionality, or performance of the software.",
-        "createdAt": "2023-04-03T02:40:44.000Z",
-        "updatedAt": "2023-04-03T02:40:44.000Z",
-        "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+        "createdAt": "2023-04-03T02:30:01.000Z",
+        "updatedAt": "2023-04-03T02:30:01.000Z",
+        "authorId": "acd6f5ae-5c57-47aa-996d-5a877f9bf0fb"
     },
     {
-        "id": "776bf890-d833-4225-b5d0-e32f08bb2fe4",
-        "title": "Introduction to Distributed Systems",
-        "description": "A distributed system is a network of autonomous computers that work together to achieve a common goal or provide a service. In a distributed system, each computer node has its own memory and processing capabilities, and they communicate and coordinate with each other through message passing or other forms of communication.",
-        "createdAt": "2023-04-03T02:45:45.000Z",
-        "updatedAt": "2023-04-03T02:45:45.000Z",
-        "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+        "id": "76193069-6f69-430a-9c0d-6d62a917a34f",
+        "title": "Introduction to Software Testing",
+        "description": "Software testing is the process of evaluating a software system or application to ensure that it meets its requirements and works as intended. It involves executing software under controlled conditions and using a variety of techniques and tools to identify defects, errors, and other issues that could impact the quality, functionality, or performance of the software.",
+        "createdAt": "2023-04-03T02:29:55.000Z",
+        "updatedAt": "2023-04-03T02:29:55.000Z",
+        "authorId": "acd6f5ae-5c57-47aa-996d-5a877f9bf0fb"
     },
     {
-        "id": "d3d58594-7628-4a1d-8134-5ddc34556e2a",
-        "title": "Testing Title",
-        "description": "Testing description",
-        "createdAt": "2023-04-03T02:47:51.000Z",
-        "updatedAt": "2023-04-03T02:47:51.000Z",
-        "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+        "id": "d8d94b18-599b-4f1e-a708-a6ee7db7818f",
+        "title": "Introduction to Information Security",
+        "description": "Information security, also known as cybersecurity or IT security, is the practice of protecting computer systems, networks, and sensitive information from unauthorized access, use, disclosure, disruption, modification, or destruction. It involves using various measures and technologies to safeguard digital assets and prevent them from being compromised, stolen, or lost.",
+        "createdAt": "2023-04-03T02:30:03.000Z",
+        "updatedAt": "2023-04-03T02:30:03.000Z",
+        "authorId": "acd6f5ae-5c57-47aa-996d-5a877f9bf0fb"
     },
     {
-        "id": "e33bea53-7e08-429a-b7c4-e5212df70676",
-        "title": "Introduction to Software Metrics",
-        "description": "Software metrics are quantitative measures of software products, processes, and projects that help to assess their quality, performance, and efficiency. They provide objective data that can be used to evaluate the effectiveness of software development and maintenance activities, identify areas for improvement, and track progress towards project goals.",
-        "createdAt": "2023-04-03T02:45:36.000Z",
-        "updatedAt": "2023-04-03T02:45:36.000Z",
-        "authorId": "11af8088-2fd6-449b-9b57-7cc36e757ab1"
+        "id": "ee5a5f83-c1d2-47f4-8540-3a4d2043eaa8",
+        "title": "Introduction to Software Design",
+        "description": "Software design is the process of creating a plan or blueprint for a software system or application that meets the requirements of users, stakeholders, and customers. It involves translating the software requirements into a detailed design that specifies how the software will be structured, organized, and implemented.",
+        "createdAt": "2023-04-03T02:29:58.000Z",
+        "updatedAt": "2023-04-03T02:29:58.000Z",
+        "authorId": "acd6f5ae-5c57-47aa-996d-5a877f9bf0fb"
     }
 ];
+const singleBlog = {
+    "id": "2387a49e-403f-4973-9e24-8a231037efa0",
+    "title": "Introduction to Information Security",
+    "description": "Information security, also known as cybersecurity or IT security, is the practice of protecting computer systems, networks, and sensitive information from unauthorized access, use, disclosure, disruption, modification, or destruction. It involves using various measures and technologies to safeguard digital assets and prevent them from being compromised, stolen, or lost.",
+    "createdAt": "2023-03-31T05:04:30.000Z",
+    "updatedAt": "2023-03-31T05:04:30.000Z",
+    "authorId": "2ed99fff-e742-4a26-b840-c2a7248f351a",
+};
 
-module.exports = {fullBlogList, authorFullBlogList};
+module.exports = {fullBlogList, authorFullBlogList,singleBlog};
