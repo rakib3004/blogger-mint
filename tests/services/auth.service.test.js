@@ -2,6 +2,8 @@ const authService = require("../../services/auth.service");
 const {newUserInfo} = require("../databases/auth.database");
 const userService = require("../../services/user.service");
 const authUtil = require("../../utils/auth.util");
+const UserDTO = require("../../DTO/user.dto");
+
 
 const { AppError } = require("../../utils/error.handler.util");
 
@@ -12,31 +14,29 @@ describe("Testing Auth Service: ", () => {
       const email = "test@cefalo.com";
       const password = "cefalo123";
 
-      const req = {
-        body: {
+      const body={
           username: username,
           email: email,
           password: password,
-        },
-      };
-      const res = {};
-      const next = jest.fn();
-      const token = 'some_chunk_of_data'
+        };
+  
+      const dtoUser = new UserDTO(newUserInfo);
+      const token = 'some_chunk_of_data';
 
       const expectedResponse = {
-      data: newUserInfo,
+      data: dtoUser,
       token: token,
       };
-      jest.spyOn(userService, "createUser").mockResolvedValue(newUserInfo);
+      jest.spyOn(userService, "createUser").mockResolvedValue(dtoUser);
 
       jest.spyOn(authUtil, "generateJwtToken").mockResolvedValue(token);
 
-      const response = await authService.registerUser(req, res, next);
+      const response = await authService.registerUser(body);
 
       expect(userService.createUser).toHaveBeenCalledTimes(1);
       expect(authUtil.generateJwtToken).toHaveBeenCalledTimes(1);
 
-      expect(response).toBe(expectedResponse);
+      expect(response).toEqual(expectedResponse);
     });
 
     it("registerUser: Throw an error if userService.createUser throws an error", async () => {
@@ -44,15 +44,12 @@ describe("Testing Auth Service: ", () => {
       const email = "test@cefalo.com";
       const password = "cefalo123";
 
-      const req = {
-        body: {
+      const  body= {
           username: username,
           email: email,
           password: password,
-        },
-      };
-      const res = {};
-      const next = jest.fn();
+        };
+
 
       const expectedError = new Error("Internal Server Error");
 
@@ -60,8 +57,7 @@ describe("Testing Auth Service: ", () => {
         .spyOn(userService, "createUser")
         .mockRejectedValueOnce(expectedError);
 
-      await authService.registerUser(req, res, next);
-      expect(next).toHaveBeenCalledWith(expectedError);
+      await expect(authService.registerUser(body)).rejects.toThrow(expectedError);
     });
   });
 
@@ -70,24 +66,34 @@ describe("Testing Auth Service: ", () => {
       const username = "test";
       const password = "cefalo123";
 
-      const req = {
-        body: {
+     const body= {
           username: username,
           password: password,
-        },
-      };
-      const res = {};
-      const next = jest.fn();
+        };
+      
+        const userResponse = { username: 'testuser', password: '$2b$10$xPvxPvScRo1', email: 'testuser@example.com' };
 
-      const expectedResponse = {};
+
+      const expectedResponse = 'json-web-token';
 
       jest
         .spyOn(userService, "getUserLoginInfo")
+        .mockResolvedValue(userResponse);
+        jest
+        .spyOn(authUtil, "comparePassword")
+        .mockResolvedValue(true);
+
+        jest
+        .spyOn(authUtil, "generateJwtToken")
         .mockResolvedValue(expectedResponse);
 
-      const response = await authService.loginUser(req, res, next);
 
-      expect(userService.loginUser).toHaveBeenCalledTimes(1);
+      const response = await authService.loginUser(body);
+
+      expect(userService.getUserLoginInfo).toHaveBeenCalledTimes(1);
+      expect(authUtil.comparePassword).toHaveBeenCalledTimes(1);
+      expect(authUtil.generateJwtToken).toHaveBeenCalledTimes(1);
+
       expect(response).toBe(expectedResponse);
     });
 
@@ -95,46 +101,46 @@ describe("Testing Auth Service: ", () => {
       const username = "test";
       const password = "cefalo123";
 
-      const req = {
-        body: {
+     const body= {
           username: username,
           password: password,
-        },
-      };
-      const res = {};
-      const next = jest.fn();
+        };
+      
+   
+  
+
 
       const expectedError = new Error("Internal Server Error");
-
       jest
-        .spyOn(userService, "getUserLoginInfo")
-        .mockRejectedValueOnce(expectedError);
+      .spyOn(userService, 'getUserLoginInfo')
+      .mockRejectedValueOnce(expectedError);
 
-      await authService.loginUser(req, res, next);
-      expect(next).toHaveBeenCalledWith(expectedError);
+      await expect(authService.loginUser(body)).rejects.toThrow(expectedError);
+
     });
 
     it("loginUser: Throw an error if password is not matching", async () => {
       const username = "test";
       const password = "cefalo123";
 
-      const req = {
-        body: {
+     const body= {
           username: username,
           password: password,
-        },
-      };
-      const res = {};
-      const next = jest.fn();
-
-      const expectedError = new AppError("Authentication Failed", 401);
+        };
+      
+        const userResponse = { username: 'testuser', password: '$2b$10$xPvxPvScRo1', email: 'testuser@example.com' };
 
       jest
         .spyOn(userService, "getUserLoginInfo")
-        .mockRejectedValueOnce(expectedError);
+        .mockResolvedValue(userResponse);
+        jest
+        .spyOn(authUtil, "comparePassword")
+        .mockResolvedValue(false);
 
-      await authService.loginUser(req, res, next);
-      expect(next).toHaveBeenCalledWith(expectedError);
+      const expectedError = new AppError("Authentication Failed", 401);
+     
+
+      await expect(authService.loginUser(body)).rejects.toThrow(expectedError);
     });
   });
 });

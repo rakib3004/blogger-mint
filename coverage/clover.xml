@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1680575017345" clover="3.2.0">
-  <project timestamp="1680575017345" name="All files">
-    <metrics statements="1336" coveredstatements="1206" conditionals="139" coveredconditionals="107" methods="69" coveredmethods="58" elements="1544" coveredelements="1371" complexity="0" loc="1336" ncloc="1336" packages="8" files="23" classes="23"/>
+<coverage generated="1680578775625" clover="3.2.0">
+  <project timestamp="1680578775625" name="All files">
+    <metrics statements="1338" coveredstatements="1217" conditionals="137" coveredconditionals="107" methods="69" coveredmethods="57" elements="1544" coveredelements="1381" complexity="0" loc="1338" ncloc="1338" packages="8" files="23" classes="23"/>
     <package name="DTO">
       <metrics statements="14" coveredstatements="14" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
       <file name="user.dto.js" path="C:\Users\Cefalo-User\Documents\Github\blogger-mint\DTO\user.dto.js">
         <metrics statements="14" coveredstatements="14" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="3" count="11" type="stmt"/>
-        <line num="4" count="11" type="stmt"/>
-        <line num="5" count="11" type="stmt"/>
-        <line num="6" count="11" type="stmt"/>
-        <line num="7" count="11" type="stmt"/>
-        <line num="8" count="11" type="stmt"/>
-        <line num="9" count="11" type="stmt"/>
-        <line num="10" count="11" type="stmt"/>
-        <line num="11" count="11" type="stmt"/>
+        <line num="3" count="12" type="stmt"/>
+        <line num="4" count="12" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
+        <line num="6" count="12" type="stmt"/>
+        <line num="7" count="12" type="stmt"/>
+        <line num="8" count="12" type="stmt"/>
+        <line num="9" count="12" type="stmt"/>
+        <line num="10" count="12" type="stmt"/>
+        <line num="11" count="12" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
@@ -588,9 +588,9 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="241" coveredstatements="214" conditionals="35" coveredconditionals="27" methods="14" coveredmethods="14"/>
+      <metrics statements="241" coveredstatements="225" conditionals="34" coveredconditionals="28" methods="14" coveredmethods="14"/>
       <file name="auth.service.js" path="C:\Users\Cefalo-User\Documents\Github\blogger-mint\services\auth.service.js">
-        <metrics statements="41" coveredstatements="30" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <metrics statements="41" coveredstatements="41" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -603,30 +603,30 @@
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="19" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="27" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
@@ -841,9 +841,9 @@
       </file>
     </package>
     <package name="tests.databases">
-      <metrics statements="247" coveredstatements="247" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="249" coveredstatements="249" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="auth.database.js" path="C:\Users\Cefalo-User\Documents\Github\blogger-mint\tests\databases\auth.database.js">
-        <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -857,6 +857,8 @@
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
       </file>
       <file name="blog.database.js" path="C:\Users\Cefalo-User\Documents\Github\blogger-mint\tests\databases\blog.database.js">
         <metrics statements="149" coveredstatements="149" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -1100,9 +1102,9 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="308" coveredstatements="221" conditionals="52" coveredconditionals="36" methods="29" coveredmethods="20"/>
+      <metrics statements="308" coveredstatements="219" conditionals="51" coveredconditionals="35" methods="29" coveredmethods="19"/>
       <file name="auth.util.js" path="C:\Users\Cefalo-User\Documents\Github\blogger-mint\utils\auth.util.js">
-        <metrics statements="20" coveredstatements="12" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="1"/>
+        <metrics statements="20" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1116,9 +1118,9 @@
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
@@ -1253,9 +1255,9 @@
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="4" count="23" type="stmt"/>
-        <line num="5" count="23" type="stmt"/>
-        <line num="6" count="23" type="stmt"/>
+        <line num="4" count="24" type="stmt"/>
+        <line num="5" count="24" type="stmt"/>
+        <line num="6" count="24" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
