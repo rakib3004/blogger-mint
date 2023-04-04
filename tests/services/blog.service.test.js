@@ -1,9 +1,13 @@
 const blogRepository = require("../../repositories/blog.repository");
-const { fullBlogList, authorFullBlogList,singleBlog } = require("../databases/blog.database");
+const {
+  fullBlogList,
+  authorFullBlogList,
+  singleBlog,
+} = require("../databases/blog.database");
 const userService = require("../../services/user.service");
 const blogService = require("../../services/blog.service");
 const { AppError } = require("../../utils/error.handler.util");
-const commonUtil = require("../../utils/common.util")
+const commonUtil = require("../../utils/common.util");
 
 describe("Testing Blog Service", () => {
   describe("Testing getAllBlogs Function: ", () => {
@@ -50,6 +54,7 @@ describe("Testing Blog Service", () => {
     it("createBlog: create an blog and return a blog response: ", async () => {
       const title = "test";
       const description = "test@cefalo.com";
+     
 
       const body = {
         title: title,
@@ -73,6 +78,9 @@ describe("Testing Blog Service", () => {
         },
       };
 
+     
+      const username = userResponse.user.username;
+      body.username = username;
       jest
         .spyOn(userService, "getUserByUsername")
         .mockResolvedValueOnce(userResponse);
@@ -84,6 +92,9 @@ describe("Testing Blog Service", () => {
       const response = await blogService.createBlog(body);
 
       expect(blogRepository.createBlog).toHaveBeenCalledTimes(1);
+      
+      expect(userService.getUserByUsername).toHaveBeenCalledWith(username);
+
       expect(userService.getUserByUsername).toHaveBeenCalledTimes(1);
 
       expect(response).toBe(expectedResponse);
@@ -152,8 +163,6 @@ describe("Testing Blog Service", () => {
       expect(blogRepository.getBlogByAuthorId).toHaveBeenCalledTimes(1);
       expect(blogRepository.getBlogByAuthorId).toHaveBeenCalledWith(authorId);
       expect(response).toBe(expectedResponse);
-
-
     });
     it("getBlogByAuthorId: Throw an error blog not found if author id does not exits", async () => {
       const authorId = "16514651474";
@@ -182,7 +191,7 @@ describe("Testing Blog Service", () => {
       const id = "16514651474";
       const title = "test title";
       const description = "test description";
-      const  updatedAt= commonUtil.formatUnixTimestamp(Date.now());
+      const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
       const body = {
         title: title,
@@ -194,11 +203,17 @@ describe("Testing Blog Service", () => {
         .spyOn(blogRepository, "updateBlogById")
         .mockResolvedValueOnce(expectedResponse);
       const response = await blogService.updateBlogById(body, id);
-      
-      expect(blogRepository.updateBlogById).toHaveBeenCalledWith(title,description, updatedAt,id);
+
+      expect(blogRepository.updateBlogById).toHaveBeenCalledWith(
+        title,
+        description,
+        updatedAt,
+        id
+      );
       expect(blogRepository.updateBlogById).toHaveBeenCalledTimes(1);
       expect(response).toBe(expectedResponse);
     });
+    
 
     it("updateBlogById: Throw an error if the blogRepository call fails", async () => {
       const id = "16514651474";

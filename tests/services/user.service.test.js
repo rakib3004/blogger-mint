@@ -3,7 +3,8 @@ const userService = require("../../services/user.service");
 const { AppError } = require("../../utils/error.handler.util");
 const { fullUserList } = require("../databases/user.database");
 const UserDTO = require("../../DTO/user.dto");
-
+const commonUtil = require("../../utils/common.util");
+const userValidationUtil = require("../../utils/user.validation.util");
 
 describe('Testing User Service: ', () => {
     describe('Testing getAllUsers Function: ', () => {
@@ -13,7 +14,10 @@ describe('Testing User Service: ', () => {
                 page: 1,
                 limit: 5,
             };
-        
+            const page = query.page;
+            const limit = query.limit;
+            const offset = (page - 1) * limit;
+
             const dtoUsers = [];
             fullUserList.forEach((user) => {
               const dtoUser = new UserDTO(user);
@@ -26,7 +30,10 @@ describe('Testing User Service: ', () => {
               .mockResolvedValue(expectedResponse);
 
             const response = await userService.getAllUsers(query);
+
+            expect(userRepository.getAllUsers).toHaveBeenCalledWith(offset, limit);
             expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
+
             expect(response).toStrictEqual(expectedResponse);
         
         });
@@ -60,8 +67,6 @@ describe('Testing User Service: ', () => {
                 password :password,
             };
                   
-         
-      
           const user = new UserDTO(fullUserList[0]);
           const expectedResponse = user;
 
@@ -116,6 +121,8 @@ describe('Testing User Service: ', () => {
               .mockResolvedValue(expectedResponse);
             
             const response = await userService.getUserByUsername(username);
+
+            expect(userRepository.getUserByUsername).toHaveBeenCalledWith(username);
             expect(userRepository.getUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toStrictEqual(expectedResponse);
 
@@ -162,6 +169,8 @@ describe('Testing User Service: ', () => {
               .mockResolvedValue(expectedResponse);
             
             const response = await userService.getUserLoginInfo(username);
+
+            expect(userRepository.getUserByUsername).toHaveBeenCalledWith(username);
             expect(userRepository.getUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
         });
@@ -192,29 +201,38 @@ describe('Testing User Service: ', () => {
     describe('Testing updateUserPasswordByUsername Function: ', () => {
         it('updateUserPasswordByUsername: update a user password by username and return a user response ', async () => {
             
-          const username = "test";
-            const password = "test";
+           const username = "testuser";
+          const password = "changedpassword";
           
             const body = {
                 password :password,
             };
-            const expectedResponse = {};
-      
+            const expectedResponse = [ 1 ];
+
+            const hashPassword = '$c$h$a$n$g$e$p$a$s$s$w$o$r$d'
+            
+            jest
+              .spyOn(userValidationUtil, 'generateHashPassword')
+              .mockReturnValue(hashPassword);
+
             jest
               .spyOn(userRepository, 'updateUserPasswordByUsername')
               .mockResolvedValue(expectedResponse);
             
             const response = await userService.updateUserPasswordByUsername(body, username);
-      
+            const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
+
+            expect(userRepository.updateUserPasswordByUsername).toHaveBeenCalledWith(hashPassword,updatedAt,username);
             expect(userRepository.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
-            expect(response).toBe(expectedResponse);
+            expect(response).toEqual(expectedResponse);
 
 
         });
 
-      /*  it('updateUserPasswordByUsername: Throw an error if the userRepository call fails', async () => {
+       it('updateUserPasswordByUsername: Throw an error if the userRepository call fails', async () => {
             const id = "16514651474";
-            const body = {
+            const password = "changedpassword";
+           const body = {
                 password :password,
             };
             const expectedError = new Error("Internal Server Error");
@@ -225,14 +243,14 @@ describe('Testing User Service: ', () => {
 
               await expect(userService.updateUserPasswordByUsername(body,id)).rejects.toThrow(expectedError);
 
-        });*/
+        });
     });
 
 
     describe('Testing deleteUserByUsername Function: ', () => {
         it('deleteUserByUsername: delete a user by username ', async () => {
             const username = "test";
-            const expectedResponse = {};
+            const expectedResponse = 1;
 
             jest
               .spyOn(userRepository, 'deleteUserByUsername')
