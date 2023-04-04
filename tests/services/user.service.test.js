@@ -1,5 +1,4 @@
 const userRepository = require("../../repositories/user.repository");
-const userDatabase = require("../databases/user.database");
 const userService = require("../../services/user.service");
 const { AppError } = require("../../utils/error.handler.util");
 const { fullUserList } = require("../databases/user.database");
@@ -14,18 +13,21 @@ describe('Testing User Service: ', () => {
                 page: 1,
                 limit: 5,
             };
-      
-            const expectedResponse = fullUserList;
-          
-            
+        
+            const dtoUsers = [];
+            fullUserList.forEach((user) => {
+              const dtoUser = new UserDTO(user);
+              dtoUsers.push(dtoUser);
+            });
+            const expectedResponse = dtoUsers;
              
-
               jest
               .spyOn(userRepository, 'getAllUsers')
               .mockResolvedValue(expectedResponse);
+
             const response = await userService.getAllUsers(query);
             expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
-            expect(response).toBe(expectedResponse);
+            expect(response).toStrictEqual(expectedResponse);
         
         });
 
@@ -58,21 +60,18 @@ describe('Testing User Service: ', () => {
                 password :password,
             };
                   
-            const expectedResponse = { "user": {
-              "id": "5ca32cb8-5c35-4f77-96c3-517007593328",
-              "username": "inan",
-              "email": "inan@cefalo.com",
-              "createdAt": "2023-04-03T09:03:43.000Z",
-              "updatedAt": "2023-04-03T09:03:43.280Z"
-          }};
+         
       
+          const user = new UserDTO(fullUserList[0]);
+          const expectedResponse = user;
+
             jest
               .spyOn(userRepository, 'createUser')
               .mockResolvedValue(expectedResponse);
             const response = await userService.createUser(body);
       
             expect(userRepository.createUser).toHaveBeenCalledTimes(1);
-            expect(response).toBe(expectedResponse);     
+            expect(response).toStrictEqual(expectedResponse);     
 
         });
 
@@ -109,14 +108,16 @@ describe('Testing User Service: ', () => {
         it('getUserByUsername: Return a user by username: ', async () => {
 
             const username = "test";
-            const expectedResponse = {};
+            const user = new UserDTO(fullUserList[0]);
+            const expectedResponse = user;
+
             jest
               .spyOn(userRepository, 'getUserByUsername')
               .mockResolvedValue(expectedResponse);
             
             const response = await userService.getUserByUsername(username);
             expect(userRepository.getUserByUsername).toHaveBeenCalledTimes(1);
-            expect(response).toBe(expectedResponse);
+            expect(response).toStrictEqual(expectedResponse);
 
         });
 
@@ -143,14 +144,24 @@ describe('Testing User Service: ', () => {
 
     describe('Testing getUserLoginInfo Function: ', () => {
         it('getUserLoginInfo: Return a user by username: ', async () => {
+          
           const username = "test";
-            const expectedResponse = {};
+            const expectedResponse = {
+                   
+                       id: "bced7494-b4e2-488c-8f79-8e1cc0b29883",
+                       username: "raghib",
+                       email: "raghib@cefalo.com",
+                       password: "$hashpassword$",
+                       createdAt: "2023-04-03T02:30:27.000Z",
+                       updatedAt: "2023-04-03T02:30:27.000Z"
+                   
+               };
       
             jest
               .spyOn(userRepository, 'getUserByUsername')
               .mockResolvedValue(expectedResponse);
             
-            const response = await userService.getUserLoginInfo(username);
+            const response = await userService.getUserLoginInfo({username});
             expect(userRepository.getUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
         });
@@ -161,7 +172,7 @@ describe('Testing User Service: ', () => {
             jest
               .spyOn(userRepository, 'getUserByUsername')
               .mockRejectedValueOnce(expectedError);
-              await expect(userService.getUserLoginInfo(username)).rejects.toThrow(expectedError);
+              await expect(userService.getUserLoginInfo({username})).rejects.toThrow(expectedError);
 
         });
 
@@ -172,7 +183,7 @@ describe('Testing User Service: ', () => {
               .spyOn(userRepository, 'getUserByUsername')
               .mockRejectedValueOnce(expectedError);
 
-              await expect(userService.getUserLoginInfo(username)).rejects.toThrow(expectedError);
+              await expect(userService.getUserLoginInfo({username})).rejects.toThrow(expectedError);
 
         });
     });
