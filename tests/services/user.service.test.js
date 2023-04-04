@@ -147,7 +147,7 @@ describe('Testing User Service: ', () => {
           
           const username = "test";
             const expectedResponse = {
-                   
+
                        id: "bced7494-b4e2-488c-8f79-8e1cc0b29883",
                        username: "raghib",
                        email: "raghib@cefalo.com",
@@ -161,7 +161,7 @@ describe('Testing User Service: ', () => {
               .spyOn(userRepository, 'getUserByUsername')
               .mockResolvedValue(expectedResponse);
             
-            const response = await userService.getUserLoginInfo({username});
+            const response = await userService.getUserLoginInfo(username);
             expect(userRepository.getUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
         });
@@ -172,7 +172,7 @@ describe('Testing User Service: ', () => {
             jest
               .spyOn(userRepository, 'getUserByUsername')
               .mockRejectedValueOnce(expectedError);
-              await expect(userService.getUserLoginInfo({username})).rejects.toThrow(expectedError);
+              await expect(userService.getUserLoginInfo(username)).rejects.toThrow(expectedError);
 
         });
 
@@ -183,7 +183,7 @@ describe('Testing User Service: ', () => {
               .spyOn(userRepository, 'getUserByUsername')
               .mockRejectedValueOnce(expectedError);
 
-              await expect(userService.getUserLoginInfo({username})).rejects.toThrow(expectedError);
+              await expect(userService.getUserLoginInfo(username)).rejects.toThrow(expectedError);
 
         });
     });
