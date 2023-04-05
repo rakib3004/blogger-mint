@@ -38,6 +38,7 @@ describe("Testing Auth Controller: ", () => {
         data: newUserInfo,
         message: "Registration is successful",
       };
+      const body = req.body;
 
       jest.spyOn(authService, "registerUser").mockResolvedValue(expectedInfo);
 
@@ -47,15 +48,15 @@ describe("Testing Auth Controller: ", () => {
 
       const response = await authController.registerUser(req, res, next);
 
+      expect(authService.registerUser).toHaveBeenCalledWith(body);
+      expect(res.cookie).toHaveBeenCalledWith("jwt",expectedInfo.token, { httpOnly: true } );
+
       expect(authService.registerUser).toHaveBeenCalledTimes(1);
       expect(res.cookie).toHaveBeenCalledTimes(1);
       expect(
         contentNegotiation.sendResponseInContentNegotiation
       ).toHaveBeenCalledTimes(1);
 
-      expect(res.cookie).toHaveBeenCalledWith("jwt", "json-web-token", {
-        httpOnly: true,
-      });
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
       expect(response).toBe(expectedResponse);
     });
@@ -162,10 +163,7 @@ describe("Testing Auth Controller: ", () => {
     const res = {};
     const next = jest.fn();
 
-    const expectedError = new AppError("Request body is empty", 400);
-
-
-    
+    const expectedError = new AppError("Request body is empty", 400);    
 
     jest
       .spyOn(userValidationUtil, "checkValidRegistration")
@@ -201,19 +199,24 @@ describe("Testing Auth Controller: ", () => {
           message: "Login is successful",
         };
 
+        const body = req.body;
+        const token = 'json-web-token';
         jest
           .spyOn(userValidationUtil, "checkValidLogin")
-          .mockReturnValueOnce({ valid: true });
+          .mockReturnValueOnce({ valid: true, message: "Ok" });
 
         jest
           .spyOn(authService, "loginUser")
-          .mockResolvedValue(expectedResponse);
+          .mockResolvedValue(token);
 
         jest
           .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
           .mockResolvedValue(expectedResponse);
 
         const response = await authController.loginUser(req, res, next);
+
+        expect(authService.loginUser).toHaveBeenCalledWith(body);
+        expect(res.cookie).toHaveBeenCalledWith("jwt",token, { httpOnly: true } );
 
         expect(authService.loginUser).toHaveBeenCalledTimes(1);
         expect(res.cookie).toHaveBeenCalledTimes(1);
