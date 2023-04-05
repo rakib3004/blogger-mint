@@ -31,11 +31,11 @@ const generateHashPassword = async (plainPassword) => {
 const checkValidUsername = (username) => {
   
   if (!username) {
-    return { valid: false, message: "username field is empty" };
+    return { valid: false, message: "Username field is empty" };
   }
   
   if (!isAlphaNumeric(username)) {
-    return { valid: false, message: "username contains space or any special character" };
+    return { valid: false, message: "Username contains space or any special character" };
   }
   return { valid: true, message: "Ok" };
 
@@ -44,11 +44,11 @@ const checkValidUsername = (username) => {
 
 const checkValidPassword = (password) => {
   if (!password) {
-    return { valid: false, message: "password field is empty" };
+    return { valid: false, message: "Password field is empty" };
   }
 
   if (!checkPasswordLength(password)) {
-    return { valid: false, message: `password is less than 6 digit` };
+    return { valid: false, message: `Password is less than 6 digit` };
   }
   return { valid: true, message: "Ok" };
 
@@ -78,7 +78,7 @@ const checkValidRegistration = (body) => {
   const password = body.password;
 
   if (!email) {
-    return { valid: false, message: "email Field is Empty" };
+    return { valid: false, message: "Email field is empty" };
   }
 
   if (!checkValidPassword(password).valid) {
@@ -90,7 +90,7 @@ const checkValidRegistration = (body) => {
   }
 
   if (!validateEmail(email)) {
-    return { valid: false, message: "New User's email is not valid" };
+    return { valid: false, message: "Email is not valid" };
   }
 
   return { valid: true, message: "Ok" };

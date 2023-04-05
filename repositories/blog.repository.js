@@ -17,21 +17,15 @@ const getAllBlogs = async (offset, limit) => {
 };
 
 const createBlog = async (
-  id,
   title,
   description,
   authorId,
-  createdAt,
-  updatedAt
 ) => {
   try {
     const blog = await Blog.create({
-      id: id,
       title: title,
       description: description,
       authorId: authorId,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
     });
 
     return blog;

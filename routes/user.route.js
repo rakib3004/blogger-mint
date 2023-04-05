@@ -5,11 +5,11 @@ const userAuthorizationMiddleware = require('../middlewares/user.authorization.m
 
 const router = express.Router();
 
-router.route('/').get(authenticationMiddleware, userController.getAllUsers);
+router.route('/').get(userController.getAllUsers);
 
 router
     .route('/:username')
-    .get(authenticationMiddleware, userController.getUserByUsername)
+    .get(userController.getUserByUsername)
     .put(authenticationMiddleware, userAuthorizationMiddleware, userController.updateUserPasswordByUsername)
     .delete(authenticationMiddleware, userAuthorizationMiddleware, userController.deleteUserByUsername);
 module.exports = router;

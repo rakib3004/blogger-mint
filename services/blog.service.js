@@ -1,5 +1,4 @@
 const blogRepository = require("../repositories/blog.repository");
-const commonUtil = require("../utils/common.util");
 const userService = require("../services/user.service");
 const paginationUtil = require("../utils/pagination.util");
 const { AppError } = require("../utils/error.handler.util");
@@ -15,27 +14,20 @@ const getAllBlogs = (query) => {
 };
 
 const createBlog = async (body) => {
-    const id = commonUtil.generateUUID();
     const title = body.title;
     const description = body.description;
     const username = String(body.username);
     const authorResponse = await userService.getUserByUsername(username);
     const authorId = authorResponse.user.id;
-    const createdAt = commonUtil.formatUnixTimestamp(Date.now());
-    const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
     const newBlog = await blogRepository.createBlog(
-      id,
       title,
       description,
       authorId,
-      createdAt,
-      updatedAt
     );
     return newBlog ;
   
 };
-
 
 const getBlogByAuthorId = async (authorId) => {
     const blogResponse = await blogRepository.getBlogByAuthorId(
@@ -65,7 +57,7 @@ const updateBlogById = async (body, blogId) => {
     } else if (!title) {
       title = blogResponse.title;
     }
-    const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
+    const updatedAt = Date.now();
     const updatedBlog = await blogRepository.updateBlogById(title, description, updatedAt, blogId);
     return updatedBlog;
 };
