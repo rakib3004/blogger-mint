@@ -1,10 +1,7 @@
 const {User} = require("../models");
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
-
 const getAllUsers = async (offset, limit) => {
-
-
   const users = await User.findAll(
     {
       offset,
@@ -13,18 +10,15 @@ const getAllUsers = async (offset, limit) => {
     }
   );
   return users;
-
 };
 
-const createUser = async (id, username, email, password, createdAt, updatedAt) => {
+const createUser = async (username, email, password) => {
   try {
     const user = await User.create({
-      id: id,
       username: username,
       email: email,
       password: password,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+ 
     });
     return user;
   } catch (error) {

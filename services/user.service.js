@@ -1,6 +1,5 @@
 const userRepository = require("../repositories/user.repository");
 const UserDTO = require("../DTO/user.dto");
-const commonUtil = require("../utils/common.util");
 const userValidationUtil = require("../utils/user.validation.util");
 const paginationUtil = require("../utils/pagination.util");
 const userNotFoundMessage = 'User not found';
@@ -26,26 +25,19 @@ const getAllUsers = async (query) => {
 
 const createUser = async (body) => {
  
-  const id = commonUtil.generateUUID();
   const username = body.username;
   const email = body.email;
 
   const password = await userValidationUtil.generateHashPassword(body.password);
-  const createdAt = commonUtil.formatUnixTimestamp(Date.now());
-  const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
 
   const newUser = await userRepository.createUser(
-    id,
     username,
     email,
     password,
-    createdAt,
-    updatedAt
   );
 
   const dtoUser = new UserDTO(newUser);
   return dtoUser;
-
 
 };
 
@@ -73,7 +65,6 @@ const getUserLoginInfo = async (usernameParameter) => {
   const user = await userRepository.getUserByUsername(username);
   if (!user) {
     throw new AppError(userNotFoundMessage,404);
-
   }
   return user;
 
@@ -83,7 +74,7 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
   const username = usernameParameter.toLowerCase();
 
   const password = await userValidationUtil.generateHashPassword(body.password);
-  const updatedAt = commonUtil.formatUnixTimestamp(Date.now());
+  const updatedAt = Date.now();
   const updatedUserResponse = userRepository.updateUserPasswordByUsername(
     password,
     updatedAt,
@@ -97,7 +88,6 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
 const deleteUserByUsername = async (usernameParameter) => {
 
   const username = usernameParameter.toLowerCase();
- 
   const deletedUserResponse = userRepository.deleteUserByUsername(username);
   return deletedUserResponse;
 

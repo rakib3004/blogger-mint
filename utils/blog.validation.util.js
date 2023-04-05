@@ -13,11 +13,11 @@ const checkValidBlogBody= (body)=>{
   const description = body.description;
 
   if (!title) {
-    return { valid: false, message: "title field is empty" };
+    return { valid: false, message: "Title field is empty" };
   }
 
   if (!description) {
-    return { valid: false, message: "description field is empty" };
+    return { valid: false, message: "Description field is empty" };
   }
   return { valid: true ,message: 'Ok', };
 
