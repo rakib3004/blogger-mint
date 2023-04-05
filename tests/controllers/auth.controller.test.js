@@ -78,13 +78,7 @@ describe("Testing Auth Controller: ", () => {
       const next = jest.fn();
       const expectedError = new Error("Internal Server Error");
 
-      jest
-      .spyOn(userValidationUtil, "checkValidRegistration")
-      .mockReturnValueOnce({
-        valid: true,
-        message: "Ok",
-      });
-
+      
       jest.spyOn(authService, 'registerUser')
         .mockRejectedValueOnce(expectedError);
 
@@ -105,15 +99,17 @@ describe("Testing Auth Controller: ", () => {
       const res = {};
       const next = jest.fn();
 
-      const expectedError = new AppError("email field is Empty", 400);
+      const expectedError = new AppError("Email field is empty", 400);
 
+      
       jest
         .spyOn(authService, "registerUser")
         .mockRejectedValueOnce(expectedError);
 
       jest
         .spyOn(userValidationUtil, "checkValidRegistration")
-        .mockReturnValueOnce({ valid: true, message: "email field is Empty" });
+        .mockReturnValueOnce({ valid: false, message: "Email field is empty" });
+
 
       await authController.registerUser(req, res, next);
       expect(userValidationUtil.checkValidRegistration).toHaveBeenCalledTimes(
@@ -139,15 +135,15 @@ describe("Testing Auth Controller: ", () => {
       const res = {};
       const next = jest.fn();
 
-      const expectedError = new AppError("New User's email is not valid", 400);
-
-      jest
-        .spyOn(authService, "registerUser")
-        .mockRejectedValueOnce(expectedError);
+      const expectedError = new AppError("Email is not valid", 400);
 
       jest
         .spyOn(userValidationUtil, "checkValidRegistration")
-        .mockReturnValueOnce({ valid: true, message: "New User's email is not valid" });
+        .mockReturnValueOnce({ valid: false, message: "Email is not valid" });
+
+        jest
+        .spyOn(authService, "registerUser")
+        .mockRejectedValueOnce(expectedError);
 
       await authController.registerUser(req, res, next);
       expect(userValidationUtil.checkValidRegistration).toHaveBeenCalledTimes(
@@ -168,15 +164,19 @@ describe("Testing Auth Controller: ", () => {
 
     const expectedError = new AppError("Request body is empty", 400);
 
-    jest
-      .spyOn(authService, "registerUser")
-      .mockRejectedValueOnce(expectedError);
+
+    
+
     jest
       .spyOn(userValidationUtil, "checkValidRegistration")
       .mockReturnValueOnce({
         valid: false,
         message: "Request body is empty",
       });
+      jest
+    .spyOn(authService, "registerUser")
+    .mockRejectedValueOnce(expectedError);
+  
 
     await authController.registerUser(req, res, next);
     expect(next).toHaveBeenCalledWith(expectedError);
@@ -225,6 +225,29 @@ describe("Testing Auth Controller: ", () => {
         expect(response).toBe(expectedResponse);
       });
 
+
+      it('loginUser: Auth Service returns an error', async () => {
+        const username = 'test';
+        const password = 'test1234';
+  
+        const req = {
+          body: {
+            username: username,
+            password: password,
+          },
+        };
+            const res = { cookie: jest.fn() };
+        const next = jest.fn();
+
+        const expectedError = new Error("Internal Server Error");  
+
+        jest.spyOn(authService, 'loginUser')
+        .mockRejectedValueOnce(expectedError);
+        await authController.loginUser(req, res, next);
+        expect(next).toHaveBeenCalledWith(expectedError);
+
+          });
+          
       it("loginUser: Throw an App eror if request body is empty", async () => {
         const req = {};
         const res = { cookie: jest.fn() };
@@ -232,14 +255,14 @@ describe("Testing Auth Controller: ", () => {
 
         const expectedError = new AppError("Request body is empty", 400);
 
-        jest
+   
+          jest
           .spyOn(userValidationUtil, "checkValidLogin")
           .mockReturnValueOnce({
-            valid: true,
+            valid: false,
             message: "Request body is empty",
           });
-
-        jest
+          jest
           .spyOn(authService, "loginUser")
           .mockRejectedValueOnce(expectedError);
 
@@ -259,16 +282,16 @@ describe("Testing Auth Controller: ", () => {
         const res = { cookie: jest.fn() };
         const next = jest.fn();
 
-        const expectedError = new AppError("password field is empty", 400);
+        const expectedError = new AppError("Password field is empty", 400);
 
         jest
           .spyOn(userValidationUtil, "checkValidLogin")
           .mockReturnValueOnce({
-            valid: true,
-            message: "password field is empty",
+            valid: false,
+            message: "Password field is empty",
           });
 
-        jest
+          jest
           .spyOn(authService, "loginUser")
           .mockRejectedValueOnce(expectedError);
 
@@ -288,13 +311,13 @@ describe("Testing Auth Controller: ", () => {
         const res = { cookie: jest.fn() };
         const next = jest.fn();
 
-        const expectedError = new AppError("username field is empty", 400);
+        const expectedError = new AppError("Username field is empty", 400);
 
         jest
           .spyOn(userValidationUtil, "checkValidLogin")
           .mockReturnValueOnce({
-            valid: true,
-            message: "username field is empty",
+            valid: false,
+            message: "Username field is empty",
           });
 
         jest
@@ -305,30 +328,6 @@ describe("Testing Auth Controller: ", () => {
         expect(next).toHaveBeenCalledWith(expectedError);
       });
 
-
-        it('loginUser: Auth Service returns an error', async () => {
-    
-          const req = {};
-          const res = { cookie: jest.fn() };
-          const next = jest.fn();
-  
-          const expectedError = new Error("Internal Server Error");
-  
-          jest
-            .spyOn(userValidationUtil, "checkValidLogin")
-            .mockReturnValueOnce({
-              valid: true,
-              message: "Request body is empty",
-            });
-  
-          jest
-            .spyOn(authService, "loginUser")
-            .mockRejectedValueOnce(expectedError);
-  
-          await authController.loginUser(req, res, next);
-          expect(next).toHaveBeenCalledWith(expectedError);
-
-            });
     });
   });
 });

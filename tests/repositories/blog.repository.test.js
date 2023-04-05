@@ -9,7 +9,6 @@ describe('Testing Blog Repository: ', () => {
 
            const offset =1;
            const limit =5;
-          console.log(fullBlogList.slice(offset, offset + limit));
               jest
               .spyOn(Blog, 'findAll')
               .mockReturnValue(fullBlogList.slice(offset, offset + limit));
@@ -48,21 +47,19 @@ describe('Testing Blog Repository: ', () => {
         it('createBlog: create an blog and return a blog response: ', async () => {
             const title = "test";
             const description = "test@cefalo.com";
-            const body = {
-              title: title,
-              description: description,
-            };
+            const authorId = "165165165151"
             const expectedResponse = singleBlog;
       
             jest
               .spyOn(Blog, 'create')
               .mockResolvedValue(expectedResponse);
-            const response = await blogRepository.createBlog(body);
-      
-            expect(Blog.create).toHaveBeenCalledTimes(1);
-            expect(response).toBe(expectedResponse);
+            const response = await blogRepository.createBlog(title, description, authorId);
 
+          expect(Blog.create).toHaveBeenCalledWith({title, description, authorId}); // why title, description, authorId this not working?
+          expect(Blog.create).toHaveBeenCalledTimes(1);
+          expect(response).toBe(expectedResponse);
         });
+
 
    /*  it('createBlog: Throw an error for database query error', async () => {
             const title = "test";
@@ -211,11 +208,17 @@ describe('Testing Blog Repository: ', () => {
         it('deleteBlogById: delete a blog by id: ', async () => {
             const id = "2565056511561";
             const expectedResponse = 1;
+            const blogId=id;
             jest
               .spyOn(Blog, 'destroy')
               .mockResolvedValue(expectedResponse);
             const response = await blogRepository.deleteBlogById(id);
       
+            expect(Blog.destroy).toHaveBeenCalledWith({
+              where: {
+                id: blogId,
+              },
+            });
             expect(Blog.destroy).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
         });

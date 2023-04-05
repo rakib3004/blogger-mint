@@ -146,12 +146,12 @@ const authorFullBlogList =[
     }
 ];
 const singleBlog = {
-    id: "2387a49e-403f-4973-9e24-8a231037efa0",
-    title: "Introduction to Information Security",
-    description: "Information security, also known as cybersecurity or IT security, is the practice of protecting computer systems, networks, and sensitive information from unauthorized access, use, disclosure, disruption, modification, or destruction. It involves using various measures and technologies to safeguard digital assets and prevent them from being compromised, stolen, or lost.",
-    createdAt: "2023-03-31T05:04:30.000Z",
-    updatedAt: "2023-03-31T05:04:30.000Z",
-    authorId: "2ed99fff-e742-4a26-b840-c2a7248f351a",
+        id: "ee5a5f83-c1d2-47f4-8540-3a4d2043eaa8",
+        title: "Introduction to Software Design",
+        description: "Software design is the process of creating a plan or blueprint for a software system or application that meets the requirements of users, stakeholders, and customers. It involves translating the software requirements into a detailed design that specifies how the software will be structured, organized, and implemented.",
+        createdAt: "2023-04-03T02:29:58.000Z",
+        updatedAt: "2023-04-03T02:29:58.000Z",
+        authorId: "acd6f5ae-5c57-47aa-996d-5a877f9bf0fb"
 };
 
 module.exports = {fullBlogList, authorFullBlogList,singleBlog};
