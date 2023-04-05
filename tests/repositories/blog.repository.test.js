@@ -1,5 +1,5 @@
 const blogRepository = require("../../repositories/blog.repository");
-const blogDatabase = require("../databases/blog.database");
+const {fullBlogList, authorFullBlogList, singleBlog} = require("../databases/blog.database");
 const { AppError } = require("../../utils/error.handler.util");
 const {Blog} = require("../../models");
 
@@ -7,23 +7,23 @@ describe('Testing Blog Repository: ', () => {
     describe('Testing getAllBlogs Function: ', () => {
         it('getAllBlogs: Return an array of blogs: ', async () => {
 
-            const query = {
-                page: 1,
-                limit: 5,
-              };
-        
-              const expectedResponse = {};
+           const offset =1;
+           const limit =5;
+          console.log(fullBlogList.slice(offset, offset + limit));
               jest
-                .spyOn(Blog, 'findAll')
-                .mockResolvedValue(expectedResponse);
+              .spyOn(Blog, 'findAll')
+              .mockReturnValue(fullBlogList.slice(offset, offset + limit));
+            
         
-              const response = await blogRepository.getAllBlogs(query);
+              const response = await blogRepository.getAllBlogs(limit, offset);
               expect(Blog.findAll).toHaveBeenCalledTimes(1);
               Blog.findAll.mockClear();
-              expect(response).toBe(expectedResponse);
+              expect(response).toStrictEqual(fullBlogList.slice(offset, offset + limit)
+            );
+
         });
 
-      /*  it('getAllBlogs: Throw an error for database query error', async () => {
+        it('getAllBlogs: Throw an error for database query error', async () => {
 
 
             const query = {
@@ -39,7 +39,7 @@ describe('Testing Blog Repository: ', () => {
               await expect(blogRepository.getAllBlogs(query)).rejects.toThrow(
                 expectedError
               );
-        });*/
+        });
 
 
     });
@@ -52,9 +52,7 @@ describe('Testing Blog Repository: ', () => {
               title: title,
               description: description,
             };
-            const expectedResponse = {
-      
-            };
+            const expectedResponse = singleBlog;
       
             jest
               .spyOn(Blog, 'create')
@@ -66,7 +64,7 @@ describe('Testing Blog Repository: ', () => {
 
         });
 
-    /*    it('createBlog: Throw an error for database query error', async () => {
+   /*  it('createBlog: Throw an error for database query error', async () => {
             const title = "test";
             const description = "test@cefalo.com";
       
@@ -87,7 +85,7 @@ describe('Testing Blog Repository: ', () => {
     describe('Testing getBlogById Function: ', () => {
         it('getBlogById: Return a blog by id: ', async () => {
             const id = "2565056511561";
-            const expectedResponse = {};
+            const expectedResponse = singleBlog;
             jest
               .spyOn(Blog, 'findOne')
               .mockResolvedValue(expectedResponse);
@@ -109,7 +107,7 @@ describe('Testing Blog Repository: ', () => {
 
         });
 
-      /*  it('getBlogById: Throw an error for database query error', async () => {
+       it('getBlogById: Throw an error for database query error', async () => {
 
 
             const id = "16514651474";
@@ -118,16 +116,14 @@ describe('Testing Blog Repository: ', () => {
               .spyOn(Blog, 'findOne')
               .mockRejectedValueOnce(expectedError);
             await expect(blogRepository.getBlogById(id)).rejects.toThrow(expectedError);
-
-
-        });*/
+        });
     });
 
     describe('Testing getBlogByAuthorId Function: ', () => {
         it('getBlogByAuthorId: Return an array of blogs of a given authorId: ', async () => {
 
             const authorId = "16514651474";
-            const expectedResponse = {};
+            const expectedResponse = authorFullBlogList;
             jest
               .spyOn(Blog, 'findAll')
               .mockResolvedValue(expectedResponse);
@@ -151,7 +147,7 @@ describe('Testing Blog Repository: ', () => {
 
         });
 
-       /* it('getBlogByAuthorId: Throw an error for database query error', async () => {
+        it('getBlogByAuthorId: Throw an error for database query error', async () => {
 
             const authorId = "16514651474";
             const expectedError = new Error("Internal Server Error");
@@ -163,7 +159,7 @@ describe('Testing Blog Repository: ', () => {
             );
 
 
-        });*/
+        });
     });
 
     describe('Testing updateBlogById Function: ', () => {
@@ -177,7 +173,7 @@ describe('Testing Blog Repository: ', () => {
               description: description,
             };
       
-            const expectedResponse = {};
+            const expectedResponse = [1];
             jest
               .spyOn(Blog, 'update')
               .mockResolvedValue(expectedResponse);
@@ -189,7 +185,7 @@ describe('Testing Blog Repository: ', () => {
         });
 
        
-      /*  it('updateBlogById: Throw an error for database query error', async () => {
+       it('updateBlogById: Throw an error for database query error', async () => {
 
             const id = "16514651474";
             const title = "test title";
@@ -208,13 +204,13 @@ describe('Testing Blog Repository: ', () => {
               expectedError
             );
     
-        });*/
+        });
     });
 
     describe('Testing deleteBlogById Function: ', () => {
         it('deleteBlogById: delete a blog by id: ', async () => {
             const id = "2565056511561";
-            const expectedResponse = {};
+            const expectedResponse = 1;
             jest
               .spyOn(Blog, 'destroy')
               .mockResolvedValue(expectedResponse);
@@ -225,13 +221,13 @@ describe('Testing Blog Repository: ', () => {
         });
 
 
-       /* it('deleteBlogById: Throw an error for database query error', async () => {
+        it('deleteBlogById: Throw an error for database query error', async () => {
             const id = "16514651474";
             const expectedError = new Error("Internal Server Error");
             jest
               .spyOn(Blog, 'destroy')
               .mockRejectedValueOnce(expectedError);
             await expect(blogRepository.deleteBlogById(id)).rejects.toThrow(expectedError);
-        });*/
+        });
     });
 });

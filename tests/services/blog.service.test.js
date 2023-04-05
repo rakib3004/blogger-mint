@@ -1,9 +1,5 @@
 const blogRepository = require("../../repositories/blog.repository");
-const {
-  fullBlogList,
-  authorFullBlogList,
-  singleBlog,
-} = require("../databases/blog.database");
+const { fullBlogList, authorFullBlogList, singleBlog} = require("../databases/blog.database");
 const userService = require("../../services/user.service");
 const blogService = require("../../services/blog.service");
 const { AppError } = require("../../utils/error.handler.util");
@@ -60,14 +56,7 @@ describe("Testing Blog Service", () => {
         title: title,
         description: description,
       };
-      const expectedResponse = {
-        id: "476901fd-4bef-4f15-a65f-c04d601627fe",
-        title: "Testing title",
-        description: "Testing description",
-        authorId: "5ca32cb8-5c35-4f77-96c3-517007593328",
-        createdAt: "2023-04-03T09:05:43.000Z",
-        updatedAt: "2023-04-03T09:05:43.009Z",
-      };
+      const expectedResponse = singleBlog;
       const userResponse = {
         user: {
           id: "5ca32cb8-5c35-4f77-96c3-517007593328",
@@ -242,8 +231,8 @@ describe("Testing Blog Service", () => {
       jest
         .spyOn(blogRepository, "deleteBlogById")
         .mockResolvedValueOnce(expectedResponse);
+        
       const response = await blogService.deleteBlogById(id);
-
       expect(blogRepository.deleteBlogById).toHaveBeenCalledTimes(1);
       expect(response).toBe(expectedResponse);
     });

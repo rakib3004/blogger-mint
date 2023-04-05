@@ -207,7 +207,7 @@ describe('Testing User Service: ', () => {
             const body = {
                 password :password,
             };
-            const expectedResponse = [ 1 ];
+            const expectedResponse = [1];
 
             const hashPassword = '$c$h$a$n$g$e$p$a$s$s$w$o$r$d'
             

@@ -34,7 +34,7 @@ describe("Testing User Controller: ", () => {
       expect(response).toBe(expectedResponse);
     });
 
-    /*  it("getAllUsers: Throw an error if the userService call fails", async () => {
+      it("getAllUsers: Throw an error if the userService call fails", async () => {
       const req = {
         query: {
           page: 1,
@@ -52,7 +52,7 @@ describe("Testing User Controller: ", () => {
       await userController.getAllUsers(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-    });*/
+    });
   });
 
   describe("Testing getUserByUsername Function: ", () => {
@@ -113,26 +113,8 @@ describe("Testing User Controller: ", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
 
-    it("getUserByUsername: Throw an error for bad request", async () => {
-      const req = {
-        params: {
-        },
-      };
-      const res = {};
-      const next = jest.fn();
 
-      const expectedError = new AppError("Bad Request", 400);
-
-      jest
-        .spyOn(userService, "getUserByUsername")
-        .mockRejectedValueOnce(expectedError);
-
-      await userController.getUserByUsername(req, res, next);
-
-      expect(next).toHaveBeenCalledWith(expectedError);
-    });
-
-    /* it("getUserByUsername: Throw an error if the userService call fails", async () => {
+     it("getUserByUsername: Throw an error if the userService call fails", async () => {
 
     const username = "test";
 
@@ -154,7 +136,29 @@ describe("Testing User Controller: ", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
 
 
-    });*/
+    });
+
+
+    it("getUserByUsername: Throw an error for bad request", async () => {
+      const req = {
+        params: {
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+
+      const expectedError = new AppError("Bad Request", 400);
+
+      jest
+        .spyOn(userService, "getUserByUsername")
+        .mockRejectedValueOnce(expectedError);
+
+      await userController.getUserByUsername(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+
+
   });
 
   describe("Testing updateUserPasswordByUsername Function: ", () => {
@@ -197,29 +201,8 @@ describe("Testing User Controller: ", () => {
       expect(response).toBe(expectedResponse);
     });
 
-    it("updateUserPasswordByUsername: throw an error if password field is empty", async () => {
-      const username = "test";
-      const req = {
-        params: {
-          username: username,
-        },
-        body: {},
-      };
-      const res = {};
-      const next = jest.fn();
 
-      const expectedError = new AppError("Request body is empty", 400);
-
-      jest
-        .spyOn(userService, "updateUserPasswordByUsername")
-        .mockRejectedValueOnce(expectedError);
-
-      await userController.updateUserPasswordByUsername(req, res, next);
-
-      expect(next).toHaveBeenCalledWith(expectedError);
-    });
-
-    /*it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
+    it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
 
       const username = "test";
       const password = "cefalo123";
@@ -243,44 +226,34 @@ describe("Testing User Controller: ", () => {
 
       expect(next).toHaveBeenCalledWith(expectedError);
 
-    });*/
-  });
-
-  describe("Testing deleteUserByUsername Function: ", () => {
-    it("deleteUserByUsername: delete a blog by username", async () => {
-      const req = {
-        params: {
-          username: "test",
-        },
-      };
-      const res = { clearCookie: jest.fn() };
-      const next = jest.fn();
-      const expectedResponse = {message: 'User is successfully deleted'};
-
-      jest
-        .spyOn(userService, "deleteUserByUsername")
-        .mockResolvedValue(1);
-      
-
-      jest
-        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
-        .mockResolvedValue(expectedResponse);
-
-      const response = await userController.deleteUserByUsername(
-        req,
-        res,
-        next
-      );
-
-      expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
-      expect(res.clearCookie).toHaveBeenCalledTimes(1);
-      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponseInContentNegotiation.mockClear();
-
-      expect(response).toBe(expectedResponse);
     });
 
-    /* it("deleteUserByUsername: throw an error if the userService call fails", async () => {
+    it("updateUserPasswordByUsername: throw an error if password field is empty", async () => {
+      const username = "test";
+      const req = {
+        params: {
+          username: username,
+        },
+        body: {},
+      };
+      const res = {};
+      const next = jest.fn();
+
+      const expectedError = new AppError("Request body is empty", 400);
+
+      jest
+        .spyOn(userService, "updateUserPasswordByUsername")
+        .mockRejectedValueOnce(expectedError);
+
+      await userController.updateUserPasswordByUsername(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+ 
+  });
+
+
+it("deleteUserByUsername: throw an error if the userService call fails", async () => {
 
       const username = "test";
       const req = {
@@ -301,6 +274,39 @@ describe("Testing User Controller: ", () => {
 
       expect(next).toHaveBeenCalledWith(expectedError);
 
-    });*/
+    });
+
+  describe("Testing deleteUserByUsername Function: ", () => {
+    it("deleteUserByUsername: delete a blog by username", async () => {
+      const req = {
+        params: {
+          username: "test",
+        },
+      };
+      const res = { clearCookie: jest.fn() };
+      const next = jest.fn();
+      const expectedResponse = {message: 'User is successfully deleted'};
+
+      jest
+        .spyOn(userService, "deleteUserByUsername")
+        .mockResolvedValue(1);
+
+      jest
+        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
+        .mockResolvedValue(expectedResponse);
+
+      const response = await userController.deleteUserByUsername(
+        req,
+        res,
+        next
+      );
+
+      expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
+      expect(res.clearCookie).toHaveBeenCalledTimes(1);
+      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
+
+      expect(response).toBe(expectedResponse);
+    });
   });
 });

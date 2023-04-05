@@ -6,8 +6,6 @@ const userValidationUtil = require("../../utils/user.validation.util");
 const { AppError } = require("../../utils/error.handler.util");
 const contentNegotiation = require("../../utils/content-negotiation.util");
 
-
-
 describe("Testing Auth Controller: ", () => {
   
   describe("Testing registerUser Function: ", () => {
@@ -58,14 +56,43 @@ describe("Testing Auth Controller: ", () => {
       expect(res.cookie).toHaveBeenCalledWith("jwt", "json-web-token", {
         httpOnly: true,
       });
-
-    
-
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
       expect(response).toBe(expectedResponse);
     });
 
-    it("registerUser: Throw an App eror if username, email or password any field is missing", async () => {
+
+    it('registerUser: Auth Service returns an error', async () => {
+
+      const username = 'test';
+      const email = 'test@cefalo.com';
+      const password = 'test1234';
+
+      const req = {
+        body: {
+          username: username,
+          email: email,
+          password: password,
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+      const expectedError = new Error("Internal Server Error");
+
+      jest
+      .spyOn(userValidationUtil, "checkValidRegistration")
+      .mockReturnValueOnce({
+        valid: true,
+        message: "Ok",
+      });
+
+      jest.spyOn(authService, 'registerUser')
+        .mockRejectedValueOnce(expectedError);
+
+      await authController.registerUser(req, res, next);
+      expect(next).toHaveBeenCalledWith(expectedError);
+  });
+
+  it("registerUser: Throw an App eror if email field is missing", async () => {
 
       const username = "test";
       const password = "test1234";
@@ -92,75 +119,73 @@ describe("Testing Auth Controller: ", () => {
       expect(userValidationUtil.checkValidRegistration).toHaveBeenCalledTimes(
         1
       );
-
-
       expect(next).toHaveBeenCalledWith(expectedError);
-      next.mockClear();
-
       
-
     });
 
-    it("registerUser: Throw an app eror if request body is empty", async () => {
+    it("registerUser: Throw an App eror if email is not valid", async () => {
+
+      const username = "test";
+      const email = "test.cefalo.com";
+      const password = "test1234";
+
       const req = {
-        body: {},
+        body: {
+          username: username,
+          email: email,
+          password: password,
+        },
       };
       const res = {};
       const next = jest.fn();
 
-      const expectedError = new AppError("Request body is empty", 400);
+      const expectedError = new AppError("New User's email is not valid", 400);
 
       jest
         .spyOn(authService, "registerUser")
         .mockRejectedValueOnce(expectedError);
+
       jest
         .spyOn(userValidationUtil, "checkValidRegistration")
-        .mockReturnValueOnce({
-          valid: false,
-          message: "Request body is empty",
-        });
+        .mockReturnValueOnce({ valid: true, message: "New User's email is not valid" });
 
       await authController.registerUser(req, res, next);
+      expect(userValidationUtil.checkValidRegistration).toHaveBeenCalledTimes(
+        1
+      );
+
       expect(next).toHaveBeenCalledWith(expectedError);
-      next.mockClear();
     });
 
-  /* it('registerUser: Auth Service returns an error', async () => {
-   
+ 
+    
+  it("registerUser: Throw an app eror if request body is empty", async () => {
+    const req = {
+      body: {},
+    };
+    const res = {};
+    const next = jest.fn();
 
-            const username = 'test';
-            const email = 'test@cefalo.com';
-            const password = 'test1234';
+    const expectedError = new AppError("Request body is empty", 400);
 
-            const req = {
-              body: {
-                username: username,
-                email: email,
-                password: password,
-              },
-            };
-            const res = {};
-            const next = jest.fn();
-            const expectedError = new Error("Internal Server Error");
-            
+    jest
+      .spyOn(authService, "registerUser")
+      .mockRejectedValueOnce(expectedError);
+    jest
+      .spyOn(userValidationUtil, "checkValidRegistration")
+      .mockReturnValueOnce({
+        valid: false,
+        message: "Request body is empty",
+      });
 
-            jest
-            .spyOn(userValidationUtil, "checkValidRegistration")
-            .mockReturnValueOnce({
-              valid: true,
-              message: "Ok",
-            });
-      
-            jest.spyOn(authService, 'registerUser')
-              .mockRejectedValueOnce(expectedError);
-      
-            await authController.registerUser(req, res, next);
-            expect(next).toHaveBeenCalledWith(expectedError);
-        });
-*/
+    await authController.registerUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(expectedError);
+  });
+
+
     describe("Testing loginUser Function: ", () => {
       it("loginUser: User login Successfully", async () => {
-        const username = "test";
+        const username = "testuser";
         const password = "test1234";
 
         const req = {
@@ -200,7 +225,7 @@ describe("Testing Auth Controller: ", () => {
         expect(response).toBe(expectedResponse);
       });
 
-      it("loginUser: Throw an App eror if username and password are missing", async () => {
+      it("loginUser: Throw an App eror if request body is empty", async () => {
         const req = {};
         const res = { cookie: jest.fn() };
         const next = jest.fn();
@@ -221,6 +246,65 @@ describe("Testing Auth Controller: ", () => {
         await authController.loginUser(req, res, next);
         expect(next).toHaveBeenCalledWith(expectedError);
       });
+
+
+      it("loginUser: Throw an App eror if password is missing", async () => {
+        const username = "testuser";
+
+        const req = {
+          body: {
+            username: username,
+          },
+        };
+        const res = { cookie: jest.fn() };
+        const next = jest.fn();
+
+        const expectedError = new AppError("password field is empty", 400);
+
+        jest
+          .spyOn(userValidationUtil, "checkValidLogin")
+          .mockReturnValueOnce({
+            valid: true,
+            message: "password field is empty",
+          });
+
+        jest
+          .spyOn(authService, "loginUser")
+          .mockRejectedValueOnce(expectedError);
+
+        await authController.loginUser(req, res, next);
+        expect(next).toHaveBeenCalledWith(expectedError);
+      });
+
+
+      it("loginUser: Throw an App eror if username is missing", async () => {
+        const password = "test1234";
+
+        const req = {
+          body: {
+            password: password,
+          },
+        };
+        const res = { cookie: jest.fn() };
+        const next = jest.fn();
+
+        const expectedError = new AppError("username field is empty", 400);
+
+        jest
+          .spyOn(userValidationUtil, "checkValidLogin")
+          .mockReturnValueOnce({
+            valid: true,
+            message: "username field is empty",
+          });
+
+        jest
+          .spyOn(authService, "loginUser")
+          .mockRejectedValueOnce(expectedError);
+
+        await authController.loginUser(req, res, next);
+        expect(next).toHaveBeenCalledWith(expectedError);
+      });
+
 
         it('loginUser: Auth Service returns an error', async () => {
     

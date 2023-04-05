@@ -1,5 +1,5 @@
 const userRepository = require("../../repositories/user.repository");
-const userDatabase = require("../databases/user.database");
+const { fullUserList } = require("../databases/user.database");
 const {User} = require("../../models");
 const { AppError } = require("../../utils/error.handler.util");
 
@@ -13,7 +13,7 @@ describe('Testing User Repository: ', () => {
                 limit: 5,
             };
       
-            const expectedResponse = {};
+            const expectedResponse = fullUserList;
             jest
               .spyOn(User, 'findAll')
               .mockResolvedValue(expectedResponse);
@@ -24,7 +24,7 @@ describe('Testing User Repository: ', () => {
 
         });
 
-     /*   it('getAllUsers: Throw an error for database query error', async () => {
+       it('getAllUsers: Throw an error for database query error', async () => {
 
             const query = {
                 page: 1,
@@ -33,12 +33,12 @@ describe('Testing User Repository: ', () => {
           const expectedError = new Error("Internal Server Error");
 
             jest
-              .spyOn(User, 'getAllUsers')
+              .spyOn(User, 'findAll')
               .mockRejectedValueOnce(expectedError);
               await expect(userRepository.getAllUsers(query)).rejects.toThrow(expectedError);
 
 
-        });*/
+        });
     });
 
     
@@ -55,7 +55,7 @@ describe('Testing User Repository: ', () => {
                 password :password,
             };
                   
-            const expectedResponse = {};
+            const expectedResponse = fullUserList[0];
       
             jest
               .spyOn(User, 'create')
@@ -68,7 +68,7 @@ describe('Testing User Repository: ', () => {
 
         });
 
-      /*  it('createUser: Throw an error for database query error', async () => {
+    /*   it('createUser: Throw an error for database query error', async () => {
 
             const id = "16514651474";
             const username = "test";
@@ -90,14 +90,12 @@ describe('Testing User Repository: ', () => {
             const expectedError = new Error("Internal Server Error");
       
             jest
-              .spyOn(User, 'createUser')
+              .spyOn(User, 'create')
               .mockRejectedValueOnce(expectedError);
               await expect(userRepository.createUser(body)).rejects.toThrow(expectedError);
 
         });*/
     });
-
-
 
     describe('Testing getUserByUsername Function: ', () => {
         it('getUserByUsername: Return a user by username: ', async () => {
@@ -126,15 +124,15 @@ describe('Testing User Repository: ', () => {
               
         });
 
-       /* it('getUserByUsername: Throw an error for database query error', async () => {
+       it('getUserByUsername: Throw an error for database query error', async () => {
             const id = "16514651474";
             const expectedError = new Error("Internal Server Error");
             jest
-              .spyOn(User, 'getUserByUsername')
+              .spyOn(User, 'findOne')
               .mockRejectedValueOnce(expectedError);
               await expect(userRepository.getUserByUsername(id)).rejects.toThrow(expectedError);
               
-        });*/
+        });
     });
 
 
@@ -162,22 +160,21 @@ describe('Testing User Repository: ', () => {
         });
 
        
-     /*   it('updateUserPasswordByUsername: Throw an error for database query error', async () => {
+       it('updateUserPasswordByUsername: Throw an error for database query error', async () => {
 
             const id = "16514651474";
+            const password = 'testuserpassword';
             const body = {
                 password :password,
             };
             const expectedError = new Error("Internal Server Error");
       
             jest
-              .spyOn(User, 'updateUserPasswordByUsername')
+              .spyOn(User, 'update')
               .mockRejectedValueOnce(expectedError);
-
               await expect(userRepository.updateUserPasswordByUsername(body,id)).rejects.toThrow(expectedError);
-
               
-        });*/
+        });
     });
 
     describe('Testing deleteUserByUsername Function: ', () => {
@@ -198,19 +195,19 @@ describe('Testing User Repository: ', () => {
 
 
 
-       /* it('deleteUserByUsername: Throw an error for database query error', async () => {
+     it('deleteUserByUsername: Throw an error for database query error', async () => {
 
             const id = "16514651474";
            
             const expectedError = new Error("Internal Server Error");
       
             jest
-              .spyOn(User, 'deleteUserByUsername')
+              .spyOn(User, 'destroy')
               .mockRejectedValueOnce(expectedError);
 
               await expect(userRepository.deleteUserByUsername(id)).rejects.toThrow(expectedError);
           
 
-        });*/
+        });
     });
 });

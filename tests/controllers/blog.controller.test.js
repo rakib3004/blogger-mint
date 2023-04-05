@@ -40,7 +40,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-       /* it('getAllBlogs: Throw an error if the blogService call fails', async () => {
+       it('getAllBlogs: Throw an error if the blogService call fails', async () => {
 
             const req = {
                 query: {
@@ -60,7 +60,7 @@ describe('Testing Blog Controller', () => {
         
               expect(next).toHaveBeenCalledWith(expectedError);
 
-        });*/
+        });
     });
 
     describe('Testing getBlogById Function: ', () => {
@@ -122,7 +122,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-       /* it('getBlogById: Throw an error if the blogService call fails', async () => {
+       it('getBlogById: Throw an error if the blogService call fails', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -143,7 +143,7 @@ describe('Testing Blog Controller', () => {
             expect(next).toHaveBeenCalledWith(expectedError);
 
 
-        });*/
+        });
     });
 
     describe('Testing getBlogByAuthorId Function: ', () => {
@@ -199,7 +199,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-  /*      it('getBlogByAuthorId: Throw an error if the blogService call fails', async () => {
+      it('getBlogByAuthorId: Throw an error if the blogService call fails', async () => {
 
             const authorId = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -219,7 +219,7 @@ describe('Testing Blog Controller', () => {
       
             expect(next).toHaveBeenCalledWith(expectedError);
 
-        });*/
+        });
     });
 
     describe('Testing createBlog Function: ', () => {
@@ -262,9 +262,35 @@ describe('Testing Blog Controller', () => {
             expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
             expect(response).toBe(expectedResponse);
-
-
         });
+
+        it('createBlog: throw an error if the blogService call fails', async () => {
+
+          const title = 'Testing Title';
+          const description = 'Testing description';
+
+          const req = {
+            body: {
+              title: title,
+              description: description,
+            },
+          };
+          const res = {};
+          const next = jest.fn();
+    
+          const expectedError = new Error("Internal Server Error");
+    
+          jest
+            .spyOn(blogService, 'createBlog')
+            .mockRejectedValueOnce(expectedError);
+    
+          await blogController.createBlog(req, res, next);
+    
+          expect(next).toHaveBeenCalledWith(expectedError);
+
+      });
+  });
+
 
         it('createBlog: throw an error if the title and description are empty', async () => {
 
@@ -287,35 +313,7 @@ describe('Testing Blog Controller', () => {
         });
 
 
-       /* it('createBlog: throw an error if the blogService call fails', async () => {
-
-            const title = 'Testing Title';
-            const description = 'Testing description';
-
-            const req = {
-              body: {
-                title: title,
-                description: description,
-              },
-            };
-            const res = {};
-            const next = jest.fn();
-      
-            const expectedError = new Error("Internal Server Error");
-      
-            jest
-              .spyOn(blogService, 'createBlog')
-              .mockRejectedValueOnce(expectedError);
-      
-            await blogController.createBlog(req, res, next);
-      
-            expect(next).toHaveBeenCalledWith(expectedError);
-
-
-
-        });*/
-    });
-
+ 
     describe('Testing updateBlogById Function: ', () => {
         it('updateBlogById: update a blog by id and return updated blog response', async () => {
 
@@ -356,6 +354,37 @@ describe('Testing Blog Controller', () => {
 
         });
 
+
+        it('updateBlogById: throw an error if the blogService call fails', async () => {
+
+          const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
+          const title = 'Testing Title';
+          const description = 'Testing description';
+
+          const req = {
+              params:{
+              id:id,
+              },
+            body: {
+              title: title,
+              description: description,
+            },
+          };
+          const res = {};
+          const next = jest.fn();
+    
+          const expectedError = new Error("Internal Server Error");
+    
+          jest.spyOn(blogService, 'updateBlogById')
+            .mockRejectedValueOnce(expectedError);
+    
+          await blogController.updateBlogById(req, res, next);
+          expect(next).toHaveBeenCalledWith(expectedError);
+
+      });
+
+
+
         it('updateBlogById: throw an error if the both title and description are empty', async () => {
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
 
@@ -378,33 +407,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-   /*     it('updateBlogById: throw an error if the blogService call fails', async () => {
 
-            const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
-            const title = 'Testing Title';
-            const description = 'Testing description';
-
-            const req = {
-                params:{
-                id:id,
-                },
-              body: {
-                title: title,
-                description: description,
-              },
-            };
-            const res = {};
-            const next = jest.fn();
-      
-            const expectedError = new Error("Internal Server Error");
-      
-            jest.spyOn(blogService, 'updateBlogById')
-              .mockRejectedValueOnce(expectedError);
-      
-            await blogController.updateBlogById(req, res, next);
-            expect(next).toHaveBeenCalledWith(expectedError);
-
-        });*/
     });
 
     describe('Testing deleteBlogById Function: ', () => {
@@ -441,7 +444,7 @@ describe('Testing Blog Controller', () => {
 
         });
 
-     /*   it('deleteBlogById: throw an error if the blogService call fails', async () => {
+       it('deleteBlogById: throw an error if the blogService call fails', async () => {
 
             const id = "e8d6ccab-2fd3-43f2-bfea-166f24e2a44a";
             const req = {
@@ -459,7 +462,7 @@ describe('Testing Blog Controller', () => {
             await blogController.deleteBlogById(req, res, next);
             expect(next).toHaveBeenCalledWith(expectedError);
 
-        });*/
+        });
     });
 
 });
