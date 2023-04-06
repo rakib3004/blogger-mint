@@ -16,25 +16,29 @@ describe("Testing User Controller: ", () => {
       const res = {};
       const next = jest.fn();
       const expectedResponse = fullUserList;
+      const query = req.query;
 
       jest
         .spyOn(userService, "getAllUsers")
         .mockResolvedValue(expectedResponse);
 
       jest
-        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
+        .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
         .mockResolvedValue(expectedResponse);
 
       const response = await userController.getAllUsers(req, res, next);
 
+      expect(userService.getAllUsers).toHaveBeenCalledWith(query);
       expect(userService.getAllUsers).toHaveBeenCalledTimes(1);
-      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(
+        contentNegotiation.sendResponseInContentNegotiation
+      ).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
 
       expect(response).toBe(expectedResponse);
     });
 
-      it("getAllUsers: Throw an error if the userService call fails", async () => {
+    it("getAllUsers: Throw an error if the userService call fails", async () => {
       const req = {
         query: {
           page: 1,
@@ -81,13 +85,16 @@ describe("Testing User Controller: ", () => {
         .mockResolvedValue(expectedResponse);
 
       jest
-        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
+        .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
         .mockResolvedValue(expectedResponse);
 
       const response = await userController.getUserByUsername(req, res, next);
 
+      expect(userService.getUserByUsername).toHaveBeenCalledWith(username);
       expect(userService.getUserByUsername).toHaveBeenCalledTimes(1);
-      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(
+        contentNegotiation.sendResponseInContentNegotiation
+      ).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
 
       expect(response).toBe(expectedResponse);
@@ -113,14 +120,12 @@ describe("Testing User Controller: ", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
 
-
-     it("getUserByUsername: Throw an error if the userService call fails", async () => {
-
-    const username = "test";
+    it("getUserByUsername: Throw an error if the userService call fails", async () => {
+      const username = "test";
 
       const req = {
         params: {
-          username:username,
+          username: username,
         },
       };
       const res = {};
@@ -128,21 +133,17 @@ describe("Testing User Controller: ", () => {
       const expectedError = new Error("Internal Server Error");
 
       jest
-        .spyOn(userService, 'getUserByUsername')
+        .spyOn(userService, "getUserByUsername")
         .mockRejectedValueOnce(expectedError);
 
       await userController.getUserByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-
-
     });
-
 
     it("getUserByUsername: Throw an error for bad request", async () => {
       const req = {
-        params: {
-        },
+        params: {},
       };
       const res = {};
       const next = jest.fn();
@@ -157,8 +158,6 @@ describe("Testing User Controller: ", () => {
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });
-
-
   });
 
   describe("Testing updateUserPasswordByUsername Function: ", () => {
@@ -175,6 +174,7 @@ describe("Testing User Controller: ", () => {
       };
       const res = {};
       const next = jest.fn();
+      const body = req.body;
 
       const expectedResponse = {
         message: "Password is successfully updated",
@@ -185,7 +185,7 @@ describe("Testing User Controller: ", () => {
         .mockResolvedValue(expectedResponse);
 
       jest
-        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
+        .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
         .mockResolvedValue(expectedResponse);
 
       const response = await userController.updateUserPasswordByUsername(
@@ -194,16 +194,20 @@ describe("Testing User Controller: ", () => {
         next
       );
 
+      expect(userService.updateUserPasswordByUsername).toHaveBeenCalledWith(
+        body,
+        username
+      );
       expect(userService.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
-      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
+      expect(
+        contentNegotiation.sendResponseInContentNegotiation
+      ).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponseInContentNegotiation.mockClear();
 
       expect(response).toBe(expectedResponse);
     });
 
-
     it("updateUserPasswordByUsername: throw an error if the userService call fails", async () => {
-
       const username = "test";
       const password = "cefalo123";
       const req = {
@@ -219,13 +223,12 @@ describe("Testing User Controller: ", () => {
       const expectedError = new Error("Internal Server Error");
 
       jest
-        .spyOn(userService, 'updateUserPasswordByUsername')
+        .spyOn(userService, "updateUserPasswordByUsername")
         .mockRejectedValueOnce(expectedError);
 
       await userController.updateUserPasswordByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-
     });
 
     it("updateUserPasswordByUsername: throw an error if password field is empty", async () => {
@@ -249,18 +252,51 @@ describe("Testing User Controller: ", () => {
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });
- 
   });
 
+  describe("Testing deleteUserByUsername Function: ", () => {
+    it("deleteUserByUsername: delete a blog by username", async () => {
+      const username = "testuser";
+      const req = {
+        params: {
+          username: username,
+        },
+      };
+      const res = { clearCookie: jest.fn() };
+      const next = jest.fn();
+      const expectedResponse = { message: "User is successfully deleted" };
 
-it("deleteUserByUsername: throw an error if the userService call fails", async () => {
+      jest.spyOn(userService, "deleteUserByUsername").mockResolvedValue(1);
 
+      jest
+        .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
+        .mockResolvedValue(expectedResponse);
+
+      const response = await userController.deleteUserByUsername(
+        req,
+        res,
+        next
+      );
+
+      expect(userService.deleteUserByUsername).toHaveBeenCalledWith(username);
+      expect(res.clearCookie).toHaveBeenCalledWith("jwt");
+
+      expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
+      expect(res.clearCookie).toHaveBeenCalledTimes(1);
+      expect(
+        contentNegotiation.sendResponseInContentNegotiation
+      ).toHaveBeenCalledTimes(1);
+      contentNegotiation.sendResponseInContentNegotiation.mockClear();
+
+      expect(response).toBe(expectedResponse);
+    });
+
+    it("deleteUserByUsername: throw an error if the userService call fails", async () => {
       const username = "test";
       const req = {
         params: {
           username: username,
         },
-      
       };
       const res = {};
       const next = jest.fn();
@@ -273,40 +309,6 @@ it("deleteUserByUsername: throw an error if the userService call fails", async (
       await userController.deleteUserByUsername(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
-
-    });
-
-  describe("Testing deleteUserByUsername Function: ", () => {
-    it("deleteUserByUsername: delete a blog by username", async () => {
-      const req = {
-        params: {
-          username: "test",
-        },
-      };
-      const res = { clearCookie: jest.fn() };
-      const next = jest.fn();
-      const expectedResponse = {message: 'User is successfully deleted'};
-
-      jest
-        .spyOn(userService, "deleteUserByUsername")
-        .mockResolvedValue(1);
-
-      jest
-        .spyOn(contentNegotiation, 'sendResponseInContentNegotiation')
-        .mockResolvedValue(expectedResponse);
-
-      const response = await userController.deleteUserByUsername(
-        req,
-        res,
-        next
-      );
-
-      expect(userService.deleteUserByUsername).toHaveBeenCalledTimes(1);
-      expect(res.clearCookie).toHaveBeenCalledTimes(1);
-      expect(contentNegotiation.sendResponseInContentNegotiation).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponseInContentNegotiation.mockClear();
-
-      expect(response).toBe(expectedResponse);
     });
   });
 });

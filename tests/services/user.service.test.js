@@ -219,9 +219,7 @@ describe('Testing User Service: ', () => {
               .mockResolvedValue(expectedResponse);
             
             const response = await userService.updateUserPasswordByUsername(body, username);
-            const updatedAt = Date.now();
 
-            /*expect(userRepository.updateUserPasswordByUsername).toHaveBeenCalledWith(hashPassword,updatedAt,username);*/
             expect(userRepository.updateUserPasswordByUsername).toHaveBeenCalledTimes(1);
             expect(response).toEqual(expectedResponse);
 
@@ -257,6 +255,7 @@ describe('Testing User Service: ', () => {
             
             const response = await userService.deleteUserByUsername(username);
       
+            expect(userRepository.deleteUserByUsername).toBeCalledWith(username);
             expect(userRepository.deleteUserByUsername).toHaveBeenCalledTimes(1);
             expect(response).toBe(expectedResponse);
         });

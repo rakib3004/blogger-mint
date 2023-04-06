@@ -20,6 +20,7 @@ describe("Testing Blog Controller", () => {
       const res = {};
       const next = jest.fn();
       const expectedResponse = fullBlogList;
+      const query = req.query;
 
       jest
         .spyOn(blogService, "getAllBlogs")
@@ -28,7 +29,6 @@ describe("Testing Blog Controller", () => {
       jest
         .spyOn(contentNegotiation, "sendResponseInContentNegotiation")
         .mockResolvedValue(expectedResponse);
-      const query = req.query;
 
       const response = await blogController.getAllBlogs(req, res, next);
 
@@ -85,6 +85,7 @@ describe("Testing Blog Controller", () => {
 
       const response = await blogController.getBlogById(req, res, next);
 
+      expect(blogService.getBlogById).toHaveBeenCalledWith(id);
       expect(blogService.getBlogById).toHaveBeenCalledTimes(1);
       expect(
         contentNegotiation.sendResponseInContentNegotiation
@@ -276,7 +277,7 @@ describe("Testing Blog Controller", () => {
     const res = {};
     const next = jest.fn();
 
-    const expectedError = new AppError("Request body is empty",400);
+    const expectedError = new AppError("Request body is empty", 400);
 
     jest.spyOn(blogService, "createBlog").mockRejectedValueOnce(expectedError);
     await blogController.createBlog(req, res, next);
@@ -294,7 +295,7 @@ describe("Testing Blog Controller", () => {
     const res = {};
     const next = jest.fn();
 
-    const expectedError = new AppError("Title field is empty",400);
+    const expectedError = new AppError("Title field is empty", 400);
 
     jest.spyOn(blogService, "createBlog").mockRejectedValueOnce(expectedError);
     await blogController.createBlog(req, res, next);
@@ -304,15 +305,15 @@ describe("Testing Blog Controller", () => {
   it("createBlog: throw an error if the description is empty", async () => {
     const title = "Testing Title";
 
-      const req = {
-        body: {
-          title: title,
-        },
-      };
+    const req = {
+      body: {
+        title: title,
+      },
+    };
     const res = {};
     const next = jest.fn();
 
-    const expectedError = new AppError("Description field is empty",400);
+    const expectedError = new AppError("Description field is empty", 400);
 
     jest.spyOn(blogService, "createBlog").mockRejectedValueOnce(expectedError);
     await blogController.createBlog(req, res, next);
@@ -352,7 +353,7 @@ describe("Testing Blog Controller", () => {
 
       const response = await blogController.updateBlogById(req, res, next);
 
-      expect(blogService.updateBlogById).toHaveBeenCalledWith(body,blogId);
+      expect(blogService.updateBlogById).toHaveBeenCalledWith(body, blogId);
 
       expect(blogService.updateBlogById).toHaveBeenCalledTimes(1);
       expect(
