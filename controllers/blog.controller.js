@@ -29,9 +29,9 @@ const getBlogById = async (req, res, next) => {
 
 const getBlogByAuthorId = async (req, res, next) => {
   try {
-    const blogId = req.params.id;
+    const authorId = req.params.id;
 
-     const blogResponse = await blogService.getBlogByAuthorId(blogId);
+     const blogResponse = await blogService.getBlogByAuthorId(authorId);
     return contentNegotiation.sendResponseInContentNegotiation(req,res,200,blogResponse);
   } catch (err) {
     next(err);
