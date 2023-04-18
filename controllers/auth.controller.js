@@ -15,7 +15,7 @@ const registerUser = async (req, res, next) => {
     
      const registerUserResponse = await authService.registerUser(body);
 
-      res.cookie("jwt", registerUserResponse.token, { samsite: true, secure: true });
+      res.cookie("jwt", registerUserResponse.token);
 
       const clientResponse = {data: registerUserResponse.data, message: "Registration is successful"}
      
@@ -37,7 +37,7 @@ const loginUser = async (req, res, next) => {
 
     const loginUserResponse = await authService.loginUser(body);
    
-      res.cookie("jwt", loginUserResponse,  { samsite: true, secure: true }); 
+      res.cookie("jwt", loginUserResponse); 
 
       const clientResponse = {message: "Login is successful"};
       
