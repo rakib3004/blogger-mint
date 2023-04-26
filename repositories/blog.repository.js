@@ -4,8 +4,8 @@ const { SequelizeValidationError } = require("../utils/error.handler.util");
 
 const getAllBlogs = async (offset, limit) => {
   const blogs = await Blog.findAll({
-    offset,
-    limit,
+   /* offset,
+    limit,*/
     order: [['createdAt', 'DESC']],
     include: {
       model: User,
@@ -49,8 +49,12 @@ const getBlogByAuthorId = async (authorId) => {
   const blog = await Blog.findAll({
     where: {
       authorId: authorId,
-
     },
+    order: [['createdAt', 'DESC']],
+    include: {
+      model: User,
+      attributes: ['username']
+    }
   });
 
   return blog;

@@ -4,8 +4,8 @@ const { SequelizeValidationError } = require("../utils/error.handler.util");
 const getAllUsers = async (offset, limit) => {
   const users = await User.findAll(
     {
-      offset,
-      limit,
+     /* offset,
+      limit,*/
       order: [['createdAt', 'DESC']]
     }
   );
