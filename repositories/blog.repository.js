@@ -6,7 +6,7 @@ const getAllBlogs = async (offset, limit) => {
   const blogs = await Blog.findAll({
    /* offset,
     limit,*/
-    order: [['createdAt', 'DESC']],
+    order: [['updatedAt', 'DESC']],
     include: {
       model: User,
       attributes: ['username']
