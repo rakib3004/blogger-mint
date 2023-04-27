@@ -50,7 +50,7 @@ const getBlogByAuthorId = async (authorId) => {
     where: {
       authorId: authorId,
     },
-    order: [['createdAt', 'DESC']],
+    order: [['updatedAt', 'DESC']],
     include: {
       model: User,
       attributes: ['username']
