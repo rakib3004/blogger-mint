@@ -36,6 +36,16 @@ const getUserByUsername = async (username) => {
 
 };
 
+const getUserByUserId = async (userId) => {
+  const user = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+  return user;
+
+};
+
 const updateUserPasswordByUsername = async (password,
   updatedAt,
   username) => {
@@ -62,6 +72,7 @@ module.exports = {
   getAllUsers,
   createUser,
   getUserByUsername,
+  getUserByUserId,
   updateUserPasswordByUsername,
   deleteUserByUsername,
 };

@@ -60,6 +60,16 @@ const getUserByUsername = async (usernameParameter) => {
 
 };
 
+const getUserByUserId = async (userId) => {
+  const userResponse = await userRepository.getUserByUserId(userId);
+
+  if (!userResponse) {
+   throw new AppError(userNotFoundMessage,404);
+  }
+  const dtoUser = new UserDTO(userResponse);
+  return dtoUser;
+};
+
 const getUserLoginInfo = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
@@ -97,6 +107,7 @@ module.exports = {
   getAllUsers,
   createUser,
   getUserByUsername,
+  getUserByUserId,
   getUserLoginInfo,
   updateUserPasswordByUsername,
   deleteUserByUsername,

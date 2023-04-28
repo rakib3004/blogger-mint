@@ -41,7 +41,12 @@ const checkValidUsername = (username) => {
 
 };
 
-
+const checkValidUserId = (userId) =>{
+  if (!userId) {
+    return { valid: false, message: "UserId parameter is empty" };
+  }
+  return { valid: true, message: "Ok" };
+}
 const checkValidPassword = (password) => {
   if (!password) {
     return { valid: false, message: "Password field is empty" };
@@ -123,6 +128,7 @@ module.exports = {
   checkPasswordLength,
   generateHashPassword,
   checkValidUsername,
+  checkValidUserId,
   checkValidPasswordBody,
   checkValidRegistration,
   checkValidLogin,

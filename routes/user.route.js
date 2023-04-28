@@ -12,4 +12,5 @@ router
     .get(userController.getUserByUsername)
     .put(authenticationMiddleware, userAuthorizationMiddleware, userController.updateUserPasswordByUsername)
     .delete(authenticationMiddleware, userAuthorizationMiddleware, userController.deleteUserByUsername);
+router.route('/id/:userId').get(userController.getUserByUserId);
 module.exports = router;

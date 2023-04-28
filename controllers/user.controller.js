@@ -27,6 +27,23 @@ const getUserByUsername = async (req, res, next) => {
   }
 };
 
+const getUserByUserId = async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const validUserId = userValidationUtil.checkValidUserId(userId);
+    if (!validUserId.valid) {
+      throw new AppError(validUpdatedBody.message,400);
+    }
+    const userResponse = await userService.getUserByUserId(
+      userId
+    );
+  
+    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,userResponse);  
+  } catch (err) {
+    next(err);
+  }
+};
+
 const updateUserPasswordByUsername = async (req, res, next) => {
   try {
     const body = req.body;
@@ -67,6 +84,7 @@ const deleteUserByUsername = async (req, res, next) => {
 module.exports = {
   getAllUsers,
   getUserByUsername,
+  getUserByUserId,
   updateUserPasswordByUsername,
   deleteUserByUsername,
 };
