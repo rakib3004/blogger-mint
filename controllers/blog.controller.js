@@ -13,6 +13,7 @@ const getAllBlogs = async (req, res, next) => {
   }
 };
 
+
 const getBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
@@ -29,14 +30,15 @@ const getBlogById = async (req, res, next) => {
 
 const getBlogByAuthorId = async (req, res, next) => {
   try {
+    const query = req.query;
     const authorId = req.params.id;
-
-     const blogResponse = await blogService.getBlogByAuthorId(authorId);
+     const blogResponse = await blogService.getBlogByAuthorId(query,authorId);
     return contentNegotiation.sendResponseInContentNegotiation(req,res,200,blogResponse);
   } catch (err) {
     next(err);
   }
 };
+
 
 
 const createBlog = async (req, res, next) => {

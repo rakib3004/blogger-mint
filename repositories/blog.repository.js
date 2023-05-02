@@ -1,11 +1,11 @@
-const {User,Blog} = require("../models");
+const { User, Blog } = require("../models");
 
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
 const getAllBlogs = async (offset, limit) => {
   const blogs = await Blog.findAll({
-   /* offset,
-    limit,*/
+    offset,
+    limit,
     order: [['updatedAt', 'DESC']],
     include: {
       model: User,
@@ -45,8 +45,10 @@ const getBlogById = async (blogId) => {
 
 };
 
-const getBlogByAuthorId = async (authorId) => {
+const getBlogByAuthorId = async (offset, limit, authorId) => {
   const blog = await Blog.findAll({
+    offset,
+    limit,
     where: {
       authorId: authorId,
     },
@@ -63,7 +65,7 @@ const getBlogByAuthorId = async (authorId) => {
 
 const updateBlogById = async (title, description, updatedAt, blogId) => {
   const blog = await Blog.update(
-    { title: title, description: description, updatedAt:updatedAt },
+    { title: title, description: description, updatedAt: updatedAt },
     {
       where: {
         id: blogId,
