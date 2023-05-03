@@ -25,8 +25,7 @@ app.use((err, req, res, next) => {
   if (!err) {
       return next();
   }
- res.status(err.statusCode);
-  res.send(err.message);
+ res.status(err.statusCode).send(err.message);
 });
 
 
