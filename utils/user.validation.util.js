@@ -35,7 +35,7 @@ const checkValidUsername = (username) => {
   }
   
   if (!isAlphaNumeric(username)) {
-    return { valid: false, message: "Username contains space or any special character" };
+    return { valid: false, message: "Username must not contain space or any special character" };
   }
   return { valid: true, message: "Ok" };
 
