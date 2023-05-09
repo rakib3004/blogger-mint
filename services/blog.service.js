@@ -5,13 +5,6 @@ const { AppError } = require("../utils/error.handler.util");
 const blogNotFoundMessage = 'No blog found with this id';
 
 
-const getAllBlogs = (query) => {
-  const pageNumber = paginationUtil.getPageNumber(query.page);
-  const pageSize = paginationUtil.getPageSize(query.limit);
-  const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
-  const pageLimit = paginationUtil.getPageLimit(pageSize);
-  return blogRepository.getAllBlogs(pageOffset, pageLimit);
-};
 
 const createBlog = async (body) => {
   const title = body.title;
@@ -26,21 +19,56 @@ const createBlog = async (body) => {
     authorId,
   );
   return newBlog;
-
 };
 
-const getBlogByAuthorId = async (query, authorId) => {
+const getAllBlogs =async (query) => {
   const pageNumber = paginationUtil.getPageNumber(query.page);
   const pageSize = paginationUtil.getPageSize(query.limit);
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
   const pageLimit = paginationUtil.getPageLimit(pageSize);
-  const blogResponse = await blogRepository.getBlogByAuthorId(
+  const result = await blogRepository.getAllBlogs(pageOffset, pageLimit);
+  return result.blogs;
+};
+
+const countAllBlogs = async() =>{
+  const defaultPage =1;
+  const defaultLimit =5;
+  const pageNumber = paginationUtil.getPageNumber(defaultPage);
+  const pageSize = paginationUtil.getPageSize(defaultLimit);
+  const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
+  const pageLimit = paginationUtil.getPageLimit(pageSize);
+  const result = await blogRepository.getAllBlogs(pageOffset, pageLimit);
+  return result.count;
+}
+
+const getBlogsByAuthorId = async (query, authorId) => {
+  const pageNumber = paginationUtil.getPageNumber(query.page);
+  const pageSize = paginationUtil.getPageSize(query.limit);
+  const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
+  const pageLimit = paginationUtil.getPageLimit(pageSize);
+  const result = await blogRepository.getBlogsByAuthorId(
     pageOffset, pageLimit, authorId
   );
-  if (!blogResponse) {
+  if (!result) {
     throw new AppError(blogNotFoundMessage, 404);
   }
-  return blogResponse;
+  return result.blogs;
+};
+
+const countBlogsByAuthorId = async (authorId) => {
+  const defaultPage =1;
+  const defaultLimit =5;
+  const pageNumber = paginationUtil.getPageNumber(defaultPage);
+  const pageSize = paginationUtil.getPageSize(defaultLimit);
+  const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
+  const pageLimit = paginationUtil.getPageLimit(pageSize);
+  const result = await blogRepository.getBlogsByAuthorId(
+    pageOffset, pageLimit, authorId
+  );
+  if (!result) {
+    throw new AppError(blogNotFoundMessage, 404);
+  }
+  return result.count;
 };
 
 
@@ -72,10 +100,12 @@ const deleteBlogById = async (blogId) => {
 };
 
 module.exports = {
-  getAllBlogs,
   createBlog,
+  getAllBlogs,
+  countAllBlogs,
+  getBlogsByAuthorId,
+  countBlogsByAuthorId,
   getBlogById,
-  getBlogByAuthorId,
   updateBlogById,
   deleteBlogById,
 };

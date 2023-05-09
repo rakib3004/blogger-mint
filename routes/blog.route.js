@@ -13,5 +13,7 @@ router
     .put(authenticationMiddleware, blogAuthorizationMiddleware, blogController.updateBlogById)
     .delete(authenticationMiddleware, blogAuthorizationMiddleware, blogController.deleteBlogById);
 
-router.route('/author/:id').get(blogController.getBlogByAuthorId);
+router.route('/author/:id').get(blogController.getBlogsByAuthorId);
+router.route('/count').get(blogController.countAllBlogs);
+router.route('/author/count/:id').get(blogController.countBlogsByAuthorId);
 module.exports = router;

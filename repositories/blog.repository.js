@@ -2,20 +2,6 @@ const { User, Blog } = require("../models");
 
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
-const getAllBlogs = async (offset, limit) => {
-  const blogs = await Blog.findAll({
-    offset,
-    limit,
-    order: [['updatedAt', 'DESC']],
-    include: {
-      model: User,
-      attributes: ['username']
-    }
-  });
-  return blogs;
-
-};
-
 const createBlog = async (
   title,
   description,
@@ -34,19 +20,22 @@ const createBlog = async (
   }
 };
 
-const getBlogById = async (blogId) => {
-  const blog = await Blog.findOne({
-    where: {
-      id: blogId,
-    },
+const getAllBlogs = async (offset, limit) => {
+  const {count,rows} = await Blog.findAndCountAll ({
+    offset,
+    limit,
+    order: [['updatedAt', 'DESC']],
+    include: {
+      model: User,
+      attributes: ['username']
+    }
   });
-
-  return blog;
-
+  const result = {blogs:rows, count:count}
+  return result;
 };
 
-const getBlogByAuthorId = async (offset, limit, authorId) => {
-  const blog = await Blog.findAll({
+const getBlogsByAuthorId = async (offset, limit, authorId) => {
+  const {count,rows} = await Blog.findAndCountAll({
     offset,
     limit,
     where: {
@@ -59,9 +48,22 @@ const getBlogByAuthorId = async (offset, limit, authorId) => {
     }
   });
 
+  const result = {blogs:rows, count:count}
+  return result;
+
+};
+
+const getBlogById = async (blogId) => {
+  const blog = await Blog.findOne({
+    where: {
+      id: blogId,
+    },
+  });
+
   return blog;
 
 };
+
 
 const updateBlogById = async (title, description, updatedAt, blogId) => {
   const blog = await Blog.update(
@@ -89,10 +91,10 @@ const deleteBlogById = async (blogId) => {
 };
 
 module.exports = {
-  getAllBlogs,
   createBlog,
+  getAllBlogs,
+  getBlogsByAuthorId,
   getBlogById,
-  getBlogByAuthorId,
   updateBlogById,
   deleteBlogById,
 };

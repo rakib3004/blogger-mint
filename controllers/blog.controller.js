@@ -3,42 +3,6 @@ const contentNegotiation = require("../utils/content-negotiation.util");
 const blogValidationUtil = require("../utils/blog.validation.util");
 const { AppError } = require("../utils/error.handler.util");
 
-const getAllBlogs = async (req, res, next) => {
-  try {
-    const query = req.query;
-    const getAllBlogsResponse = await blogService.getAllBlogs(query);
-    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, getAllBlogsResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-
-const getBlogById = async (req, res, next) => {
-  try {
-    const blogId = req.params.id;
-    const blogResponse = await blogService.getBlogById(
-      blogId
-    );
-    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogResponse);
-
-  } catch (err) {
-    next(err);
-
-  }
-};
-
-const getBlogByAuthorId = async (req, res, next) => {
-  try {
-    const query = req.query;
-    const authorId = req.params.id;
-    const blogResponse = await blogService.getBlogByAuthorId(query, authorId);
-    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
 
 
 const createBlog = async (req, res, next) => {
@@ -58,6 +22,62 @@ const createBlog = async (req, res, next) => {
 
   } catch (err) {
     next(err);
+  }
+};
+
+
+const getAllBlogs = async (req, res, next) => {
+  try {
+    const query = req.query;
+    const getAllBlogsResponse = await blogService.getAllBlogs(query);
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, getAllBlogsResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const countAllBlogs = async (req, res, next) => {
+  try {
+    const getAllBlogsResponse = await blogService.getAllBlogs();
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, getAllBlogsResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+const getBlogsByAuthorId = async (req, res, next) => {
+  try {
+    const query = req.query;
+    const authorId = req.params.id;
+    const blogResponse = await blogService.getBlogsByAuthorId(query, authorId);
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const countBlogsByAuthorId = async (req, res, next) => {
+  try {
+    const authorId = req.params.id;
+    const blogResponse = await blogService.getBlogsByAuthorId(authorId);
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getBlogById = async (req, res, next) => {
+  try {
+    const blogId = req.params.id;
+    const blogResponse = await blogService.getBlogById(
+      blogId
+    );
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogResponse);
+
+  } catch (err) {
+    next(err);
+
   }
 };
 
@@ -102,10 +122,12 @@ const deleteBlogById = async (req, res, next) => {
 
 
 module.exports = {
-  getAllBlogs,
   createBlog,
+  getAllBlogs,
+  countAllBlogs,
+  getBlogsByAuthorId,
+  countBlogsByAuthorId,
   getBlogById,
-  getBlogByAuthorId,
   updateBlogById,
   deleteBlogById,
 
