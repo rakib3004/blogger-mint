@@ -1,9 +1,4 @@
 const Sequelize = require("sequelize");
-// DATABASE_PORT=3307
-// DATABASE_NAME=Blogger_wouldnails
-// DATABASE_HOST=dh9.h.filess.io
-// DATABASE_USER=Blogger_wouldnails
-// DATABASE_PASSWORD=c850a25637693c0379e6822a41731c02e59270d4
 const DATABASE_PORT = process.env.DATABASE_PORT
 const DATABASE_NAME = process.env.DATABASE_NAME
 const DATABASE_HOST = process.env.DATABASE_HOST

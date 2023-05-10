@@ -8,5 +8,4 @@ router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/blogs", blogRouter);
 
-
 module.exports = router;
