@@ -4,7 +4,7 @@ const userValidationUtil = require("../utils/user.validation.util");
 const { AppError } = require("../utils/error.handler.util");
 
 
-export const getAllUsers = async (req, res, next) => {
+exports.getAllUsers = async (req, res, next) => {
   try {
     const query = req.query;
     const usersResponse = await userService.getAllUsers(query);
@@ -14,7 +14,7 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-export const getUserByUsername = async (req, res, next) => {
+exports.getUserByUsername = async (req, res, next) => {
   try {
     const username = req.params.username;
     const userResponse = await userService.getUserByUsername(
@@ -27,7 +27,7 @@ export const getUserByUsername = async (req, res, next) => {
   }
 };
 
-export const getUserByUserId = async (req, res, next) => {
+exports.getUserByUserId = async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const validUserId = userValidationUtil.checkValidUserId(userId);
@@ -44,7 +44,7 @@ export const getUserByUserId = async (req, res, next) => {
   }
 };
 
-export const updateUserPasswordByUsername = async (req, res, next) => {
+exports.updateUserPasswordByUsername = async (req, res, next) => {
   try {
     const body = req.body;
     const username = req.params.username;
@@ -66,7 +66,7 @@ export const updateUserPasswordByUsername = async (req, res, next) => {
   }
 };
 
-export const deleteUserByUsername = async (req, res, next) => {
+exports.deleteUserByUsername = async (req, res, next) => {
   try {
     const username = req.params.username;
     const deletedUserResponse = await userService.deleteUserByUsername(

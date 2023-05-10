@@ -5,7 +5,7 @@ const { AppError } = require("../utils/error.handler.util");
 
 
 
-export const createBlog = async (req, res, next) => {
+exports.createBlog = async (req, res, next) => {
   try {
     const body = req.body;
     const ValidBlogBody = blogValidationUtil.checkValidBlogBody(body);
@@ -26,7 +26,7 @@ export const createBlog = async (req, res, next) => {
 };
 
 
-export const getAllBlogs = async (req, res, next) => {
+exports.getAllBlogs = async (req, res, next) => {
   try {
     const query = req.query;
     const getAllBlogsResponse = await blogService.getAllBlogs(query);
@@ -36,7 +36,7 @@ export const getAllBlogs = async (req, res, next) => {
   }
 };
 
-export const countAllBlogs = async (req, res, next) => {
+exports.countAllBlogs = async (req, res, next) => {
   try {
     const totalBlogs = await blogService.countAllBlogs();
     const blogCountResponse = { count: totalBlogs }
@@ -49,7 +49,7 @@ export const countAllBlogs = async (req, res, next) => {
 };
 
 
-export const getBlogsByAuthorId = async (req, res, next) => {
+exports.getBlogsByAuthorId = async (req, res, next) => {
   try {
     const query = req.query;
     const authorId = req.params.id;
@@ -60,7 +60,7 @@ export const getBlogsByAuthorId = async (req, res, next) => {
   }
 };
 
-export const countBlogsByAuthorId = async (req, res, next) => {
+exports.countBlogsByAuthorId = async (req, res, next) => {
   try {
     const authorId = req.params.id;
     const authorTotalBlogs = await blogService.countBlogsByAuthorId(authorId);
@@ -72,7 +72,7 @@ export const countBlogsByAuthorId = async (req, res, next) => {
   }
 };
 
-export const getBlogById = async (req, res, next) => {
+exports.getBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
     const blogResponse = await blogService.getBlogById(
@@ -86,7 +86,7 @@ export const getBlogById = async (req, res, next) => {
   }
 };
 
-export const updateBlogById = async (req, res, next) => {
+exports.updateBlogById = async (req, res, next) => {
 
   try {
     const body = req.body;
@@ -109,7 +109,7 @@ export const updateBlogById = async (req, res, next) => {
   }
 };
 
-export const deleteBlogById = async (req, res, next) => {
+exports.deleteBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
     const deletedBlogResponse = await blogService.deleteBlogById(

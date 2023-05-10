@@ -6,7 +6,7 @@ const userNotFoundMessage = 'User not found';
 const { AppError } = require("../utils/error.handler.util");
 
 
-export const getAllUsers = async (query) => {
+exports.getAllUsers = async (query) => {
 
   const pageNumber = paginationUtil.getPageNumber(query.page);
   const pageSize = paginationUtil.getPageSize(query.limit);
@@ -23,7 +23,7 @@ export const getAllUsers = async (query) => {
 
 };
 
-export const createUser = async (body) => {
+exports.createUser = async (body) => {
 
   const username = body.username;
   const email = body.email;
@@ -41,7 +41,7 @@ export const createUser = async (body) => {
 
 };
 
-export const getUserByUsername = async (usernameParameter) => {
+exports.getUserByUsername = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const validParameter = userValidationUtil.checkValidUsername(username);
 
@@ -60,7 +60,7 @@ export const getUserByUsername = async (usernameParameter) => {
 
 };
 
-export const getUserByUserId = async (userId) => {
+exports.getUserByUserId = async (userId) => {
   const userResponse = await userRepository.getUserByUserId(userId);
 
   if (!userResponse) {
@@ -70,7 +70,7 @@ export const getUserByUserId = async (userId) => {
   return dtoUser;
 };
 
-export const getUserLoginInfo = async (usernameParameter) => {
+exports.getUserLoginInfo = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
   if (!user) {
@@ -80,7 +80,7 @@ export const getUserLoginInfo = async (usernameParameter) => {
 
 };
 
-export const updateUserPasswordByUsername = async (body, usernameParameter) => {
+exports.updateUserPasswordByUsername = async (body, usernameParameter) => {
   const username = usernameParameter.toLowerCase();
 
   const password = await userValidationUtil.generateHashPassword(body.password);
@@ -95,7 +95,7 @@ export const updateUserPasswordByUsername = async (body, usernameParameter) => {
 
 };
 
-export const deleteUserByUsername = async (usernameParameter) => {
+exports.deleteUserByUsername = async (usernameParameter) => {
 
   const username = usernameParameter.toLowerCase();
   const deletedUserResponse = userRepository.deleteUserByUsername(username);

@@ -3,7 +3,7 @@ const userService = require("../services/user.service");
 const { AppError } = require("../utils/error.handler.util");
 
 
-export const registerUser = async (body) => {
+exports.registerUser = async (body) => {
 
   const newUserResponse = await userService.createUser(body);
 
@@ -15,7 +15,7 @@ export const registerUser = async (body) => {
 };
 
 
-export const loginUser = async (body) => {
+exports.loginUser = async (body) => {
   const username = body.username;
   const userResponse = await userService.getUserLoginInfo(username);
 

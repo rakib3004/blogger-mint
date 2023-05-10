@@ -6,7 +6,7 @@ const blogNotFoundMessage = 'No blog found with this id';
 
 
 
-export const createBlog = async (body) => {
+exports.createBlog = async (body) => {
   const title = body.title;
   const description = body.description;
   const username = String(body.username);
@@ -21,7 +21,7 @@ export const createBlog = async (body) => {
   return newBlog;
 };
 
-export const getAllBlogs = async (query) => {
+exports.getAllBlogs = async (query) => {
   const pageNumber = paginationUtil.getPageNumber(query.page);
   const pageSize = paginationUtil.getPageSize(query.limit);
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
@@ -30,7 +30,7 @@ export const getAllBlogs = async (query) => {
   return result.blogs;
 };
 
-export const countAllBlogs = async () => {
+exports.countAllBlogs = async () => {
   const defaultPage = 1;
   const defaultLimit = 5;
   const pageNumber = paginationUtil.getPageNumber(defaultPage);
@@ -41,7 +41,7 @@ export const countAllBlogs = async () => {
   return result.count;
 }
 
-export const getBlogsByAuthorId = async (query, authorId) => {
+exports.getBlogsByAuthorId = async (query, authorId) => {
   const pageNumber = paginationUtil.getPageNumber(query.page);
   const pageSize = paginationUtil.getPageSize(query.limit);
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
@@ -55,7 +55,7 @@ export const getBlogsByAuthorId = async (query, authorId) => {
   return result.blogs;
 };
 
-export const countBlogsByAuthorId = async (authorId) => {
+exports.countBlogsByAuthorId = async (authorId) => {
   const defaultPage = 1;
   const defaultLimit = 5;
   const pageNumber = paginationUtil.getPageNumber(defaultPage);
@@ -72,7 +72,7 @@ export const countBlogsByAuthorId = async (authorId) => {
 };
 
 
-export const getBlogById = async (blogId) => {
+exports.getBlogById = async (blogId) => {
   const blogResponse = await blogRepository.getBlogById(blogId);
   if (!blogResponse) {
     throw new AppError(blogNotFoundMessage, 404);
@@ -80,7 +80,7 @@ export const getBlogById = async (blogId) => {
   return blogResponse;
 };
 
-export const updateBlogById = async (body, blogId) => {
+exports.updateBlogById = async (body, blogId) => {
   const blogResponse = await blogRepository.getBlogById(blogId);
   let title = body.title;
   let description = body.description;
@@ -94,7 +94,7 @@ export const updateBlogById = async (body, blogId) => {
   return updatedBlog;
 };
 
-export const deleteBlogById = async (blogId) => {
+exports.deleteBlogById = async (blogId) => {
   const deleteBlogResponse = blogRepository.deleteBlogById(blogId);
   return deleteBlogResponse;
 };
