@@ -21,7 +21,7 @@ export const createBlog = async (
 };
 
 export const getAllBlogs = async (offset, limit) => {
-  const {count,rows} = await Blog.findAndCountAll ({
+  const { count, rows } = await Blog.findAndCountAll({
     offset,
     limit,
     order: [['updatedAt', 'DESC']],
@@ -30,12 +30,12 @@ export const getAllBlogs = async (offset, limit) => {
       attributes: ['username']
     }
   });
-  const result = {blogs:rows, count:count}
+  const result = { blogs: rows, count: count }
   return result;
 };
 
 export const getBlogsByAuthorId = async (offset, limit, authorId) => {
-  const {count,rows} = await Blog.findAndCountAll({
+  const { count, rows } = await Blog.findAndCountAll({
     offset,
     limit,
     where: {
@@ -48,7 +48,7 @@ export const getBlogsByAuthorId = async (offset, limit, authorId) => {
     }
   });
 
-  const result = {blogs:rows, count:count}
+  const result = { blogs: rows, count: count }
   return result;
 
 };

@@ -8,23 +8,23 @@ const { AppError } = require("../utils/error.handler.util");
 
 export const getAllUsers = async (query) => {
 
-    const pageNumber = paginationUtil.getPageNumber(query.page);
-    const pageSize = paginationUtil.getPageSize(query.limit);
-    const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
-    const pageLimit = paginationUtil.getPageLimit(pageSize);
+  const pageNumber = paginationUtil.getPageNumber(query.page);
+  const pageSize = paginationUtil.getPageSize(query.limit);
+  const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
+  const pageLimit = paginationUtil.getPageLimit(pageSize);
 
-    const users = await userRepository.getAllUsers(pageOffset, pageLimit);
-    const dtoUsers = [];
-    users.forEach((user) => {
-      const dtoUser = new UserDTO(user);
-      dtoUsers.push(dtoUser);
-    });
-    return dtoUsers;
+  const users = await userRepository.getAllUsers(pageOffset, pageLimit);
+  const dtoUsers = [];
+  users.forEach((user) => {
+    const dtoUser = new UserDTO(user);
+    dtoUsers.push(dtoUser);
+  });
+  return dtoUsers;
 
 };
 
 export const createUser = async (body) => {
- 
+
   const username = body.username;
   const email = body.email;
 
@@ -44,15 +44,15 @@ export const createUser = async (body) => {
 export const getUserByUsername = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const validParameter = userValidationUtil.checkValidUsername(username);
-  
+
   if (!validParameter.valid) {
     throw new AppError(validParameter.message, 400);
   }
-  
+
   const userResponse = await userRepository.getUserByUsername(username);
 
   if (!userResponse) {
-   throw new AppError(userNotFoundMessage,404);
+    throw new AppError(userNotFoundMessage, 404);
   }
 
   const dtoUser = new UserDTO(userResponse);
@@ -64,7 +64,7 @@ export const getUserByUserId = async (userId) => {
   const userResponse = await userRepository.getUserByUserId(userId);
 
   if (!userResponse) {
-   throw new AppError(userNotFoundMessage,404);
+    throw new AppError(userNotFoundMessage, 404);
   }
   const dtoUser = new UserDTO(userResponse);
   return dtoUser;
@@ -74,7 +74,7 @@ export const getUserLoginInfo = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
   if (!user) {
-    throw new AppError(userNotFoundMessage,404);
+    throw new AppError(userNotFoundMessage, 404);
   }
   return user;
 
@@ -92,7 +92,7 @@ export const updateUserPasswordByUsername = async (body, usernameParameter) => {
   );
 
   return updatedUserResponse;
-  
+
 };
 
 export const deleteUserByUsername = async (usernameParameter) => {

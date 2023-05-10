@@ -21,7 +21,7 @@ export const createBlog = async (body) => {
   return newBlog;
 };
 
-export const getAllBlogs =async (query) => {
+export const getAllBlogs = async (query) => {
   const pageNumber = paginationUtil.getPageNumber(query.page);
   const pageSize = paginationUtil.getPageSize(query.limit);
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
@@ -30,9 +30,9 @@ export const getAllBlogs =async (query) => {
   return result.blogs;
 };
 
-export const countAllBlogs = async() =>{
-  const defaultPage =1;
-  const defaultLimit =5;
+export const countAllBlogs = async () => {
+  const defaultPage = 1;
+  const defaultLimit = 5;
   const pageNumber = paginationUtil.getPageNumber(defaultPage);
   const pageSize = paginationUtil.getPageSize(defaultLimit);
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);
@@ -56,8 +56,8 @@ export const getBlogsByAuthorId = async (query, authorId) => {
 };
 
 export const countBlogsByAuthorId = async (authorId) => {
-  const defaultPage =1;
-  const defaultLimit =5;
+  const defaultPage = 1;
+  const defaultLimit = 5;
   const pageNumber = paginationUtil.getPageNumber(defaultPage);
   const pageSize = paginationUtil.getPageSize(defaultLimit);
   const pageOffset = paginationUtil.getPageOffset(pageNumber, pageSize);

@@ -6,9 +6,9 @@ const { AppError } = require("../utils/error.handler.util");
 
 export const getAllUsers = async (req, res, next) => {
   try {
-    const query = req.query;   
+    const query = req.query;
     const usersResponse = await userService.getAllUsers(query);
-    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,usersResponse);
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, usersResponse);
   } catch (err) {
     next(err);
   }
@@ -20,8 +20,8 @@ export const getUserByUsername = async (req, res, next) => {
     const userResponse = await userService.getUserByUsername(
       username
     );
-  
-    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,userResponse);  
+
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, userResponse);
   } catch (err) {
     next(err);
   }
@@ -32,13 +32,13 @@ export const getUserByUserId = async (req, res, next) => {
     const userId = req.params.userId;
     const validUserId = userValidationUtil.checkValidUserId(userId);
     if (!validUserId.valid) {
-      throw new AppError(validUpdatedBody.message,400);
+      throw new AppError(validUpdatedBody.message, 400);
     }
     const userResponse = await userService.getUserByUserId(
       userId
     );
-  
-    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,userResponse);  
+
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, userResponse);
   } catch (err) {
     next(err);
   }
@@ -50,7 +50,7 @@ export const updateUserPasswordByUsername = async (req, res, next) => {
     const username = req.params.username;
     const validUpdatedBody = userValidationUtil.checkValidPasswordBody(body);
     if (!validUpdatedBody.valid) {
-      throw new AppError(validUpdatedBody.message,400);
+      throw new AppError(validUpdatedBody.message, 400);
     }
 
     const updatedUserResponse =
@@ -59,8 +59,8 @@ export const updateUserPasswordByUsername = async (req, res, next) => {
         username
       );
 
-      const clientResponse = {message: 'Password is successfully updated'};
-      return contentNegotiation.sendResponseInContentNegotiation(req,res,200,clientResponse);
+    const clientResponse = { message: 'Password is successfully updated' };
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, clientResponse);
   } catch (err) {
     next(err);
   }
@@ -74,8 +74,8 @@ export const deleteUserByUsername = async (req, res, next) => {
     );
     res.clearCookie("jwt");
 
-    const clientResponse = {message: 'User is successfully deleted'};
-    return contentNegotiation.sendResponseInContentNegotiation(req,res,200,clientResponse);
+    const clientResponse = { message: 'User is successfully deleted' };
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, clientResponse);
   } catch (err) {
     next(err);
   }

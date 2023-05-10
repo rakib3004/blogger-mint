@@ -39,7 +39,7 @@ export const getAllBlogs = async (req, res, next) => {
 export const countAllBlogs = async (req, res, next) => {
   try {
     const totalBlogs = await blogService.countAllBlogs();
-    const blogCountResponse =  {count:totalBlogs}
+    const blogCountResponse = { count: totalBlogs }
     return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogCountResponse);
   } catch (err) {
     console.log(err);
@@ -65,7 +65,7 @@ export const countBlogsByAuthorId = async (req, res, next) => {
     const authorId = req.params.id;
     const authorTotalBlogs = await blogService.countBlogsByAuthorId(authorId);
 
-    const blogCountResponse = {count:authorTotalBlogs}
+    const blogCountResponse = { count: authorTotalBlogs }
     return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogCountResponse);
   } catch (err) {
     next(err);
