@@ -4,7 +4,7 @@ const { AppError } = require("../utils/error.handler.util");
 const contentNegotiation = require("../utils/content-negotiation.util");
 
 
-const registerUser = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
  
   try {
     const body = req.body;
@@ -26,7 +26,7 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-const loginUser = async (req, res, next) => {
+export const loginUser = async (req, res, next) => {
 
   try {
    const body = req.body;
@@ -48,7 +48,4 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  registerUser,
-  loginUser,
-};
+

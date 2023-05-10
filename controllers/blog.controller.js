@@ -5,7 +5,7 @@ const { AppError } = require("../utils/error.handler.util");
 
 
 
-const createBlog = async (req, res, next) => {
+export const createBlog = async (req, res, next) => {
   try {
     const body = req.body;
     const ValidBlogBody = blogValidationUtil.checkValidBlogBody(body);
@@ -26,7 +26,7 @@ const createBlog = async (req, res, next) => {
 };
 
 
-const getAllBlogs = async (req, res, next) => {
+export const getAllBlogs = async (req, res, next) => {
   try {
     const query = req.query;
     const getAllBlogsResponse = await blogService.getAllBlogs(query);
@@ -36,17 +36,20 @@ const getAllBlogs = async (req, res, next) => {
   }
 };
 
-const countAllBlogs = async (req, res, next) => {
+export const countAllBlogs = async (req, res, next) => {
   try {
-    const getAllBlogsResponse = await blogService.getAllBlogs();
-    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, getAllBlogsResponse);
+    const totalBlogs = await blogService.countAllBlogs();
+    const blogCountResponse =  {count:totalBlogs}
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogCountResponse);
   } catch (err) {
+    console.log(err);
+
     next(err);
   }
 };
 
 
-const getBlogsByAuthorId = async (req, res, next) => {
+export const getBlogsByAuthorId = async (req, res, next) => {
   try {
     const query = req.query;
     const authorId = req.params.id;
@@ -57,17 +60,19 @@ const getBlogsByAuthorId = async (req, res, next) => {
   }
 };
 
-const countBlogsByAuthorId = async (req, res, next) => {
+export const countBlogsByAuthorId = async (req, res, next) => {
   try {
     const authorId = req.params.id;
-    const blogResponse = await blogService.getBlogsByAuthorId(authorId);
-    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogResponse);
+    const authorTotalBlogs = await blogService.countBlogsByAuthorId(authorId);
+
+    const blogCountResponse = {count:authorTotalBlogs}
+    return contentNegotiation.sendResponseInContentNegotiation(req, res, 200, blogCountResponse);
   } catch (err) {
     next(err);
   }
 };
 
-const getBlogById = async (req, res, next) => {
+export const getBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
     const blogResponse = await blogService.getBlogById(
@@ -81,7 +86,7 @@ const getBlogById = async (req, res, next) => {
   }
 };
 
-const updateBlogById = async (req, res, next) => {
+export const updateBlogById = async (req, res, next) => {
 
   try {
     const body = req.body;
@@ -104,7 +109,7 @@ const updateBlogById = async (req, res, next) => {
   }
 };
 
-const deleteBlogById = async (req, res, next) => {
+export const deleteBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
     const deletedBlogResponse = await blogService.deleteBlogById(
@@ -120,15 +125,3 @@ const deleteBlogById = async (req, res, next) => {
 };
 
 
-
-module.exports = {
-  createBlog,
-  getAllBlogs,
-  countAllBlogs,
-  getBlogsByAuthorId,
-  countBlogsByAuthorId,
-  getBlogById,
-  updateBlogById,
-  deleteBlogById,
-
-};

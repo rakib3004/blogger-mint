@@ -6,7 +6,7 @@ const userNotFoundMessage = 'User not found';
 const { AppError } = require("../utils/error.handler.util");
 
 
-const getAllUsers = async (query) => {
+export const getAllUsers = async (query) => {
 
     const pageNumber = paginationUtil.getPageNumber(query.page);
     const pageSize = paginationUtil.getPageSize(query.limit);
@@ -23,7 +23,7 @@ const getAllUsers = async (query) => {
 
 };
 
-const createUser = async (body) => {
+export const createUser = async (body) => {
  
   const username = body.username;
   const email = body.email;
@@ -41,7 +41,7 @@ const createUser = async (body) => {
 
 };
 
-const getUserByUsername = async (usernameParameter) => {
+export const getUserByUsername = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const validParameter = userValidationUtil.checkValidUsername(username);
   
@@ -60,7 +60,7 @@ const getUserByUsername = async (usernameParameter) => {
 
 };
 
-const getUserByUserId = async (userId) => {
+export const getUserByUserId = async (userId) => {
   const userResponse = await userRepository.getUserByUserId(userId);
 
   if (!userResponse) {
@@ -70,7 +70,7 @@ const getUserByUserId = async (userId) => {
   return dtoUser;
 };
 
-const getUserLoginInfo = async (usernameParameter) => {
+export const getUserLoginInfo = async (usernameParameter) => {
   const username = usernameParameter.toLowerCase();
   const user = await userRepository.getUserByUsername(username);
   if (!user) {
@@ -80,7 +80,7 @@ const getUserLoginInfo = async (usernameParameter) => {
 
 };
 
-const updateUserPasswordByUsername = async (body, usernameParameter) => {
+export const updateUserPasswordByUsername = async (body, usernameParameter) => {
   const username = usernameParameter.toLowerCase();
 
   const password = await userValidationUtil.generateHashPassword(body.password);
@@ -95,7 +95,7 @@ const updateUserPasswordByUsername = async (body, usernameParameter) => {
   
 };
 
-const deleteUserByUsername = async (usernameParameter) => {
+export const deleteUserByUsername = async (usernameParameter) => {
 
   const username = usernameParameter.toLowerCase();
   const deletedUserResponse = userRepository.deleteUserByUsername(username);
@@ -103,12 +103,3 @@ const deleteUserByUsername = async (usernameParameter) => {
 
 };
 
-module.exports = {
-  getAllUsers,
-  createUser,
-  getUserByUsername,
-  getUserByUserId,
-  getUserLoginInfo,
-  updateUserPasswordByUsername,
-  deleteUserByUsername,
-};
