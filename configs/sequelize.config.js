@@ -15,9 +15,11 @@ const sequelize = new Sequelize(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD,
 (async () => {
   try {
     await sequelize.authenticate();
+    // console.log(DATABASE_HOST, DATABASE_PORT, DATABASE_USER, 'SUCCESSFUL');
 
   } catch (error) {
-   
+    // console.log(DATABASE_HOST, DATABASE_PORT, DATABASE_USER, 'FAILED');
+
   }
 })();
 
