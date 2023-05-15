@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npx node app.js",
+    "start": "nodemon app.js",
     "dev": "npx nodemon app.js",
     "test": "npx nodemon app.js",
     "lint": "npm install -D prettier && npm install -D babel-eslint && npx install-peerdeps --dev eslint-config-airbnb && npm install -D eslint-config-prettier eslint-plugin-prettier"
