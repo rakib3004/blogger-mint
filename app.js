@@ -21,15 +21,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/v1", indexRouter);
 
-
-
 app.use((err, req, res, next) => {
   if (!err) {
       return next();
   }
  res.status(err.statusCode).send(err.message);
 });
-
 
 
 app.use('*', (req, res) => {
