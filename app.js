@@ -5,8 +5,8 @@ const app = express();
 const indexRouter = require('./routes/index.route');
 const cookieParser = require('cookie-parser');
 
-const PORT = process.env.PORT || 8000;
-const HOST = process.env.HOST || "localhost";
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
 const cors = require('cors');
 app.use(cors(
   {
@@ -43,5 +43,5 @@ app.use('*', (req, res) => {
 });
 
 
-app.listen(PORT, HOST, () => {
+app.listen(PORT, () => {
 });
