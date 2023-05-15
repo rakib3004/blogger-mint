@@ -44,4 +44,5 @@ app.use('*', (req, res) => {
 
 
 app.listen(PORT, HOST, () => {
+  console.log("Server is connected", PORT, HOST);
 });
