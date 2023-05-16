@@ -1,22 +1,29 @@
 const info = `
-SERVER_PORT=8000
-SERVER_HOST=192.168.1.113
-DATABASE_PORT=3306
-DATABASE_NAME=blogger
-DATABASE_HOST=localhost
-DATABASE_USER=root
-DATABASE_PASSWORD=
-DB_URI=mysql://root@localhost:3306/blogger
-# DATABASE_PORT=3307
-# DATABASE_NAME=Blogger_wouldnails
-# DATABASE_HOST=dh9.h.filess.io
-# DATABASE_USER=Blogger_wouldnails
-# DATABASE_PASSWORD=c850a25637693c0379e6822a41731c02e59270d4
-# DB_URI=mysql://Blogger_wouldnails:c850a25637693c0379e6822a41731c02e59270d4@dh9.h.filess.io:3307/Blogger_wouldnails
-JWT_SECRET_TOKEN=e1ea37d9aca5291d7cf3c216888816e2c22c9cff
+# DB_PORT=3306
+# DB_NAME=blogger
+# DB_HOST=localhost
+# DB_USER=root
+# DB_PASSWORD=
+
+PORT=3000
+HOST=192.168.1.113
+
+DB_PORT=3306
+DB_NAME=sql12618628
+DB_HOST=sql12.freemysqlhosting.net
+DB_USER=sql12618628
+DB_PASSWORD=password
+
+# DB_PORT=3307
+# DB_NAME=bloggingview_inventeddo
+# DB_HOST=kaa.h.filess.io
+# DB_USER=bloggingview_inventeddo
+# DB_PASSWORD=password
+
+JWT_SECRET_TOKEN=token
 JWT_SECRET_TOKEN_EXPIRE_TIME=10h
-JWT_SECRET_TOKEN_ALGORITHM=HS256
-CROSS_ORIGIN_1=http://localhost:5173
-CROSS_ORIGIN_2=http://127.0.0.1:5173
-CROSS_ORIGIN_3=http://192.168.1.113:5173
+JWT_SECRET_TOKEN_ALGORITHM=algo
+ORIGIN1=ipaddress
+ORIGIN1=ipaddress
+ORIGIN1=ipaddress
 `

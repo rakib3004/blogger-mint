@@ -10,7 +10,7 @@ const HOST = process.env.HOST;
 const cors = require('cors');
 app.use(cors(
   {
-    // origin: [process.env.CROSS_ORIGIN_1, process.env.CROSS_ORIGIN_2, process.env.CROSS_ORIGIN_3,],
+    origin: [process.env.ORIGIN1, process.env.ORIGIN2, process.env.ORIGIN3,],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
   credentials: true,
