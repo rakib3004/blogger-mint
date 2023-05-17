@@ -13,7 +13,7 @@ const getPageNumber = (page) => {
  };
 
  const getPageSize = (limit) => {
-  return (!limit||limit<=0)? 10: parseInt(limit);
+  return (!limit||limit<=0)? 5: parseInt(limit);
  };
  
 

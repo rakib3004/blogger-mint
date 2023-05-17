@@ -35,13 +35,18 @@ const checkValidUsername = (username) => {
   }
   
   if (!isAlphaNumeric(username)) {
-    return { valid: false, message: "Username contains space or any special character" };
+    return { valid: false, message: "Username must not contain space or any special character" };
   }
   return { valid: true, message: "Ok" };
 
 };
 
-
+const checkValidUserId = (userId) =>{
+  if (!userId) {
+    return { valid: false, message: "UserId parameter is empty" };
+  }
+  return { valid: true, message: "Ok" };
+}
 const checkValidPassword = (password) => {
   if (!password) {
     return { valid: false, message: "Password field is empty" };
@@ -123,6 +128,7 @@ module.exports = {
   checkPasswordLength,
   generateHashPassword,
   checkValidUsername,
+  checkValidUserId,
   checkValidPasswordBody,
   checkValidRegistration,
   checkValidLogin,

@@ -1,7 +1,7 @@
-const {User} = require("../models");
+const { User } = require("../models");
 const { SequelizeValidationError } = require("../utils/error.handler.util");
 
-const getAllUsers = async (offset, limit) => {
+exports.getAllUsers = async (offset, limit) => {
   const users = await User.findAll(
     {
       offset,
@@ -12,13 +12,13 @@ const getAllUsers = async (offset, limit) => {
   return users;
 };
 
-const createUser = async (username, email, password) => {
+exports.createUser = async (username, email, password) => {
   try {
     const user = await User.create({
       username: username,
       email: email,
       password: password,
- 
+
     });
     return user;
   } catch (error) {
@@ -26,7 +26,7 @@ const createUser = async (username, email, password) => {
   }
 };
 
-const getUserByUsername = async (username) => {
+exports.getUserByUsername = async (username) => {
   const user = await User.findOne({
     where: {
       username: username,
@@ -36,7 +36,17 @@ const getUserByUsername = async (username) => {
 
 };
 
-const updateUserPasswordByUsername = async (password,
+exports.getUserByUserId = async (userId) => {
+  const user = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+  return user;
+
+};
+
+exports.updateUserPasswordByUsername = async (password,
   updatedAt,
   username) => {
 
@@ -48,7 +58,7 @@ const updateUserPasswordByUsername = async (password,
 
 };
 
-const deleteUserByUsername = async (username) => {
+exports.deleteUserByUsername = async (username) => {
   const result = await User.destroy({
     where: {
       username: username,
@@ -56,12 +66,4 @@ const deleteUserByUsername = async (username) => {
   });
   return result;
 
-};
-
-module.exports = {
-  getAllUsers,
-  createUser,
-  getUserByUsername,
-  updateUserPasswordByUsername,
-  deleteUserByUsername,
 };
