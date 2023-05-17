@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const User = require('./user.model');
 const uuid = require('uuid');
 const sequelize = require('../configs/sequelize.config');
 const Blog = sequelize.define('blogs', {
@@ -27,6 +28,14 @@ const Blog = sequelize.define('blogs', {
         allowNull: false,
         defaultValue: DataTypes.NOW,
     },
+    authorId: {
+        type: DataTypes.UUID,
+        references: {
+          model: User,
+          key: 'id',
+          onDelete: 'CASCADE'
+        },
+    }
 });
 
 

@@ -3,13 +3,15 @@ const Blog = require('./blog.model');
 const User = require('./user.model');
 
 
-Blog.belongsTo(User, { foreignKey: 'authorId' });
-
 User.hasMany(Blog, {
     foreignKey: 'authorId',
-    onDelete: 'cascade',
-    hooks: true,
-});
+     onDelete: 'cascade',
+     hooks: true,
+ });
+
+Blog.belongsTo(User, { foreignKey: 'authorId' });
+
+
 
 
 (async () => {

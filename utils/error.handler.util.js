@@ -8,12 +8,12 @@ class AppError extends Error{
 
 class SequelizeValidationError extends Error {
     constructor(err, statusCode){
-        let errMessage;
-        err.errors.map(e => {
-            console.log(e.message);
-            errMessage = e.message;
-        })
-        super(errMessage);
+        // let errMessage;
+        // err.errors.map(e => {
+        //     console.log(e.message);
+        //     errMessage = e.message;
+        // })
+        super(err.errors.message);
         this.statusCode = statusCode;
     }
 }
