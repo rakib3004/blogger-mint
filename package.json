@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npx nodemon app.js",
-    "dev": "npx nodemon app.js",
-    "test": "npx nodemon app.js",
+    "test": "jest --watchAll  --collect-coverage --verbose",
     "lint": "npm install -D prettier && npm install -D babel-eslint && npx install-peerdeps --dev eslint-config-airbnb && npm install -D eslint-config-prettier eslint-plugin-prettier"
   },
   "keywords": [],
@@ -31,6 +30,7 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -40,6 +40,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^29.5.0",
     "prettier": "^2.8.6"
   }
 }
